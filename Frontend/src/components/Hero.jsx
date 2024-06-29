@@ -6,7 +6,6 @@ import Footer from "./Footer";
 const Hero = () => {
   return (
     <>
-      <Navbar />
       <div className="w-full h-full flex  ">
         {/* MID SECTION */}
         <div className="lg:w-full md:w-full md:h-[600px] lg:py-[170px] lg:px-[100px] md:py-[170px] md:px-[40px] sm:py-[160px] sm:px-[50px] py-[200px] px-[40px]">
@@ -23,7 +22,6 @@ const Hero = () => {
 
         {/* RIGHT SECTION IMAGE */}
       </div>
-      <Footer />
     </>
   );
 };
