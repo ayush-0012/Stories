@@ -2,8 +2,14 @@ import React from "react";
 import oldSchool from "../assets/oldschool.jfif";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
+
+  const handleSignupRedirect = () => {
+    navigate("/signup");
+  };
   return (
     <>
       <div className="w-full h-full flex  ">
@@ -15,7 +21,10 @@ const Hero = () => {
           <p className=" lg:text-xl md:text-xl sm:text-lg text-lg py-8 lg:pl-6 md:pl-4 pl-2">
             A space to read, write, and deepen your understanding.
           </p>
-          <button className="rounded-full h-9 border-2 text-white bg-black border-black w-[120px] lg:ml-6 md:ml-4 ml-2">
+          <button
+            className="rounded-full h-9 border-2 text-white bg-black border-black w-[120px] lg:ml-6 md:ml-4 ml-2"
+            onClick={() => handleSignupRedirect()}
+          >
             Get Started
           </button>
         </div>

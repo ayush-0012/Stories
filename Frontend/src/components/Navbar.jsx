@@ -1,21 +1,16 @@
-import React, { useState } from "react";
-import { IoMdClose } from "react-icons/io";
-import Model from "react-modal";
-import Login from "./Login";
-import SingUp from "./SingUp";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const [singUp, setSignUp] = useState(false);
-  const [login, setLogin] = useState(false);
+  const navigate = useNavigate();
 
-  function renderSignup() {
-    setSignUp(true);
-    singUp ? <SingUp /> : null;
-  }
-  function renderLogin() {
-    setLogin(true);
-    login ? <Login /> : null;
-  }
+  const handleSignupRedirect = () => {
+    navigate("/signup");
+  };
+
+  const handleLoginRedirect = () => {
+    navigate("/login");
+  };
 
   return (
     <>
@@ -24,13 +19,13 @@ const Navbar = () => {
         <div>
           <button
             className="ml-3 lg:text-[18px] md:text-[16px] text-[15px]"
-            onClick={() => renderSignup}
+            onClick={() => handleSignupRedirect()}
           >
             Start Writing
           </button>
           <button
             className="rounded-full h-9 border-2 text-white bg-black border-black ml-6 lg:w-[90px] md:w-[80px] w-[70px]"
-            onClick={() => renderLogin}
+            onClick={() => handleLoginRedirect()}
           >
             Sign in
           </button>

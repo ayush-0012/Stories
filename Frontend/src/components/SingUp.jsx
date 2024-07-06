@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import signupimg from "../assets/signupimg.jpg";
+import city from "../assets/city.jpg";
+import Navbar from "./Navbar";
 
 const SingUp = () => {
   const navigate = useNavigate();
@@ -10,21 +11,22 @@ const SingUp = () => {
   };
   return (
     <>
-      <div className="flex justify-between items-center">
+      <Navbar />
+      <div className="flex justify-between items-center lg:h-full md:h-[642px] sm:h-[630px] ">
         <div className="lg:w-[720px] md:w-0">
           <img
-            src={signupimg}
+            src={city}
             alt="tajmahal"
-            className="lg:h-[711px] lg:w-[560px] md:h-[708px] md:w-0 sm:w-0 sm:h-0 w-0 h-0"
+            className="lg:h-[638px] lg:w-[560px] md:h-[708px] md:w-0 sm:w-0 sm:h-0 w-0 h-0"
           />
         </div>
-        <div className="flex flex-col justify-center items-center lg:h-[540px] lg:w-[500px] md:h-[550px] md:w-[580px] sm:h-[500px] sm:w-[500px] h-[550px] w-[400px] lg:my-0 lg:mx-[60px] md:mx-auto md:my-auto sm:my-[100px] sm:mx-auto mx-auto my-[80px] rounded-lg border-2 border-solid border-gray-300 px-4">
+        <div className="flex flex-col justify-center items-center lg:h-[540px] lg:w-[500px] md:h-[550px] md:w-[580px] sm:h-[500px] sm:w-[500px] h-[550px] w-[400px] lg:my-0 lg:mx-[60px] md:mx-auto md:my-auto sm:my-auto sm:mx-auto mx-auto my-[46px] rounded-lg border-2 border-solid border-gray-300 px-4">
           <h1 className="text-center py-2  text-3xl">Join Stories</h1>
           <div className="mt-4">
             <p className="pl-2">Email</p>
             <input
               type="text"
-              placeholder="Email"
+              placeholder="example@gmail.com"
               className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[350px] border-solid border-2 p-3 rounded-full border-black my-2"
             />
           </div>
