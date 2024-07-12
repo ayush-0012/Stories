@@ -1,10 +1,32 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useMemo, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import tajmahal from "../assets/tajmahal.jpg";
 import Navbar from "./Navbar";
+import { checkEmail } from "../utils/validation";
+import { checkPassword } from "../utils/validation";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailErrors, setEmailErrors] = useState([]);
+  const [passwordErrors, setPasswordErrors] = useState([]);
   const navigate = useNavigate();
+
+  function onSubmit(e) {
+    e.preventDefault();
+
+    const emailResult = checkEmail(email);
+    const passwordResult = checkPassword(password);
+
+    setEmailErrors(emailResult.errors);
+    setPasswordErrors(passwordResult.errors);
+    console.log(passwordResult.errors);
+
+    // if (emailErrors.length === 0 && passwordErrors.length === 0) {
+    //   // Perform login logic here, like making an API call
+    //   console.log("Login successful");
+    // }
+  }
 
   const handleSignupRedirect = () => {
     navigate("/signup");
@@ -22,7 +44,10 @@ const Login = () => {
           />
         </div>
 
-        <div className="flex flex-col justify-center items-center lg:h-[540px] lg:w-[500px] md:h-[550px] md:w-[580px] sm:h-[500px] sm:w-[500px] h-[550px] w-[400px] lg:my-0 lg:mx-[60px] md:mx-auto md:my-auto sm:my-auto sm:mx-auto mx-auto my-[46px] rounded-lg border-2 border-solid border-gray-300 px-4">
+        <form
+          className="flex flex-col justify-center items-center lg:h-[540px] lg:w-[500px] md:h-[550px] md:w-[580px] sm:h-[500px] sm:w-[500px] h-[550px] w-[400px] lg:my-0 lg:mx-[60px] md:mx-auto md:my-auto sm:my-auto sm:mx-auto mx-auto my-[46px] rounded-lg border-2 border-solid border-gray-300 px-4"
+          onSubmit={onSubmit}
+        >
           <h1 className="text-center py-2  text-3xl">Welcome Back</h1>
           <div className="mt-4">
             <p className="pl-2">Email</p>
@@ -30,7 +55,11 @@ const Login = () => {
               type="text"
               placeholder="example@gmail.com"
               className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[350px] border-solid border-2 p-3 rounded-full border-black my-2"
+              onChange={(e) => setEmail(e.target.value)}
             />
+            {emailErrors.length > 0 && (
+              <div className=" text-red-500">{emailErrors.join(", ")}</div>
+            )}
           </div>
           <div className="mt-4">
             <p className="pl-2">Password</p>
@@ -38,7 +67,11 @@ const Login = () => {
               type="password"
               placeholder="Password"
               className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[350px] border-solid border-2 p-3 rounded-full border-black my-2"
+              onChange={(e) => setPassword(e.target.value)}
             />
+            {passwordErrors.length > 0 && (
+              <div className=" text-red-500">{passwordErrors.join(", ")}</div>
+            )}
           </div>
 
           <button className="rounded-full h-12 border-2 lg:mt-2 md:mt-5 sm:mt-5 text-white bg-black border-black lg:w-[400px] md:w-[450px] sm:w-[420px] w-[350px] mt-5 ">
@@ -58,7 +91,7 @@ const Login = () => {
             and acknowledge that Stories’s <a href="">Privacy Policy</a> applies
             to you.
           </p>
-        </div>
+        </form>
       </div>
     </>
   );

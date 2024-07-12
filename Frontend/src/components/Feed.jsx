@@ -2,7 +2,7 @@ import React from "react";
 import { LuPenSquare } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Feed() {
   const navigate = useNavigate();

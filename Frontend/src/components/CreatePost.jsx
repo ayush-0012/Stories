@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import "react-quill/dist/quill.snow.css";
-import { useNavigate } from "react-router-dom";
 
 function CreatePost() {
   const [titleValue, setTitleValue] = useState("");
