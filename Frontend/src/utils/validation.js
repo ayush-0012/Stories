@@ -1,3 +1,29 @@
+// async function userExists(userName) {
+//   const response = await fetch(
+//     `/signup?userName=${encodeURIComponent(userName)}`
+//   );
+//   const data = await response.json();
+//   return data.exists;
+// }
+
+export function checkUserName(userName) {
+  const errors = [];
+
+  if (userName.length === 0) {
+    errors.push("User Name is required");
+  }
+
+  if (userName.length < 5) {
+    errors.push("User Name is too short");
+  }
+
+  // validation if user already exists, then will throw an error
+  // if (await userExists(userName)) {
+  //   errors.push("User Name has already taken");
+  // }
+  return { errors };
+}
+
 export function checkEmail(email) {
   const errors = [];
 

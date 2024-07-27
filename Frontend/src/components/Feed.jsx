@@ -4,7 +4,7 @@ import { CgProfile } from "react-icons/cg";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 
-function Feed() {
+function Feed({ titleValue, storyValue }) {
   const navigate = useNavigate();
 
   const handleWriteRedirect = () => {

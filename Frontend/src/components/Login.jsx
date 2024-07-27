@@ -1,33 +1,93 @@
 import React, { useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import axios from "axios";
 import tajmahal from "../assets/tajmahal.jpg";
 import Navbar from "./Navbar";
 import { checkEmail } from "../utils/validation";
 import { checkPassword } from "../utils/validation";
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [emailErrors, setEmailErrors] = useState([]);
-  const [passwordErrors, setPasswordErrors] = useState([]);
+  const [errors, setErrors] = useState({
+    emailErrors: [],
+    passwordErrors: [],
+  });
   const navigate = useNavigate();
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
 
     const emailResult = checkEmail(email);
     const passwordResult = checkPassword(password);
 
-    setEmailErrors(emailResult.errors);
-    setPasswordErrors(passwordResult.errors);
-    console.log(passwordResult.errors);
+    setErrors({
+      emailErrors: emailResult.errors,
+      passwordErrors: passwordResult.errors,
+    });
 
-    // if (emailErrors.length === 0 && passwordErrors.length === 0) {
-    //   // Perform login logic here, like making an API call
-    //   console.log("Login successful");
-    // }
+    if (emailResult.errors.length === 0 && passwordResult.errors.length === 0) {
+      await authenticateUser();
+    }
   }
 
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    const emailResult = checkEmail(e.target.value);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      emailErrors: emailResult.errors,
+    }));
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    const passwordResult = checkPassword(e.target.value);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      passwordErrors: passwordResult.errors,
+    }));
+  };
+
+  async function authenticateUser() {
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/login",
+        {
+          email,
+          password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 200) {
+        console.log(response.status);
+        localStorage.setItem("token", response.data.token);
+        navigate("/feed");
+        console.log("logged In successfully");
+        return;
+      } else {
+        console.log("login failed");
+      }
+    } catch (error) {
+      if (error.message && error.response.status === 400) {
+        toast.error(error.response.data.message);
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+        }));
+      } else {
+        toast.error("Something went wrong, Please try again later");
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+        }));
+      }
+      console.error(`Error registering the user : ${error}`);
+    }
+  }
   const handleSignupRedirect = () => {
     navigate("/signup");
   };
@@ -55,10 +115,12 @@ const Login = () => {
               type="text"
               placeholder="example@gmail.com"
               className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[350px] border-solid border-2 p-3 rounded-full border-black my-2"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmailChange}
             />
-            {emailErrors.length > 0 && (
-              <div className=" text-red-500">{emailErrors.join(", ")}</div>
+            {errors.emailErrors?.length > 0 && (
+              <div className=" text-red-500">
+                {errors.emailErrors.join(", ")}
+              </div>
             )}
           </div>
           <div className="mt-4">
@@ -67,14 +129,19 @@ const Login = () => {
               type="password"
               placeholder="Password"
               className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[350px] border-solid border-2 p-3 rounded-full border-black my-2"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
             />
-            {passwordErrors.length > 0 && (
-              <div className=" text-red-500">{passwordErrors.join(", ")}</div>
+            {errors.passwordErrors?.length > 0 && (
+              <div className=" text-red-500">
+                {errors.emailErrors.join(", ")}
+              </div>
             )}
           </div>
 
-          <button className="rounded-full h-12 border-2 lg:mt-2 md:mt-5 sm:mt-5 text-white bg-black border-black lg:w-[400px] md:w-[450px] sm:w-[420px] w-[350px] mt-5 ">
+          <button
+            className="rounded-full h-12 border-2 lg:mt-2 md:mt-5 sm:mt-5 text-white bg-black border-black lg:w-[400px] md:w-[450px] sm:w-[420px] w-[350px] mt-5 "
+            type="submit"
+          >
             Login
           </button>
           <div className="flex py-4 pl-2  justify-center">
@@ -93,6 +160,7 @@ const Login = () => {
           </p>
         </form>
       </div>
+      <Toaster />
     </>
   );
 };

@@ -12,7 +12,7 @@ a{
   text-decoration: underline;
   
 }
-/* 
-.msg{
-  color: red;
-} */
+
+.icons{
+   @apply w-[40px] h-[25px] 
+}
