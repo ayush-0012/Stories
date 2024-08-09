@@ -1,6 +1,9 @@
 import express from "express";
 import "dotenv/config";
-import { authenticatingUser, registerUser } from "../controller/user.js";
+import {
+  authenticatingUser,
+  registerUser,
+} from "../controller/user.controller.js";
 
 const router = express.Router();
 

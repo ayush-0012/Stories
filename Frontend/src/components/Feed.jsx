@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { LuPenSquare } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import StoryCard from "./StoryCard";
+import axios from "axios";
 
-function Feed({ titleValue, storyValue }) {
+function Feed() {
+  const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const resposnse = await axios.get(
+          "http://localhost:4000/fetch/fetch-posts"
+        );
+        setPosts(resposnse.data);
+      } catch (error) {
+        console.log("Error fetching posts", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   const handleWriteRedirect = () => {
     navigate("/write");
@@ -32,10 +50,7 @@ function Feed({ titleValue, storyValue }) {
 
       {/* MAIN FEED DIV */}
 
-      <div>
-        <h1>{titleValue}</h1>
-        <p>{storyValue}</p>
-      </div>
+      <StoryCard />
     </>
   );
 }

@@ -1,11 +1,12 @@
-import React, { useMemo, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import tajmahal from "../assets/tajmahal.jpg";
 import Navbar from "./Navbar";
 import { checkEmail } from "../utils/validation";
 import { checkPassword } from "../utils/validation";
 import toast, { Toaster } from "react-hot-toast";
+import "../global.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -104,10 +105,7 @@ const Login = () => {
           />
         </div>
 
-        <form
-          className="flex flex-col justify-center items-center lg:h-[540px] lg:w-[500px] md:h-[550px] md:w-[580px] sm:h-[500px] sm:w-[500px] h-[550px] w-[400px] lg:my-0 lg:mx-[60px] md:mx-auto md:my-auto sm:my-auto sm:mx-auto mx-auto my-[46px] rounded-lg border-2 border-solid border-gray-300 px-4"
-          onSubmit={onSubmit}
-        >
+        <form className="login_form" onSubmit={onSubmit}>
           <h1 className="text-center py-2  text-3xl">Welcome Back</h1>
           <div className="mt-4">
             <p className="pl-2">Email</p>

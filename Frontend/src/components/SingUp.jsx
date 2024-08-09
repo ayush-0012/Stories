@@ -5,6 +5,7 @@ import { checkEmail, checkPassword, checkUserName } from "../utils/validation";
 import axios from "axios";
 import city from "../assets/city.jpg";
 import Navbar from "./Navbar";
+import "../global.css";
 
 const SignUp = () => {
   const [userName, setUserName] = useState("");
@@ -15,13 +16,6 @@ const SignUp = () => {
     passwordErrors: [],
     userNameErrors: [],
   });
-  // const [emailErrors, setEmailErrors] = useState([]);
-  // const [passwordErrors, setPasswordErrors] = useState([]);
-  // const [userNameErrors, setUserNameErrors] = useState([]);
-  // const [errors, setErrors] = useState({
-  //   emailErrors: [],
-  //   passwordErrors: [],
-  // });
 
   const navigate = useNavigate();
 
@@ -32,10 +26,6 @@ const SignUp = () => {
     const userNameResult = checkUserName(userName);
     const emailResult = checkEmail(email);
     const passwordResult = checkPassword(password);
-
-    // setErrors.emailErrors(emailResult.errors);
-    // setErrors.passwordErrors(passwordResult.errors);
-    // console.log(passwordResult.errors);
 
     setErrors({
       userNameErrors: userNameResult.errors,
@@ -85,7 +75,7 @@ const SignUp = () => {
   async function registerUser() {
     try {
       const response = await axios.post(
-        "http://localhost:4000/signup",
+        "http://localhost:4000/auth/signup",
         {
           userName,
           email,
@@ -101,7 +91,6 @@ const SignUp = () => {
       if (response.status === 201) {
         localStorage.setItem("token", response.data.token);
         navigate("/feed");
-        // window.location.href = "/feed";
         console.log("registered successfully");
         return;
       } else {
@@ -112,7 +101,6 @@ const SignUp = () => {
         toast.error(error.response.data.message);
         setErrors((prevErrors) => ({
           ...prevErrors,
-          // userNameErrors: [error.response.data.message],
         }));
       } else {
         toast.error("Something went wrong, Please try again later");
@@ -121,8 +109,8 @@ const SignUp = () => {
           userNameErrors: ["Something went wrong, Please try again later"],
         }));
 
-        const notify = () => toast(userNameErrors);
-        notify();
+        // const notify = () => toast(errors.userNameErrors);
+        // notify();
       }
       console.error(`Error registering the user : ${error}`);
     }
@@ -142,11 +130,7 @@ const SignUp = () => {
             className="lg:h-[638px] lg:w-[560px] md:h-[708px] md:w-0 sm:w-0 sm:h-0 w-0 h-0"
           />
         </div>
-        <form
-          className="flex flex-col justify-center items-center lg:h-[620px] lg:w-[500px] md:h-[610px] md:w-[580px] sm:h-[600px] sm:w-[500px] h-[630px] w-[400px] lg:my-0 lg:mx-[60px] md:mx-auto md:my-auto sm:my-auto sm:mx-auto mx-auto border-x-2 px-4 my-[6px]"
-          onSubmit={onSubmit}
-          method="post"
-        >
+        <form className="signUp_form" onSubmit={onSubmit} method="post">
           <h1 className="text-center py-4 text-3xl ">Join Stories</h1>
           <div className="mt-4">
             <p className="pl-2">User Name</p>
