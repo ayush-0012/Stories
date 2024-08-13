@@ -51,12 +51,15 @@ function CreatePost() {
     if (!storyValue) {
       toast.error("Story is Required");
     }
+
+    const userId = localStorage.getItem("userId");
     try {
       const response = await axios.post(
         "http://localhost:4000/posts/create-post",
         {
           titleValue,
           storyValue,
+          userId,
         },
         {
           headers: {
@@ -72,7 +75,7 @@ function CreatePost() {
         console.log("unable to create post");
       }
     } catch (error) {
-      if (error.response.status === 400) {
+      if (error?.response?.status === 400) {
         toast.error(error.response.data.message);
       }
     }

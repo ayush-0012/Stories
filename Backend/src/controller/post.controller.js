@@ -1,12 +1,18 @@
 import Post from "../model/post.model.js";
+import User from "../model/user.model.js";
 
 //creating a post and storing it in the db
 export const createPost = async (req, res) => {
   console.log("creating post", req.body);
-  const { titleValue, storyValue } = req.body;
+  const { titleValue, storyValue, userId } = req.body;
+
+  const existingUser = await User.findById(userId);
+  if (!existingUser) {
+    res.status(400).json({ message: "User does not exists" });
+  }
 
   try {
-    const newPost = new Post({ titleValue, storyValue });
+    const newPost = new Post({ titleValue, storyValue, userId });
     await newPost.save();
     console.log(newPost);
     if (newPost) {

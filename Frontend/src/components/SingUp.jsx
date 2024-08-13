@@ -84,20 +84,26 @@ const SignUp = () => {
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: "Bearer {token}",
           },
         }
       );
 
       if (response.status === 201) {
+        console.log(response);
+        const userId = response.userId;
+        localStorage.setItem("userId", response.data.userId);
+        console.log("User Created successfully", userId);
         localStorage.setItem("token", response.data.token);
         navigate("/feed");
-        console.log("registered successfully");
+        console.log("registered successfully", response.data);
         return;
       } else {
+        toast.error("There is something wrong");
         console.log("registration failed");
       }
     } catch (error) {
-      if (error.message && error.response.status === 400) {
+      if (error.message && error?.response?.status === 400) {
         toast.error(error.response.data.message);
         setErrors((prevErrors) => ({
           ...prevErrors,

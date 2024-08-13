@@ -54,7 +54,7 @@ const Login = () => {
   async function authenticateUser() {
     try {
       const response = await axios.post(
-        "http://localhost:4000/login",
+        "http://localhost:4000/auth/login",
         {
           email,
           password,
@@ -86,7 +86,7 @@ const Login = () => {
           ...prevErrors,
         }));
       }
-      console.error(`Error registering the user : ${error}`);
+      console.error(`Error logging in  the user : ${error}`);
     }
   }
   const handleSignupRedirect = () => {

@@ -23,16 +23,21 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = new User({ userName, email, password: hashedPassword });
 
     await newUser.save();
     console.log(existingUser);
-    console.log(newUser);
+    console.log(newUser, newUser._id);
 
     const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.status(201).json({ message: "user created successfully", token });
+    res.status(201).json({
+      message: "user created successfully",
+      token: token,
+      userId: newUser._id,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
