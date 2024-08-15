@@ -3,11 +3,13 @@ import { LuPenSquare } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import StoryCard from "./StoryCard";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
+  const titleValue = useSelector((state) => state.createPost.titleValue);
+  const storyValue = useSelector((state) => state.createPost.storyValue);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,7 +52,30 @@ function Feed() {
 
       {/* MAIN FEED DIV */}
 
-      <StoryCard />
+      <div className="grid justify-center border-b border-black-2 min-w-max">
+        <div className="lg:w-[600px]">
+          {posts.map((post) => (
+            <div key={post._id}>
+              <div className="flex">
+                <img src="" alt="profilePic" className="mr-2" />
+                <p>{post.userName}</p>
+              </div>
+              ;{/* CONTENT DIV */}
+              <div>
+                <h2>{post.titleValue}</h2>
+                <p>{post.storyValue}</p>
+              </div>
+              ;{/* ACTION DIV */}
+              <div className="flex justify-starts">
+                <div className="mr-4">{post.createdAt}</div>
+                <div className="mr-4">Likes</div>
+                <div className="mr-4">Comments</div>
+              </div>
+              ;
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   );
 }

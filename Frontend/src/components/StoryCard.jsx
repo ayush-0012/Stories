@@ -1,35 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const StoryCard = () => {
   const titleValue = useSelector((state) => state.createPost.titleValue);
   const storyValue = useSelector((state) => state.createPost.storyValue);
 
-  return (
-    <>
-      <div className="grid justify-center border-b border-black-2 min-w-max">
-        <div className="lg:w-[600px]">
-          <div className="flex">
-            <img src="" alt="profilePic" className="mr-2" />
-            <p>User name</p>
-          </div>
+  // useEffect(() => {
+  //   try {
+  //     const fetchUserName = async () => {
+  //       const response = await axios.get(
+  //         "http://localhost:4000/auth/signup",
+  //         {
+  //           userName,
+  //         },
+  //         {
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
 
-          {/* CONTENT DIV */}
-          <div>
-            <h2>{titleValue}</h2>
-            <p>{storyValue}</p>
-          </div>
+  //       fetchUserName();
+  //       if (response.status === 200) {
+  //         console.log("userName fetched successfully");
+  //       }
+  //     };
+  //   } catch (error) {
+  //     console.log(error.response.data.message);
+  //   }
+  // }, []);
 
-          {/* ACTION DIV */}
-          <div className="flex justify-starts">
-            <div className="mr-4">created at</div>
-            <div className="mr-4">Likes</div>
-            <div className="mr-4">Comments</div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+  return <></>;
 };
 
 export default StoryCard;
