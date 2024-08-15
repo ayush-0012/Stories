@@ -53,6 +53,7 @@ function CreatePost() {
     }
 
     const userId = localStorage.getItem("userId");
+    console.log(userId);
     try {
       const response = await axios.post(
         "http://localhost:4000/posts/create-post",
