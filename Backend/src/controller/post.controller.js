@@ -6,6 +6,11 @@ export const createPost = async (req, res) => {
   console.log("creating post", req.body);
   const { titleValue, storyValue, userId } = req.body;
 
+  console.log("received userId", userId);
+
+  if (!userId) {
+    res.status(400).json({ message: "userId is required" });
+  }
   const existingUser = await User.findById(userId);
   if (!existingUser) {
     res.status(400).json({ message: "User does not exists" });

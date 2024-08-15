@@ -10,7 +10,7 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: [true, "story is required"],
     },
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: [true, "user is required"],

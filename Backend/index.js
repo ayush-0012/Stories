@@ -6,6 +6,13 @@ import { authRoutes } from "./src/routes/user.route.js";
 import { createPostRoute } from "./src/routes/createPost.route.js";
 import { fetchPost } from "./src/routes/fetchPosts.js";
 
+const corsOptions = {
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "HEAD", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+};
+
 dotenv.config({
   path: "./.env",
 });
@@ -18,7 +25,7 @@ app.get("/home", (req, res) => {
 });
 
 //using middlewares
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/auth", authRoutes);
