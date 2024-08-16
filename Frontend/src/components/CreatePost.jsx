@@ -2,16 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setTitle, setStory } from "../features/createPost/slice";
-import { CgDisplaySpacing, CgProfile } from "react-icons/cg";
+import { CgProfile } from "react-icons/cg";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
 
 function CreatePost() {
   const [titleValue, setTitleValue] = useState("");
   const [storyValue, setStoryValue] = useState("");
   const [publishBtn, setPublishBtn] = useState(false);
+
+  const userName = useSelector((state) => state.createPost.userName);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -58,6 +61,7 @@ function CreatePost() {
       const response = await axios.post(
         "http://localhost:4000/posts/create-post",
         {
+          userName,
           titleValue,
           storyValue,
           userId,

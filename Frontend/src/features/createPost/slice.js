@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   titleValue: "",
   storyValue: "",
+  userName: "",
 };
 
 export const createPostSlice = createSlice({
@@ -16,9 +17,13 @@ export const createPostSlice = createSlice({
     setStory: (state, action) => {
       state.storyValue = action.payload;
     },
+
+    setUserName: (state, action) => {
+      state.userName = action.payload;
+    },
   },
 });
 
-export const { setTitle, setStory } = createPostSlice.actions;
+export const { setTitle, setStory, setUserName } = createPostSlice.actions;
 
 export default createPostSlice.reducer;
