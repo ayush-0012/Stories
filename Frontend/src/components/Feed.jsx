@@ -7,7 +7,12 @@ import axios from "axios";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -23,6 +28,12 @@ function Feed() {
 
     fetchPosts();
   }, []);
+
+  function handleLogout() {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("token");
+    navigate("/");
+  }
 
   const handleWriteRedirect = () => {
     navigate("/write");
@@ -41,8 +52,24 @@ function Feed() {
           <div>
             <IoMdNotificationsOutline className="w-[40px] h-[25px]" />
           </div>
-          <div>
-            <CgProfile className="w-[40px] h-[25px]" />
+          <div className="relative">
+            <button onClick={toggleDropdown} className="w-[40px] h-[25px]">
+              <CgProfile className="w-[40px] h-[25px]" />
+            </button>
+            {isOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 shadow-lg rounded">
+                <ul>
+                  <li>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full block px-4 py-2 text-gray-700 hover:bg-gray-100 "
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -65,7 +92,7 @@ function Feed() {
               <div key={post._id} className="border-b border-b-gray-300 mb-4">
                 <div className="flex">
                   <img src="" alt="profilePic" className="mr-2" />
-                  <p>{post.user}</p>
+                  <p>{post.userId.userName}</p>
                 </div>
                 {/* CONTENT DIV */}
                 <div>

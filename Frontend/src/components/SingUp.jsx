@@ -90,10 +90,12 @@ const SignUp = () => {
       );
 
       if (response.status === 201) {
-        console.log(response);
-        const userId = response.userId;
+        //setting userId
+        const userId = response.data.userId;
         localStorage.setItem("userId", response.data.userId);
         console.log("User Created successfully", userId);
+
+        //setting token
         localStorage.setItem("token", response.data.token);
         navigate("/feed");
         console.log("registered successfully", response.data);

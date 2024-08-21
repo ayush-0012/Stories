@@ -62,11 +62,17 @@ const Login = () => {
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: "Bearer {token}",
           },
         }
       );
-      if (response.status === 200) {
-        console.log(response.status);
+      if (response.status === 201) {
+        //setting userId in localStorage
+        const userId = response.data.userId;
+        localStorage.setItem("userId", response.data.userId);
+        console.log("User logged in successfully", userId);
+
+        //setting token in localStorage
         localStorage.setItem("token", response.data.token);
         navigate("/feed");
         console.log("logged In successfully");
@@ -101,7 +107,7 @@ const Login = () => {
           <img
             src={tajmahal}
             alt="tajmahal"
-            className="lg:h-[638px] lg:w-[560px] md:h-[711px] md:w-0 sm:w-0 sm:h-0 w-0 h-0"
+            className="lg:h-[637px] lg:w-[560px] md:h-[711px] md:w-0 sm:w-0 sm:h-0 w-0 h-0"
           />
         </div>
 
