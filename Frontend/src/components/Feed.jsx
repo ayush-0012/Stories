@@ -3,11 +3,14 @@ import { LuPenSquare } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 import axios from "axios";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+
+  const isLgScreen = useMediaQuery({ query: "(min-width : 1024px)" });
   const navigate = useNavigate();
 
   const toggleDropdown = () => {
@@ -17,10 +20,11 @@ function Feed() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const resposnse = await axios.get(
+        const response = await axios.get(
           "http://localhost:4000/fetch/fetch-posts"
         );
-        setPosts(resposnse.data);
+        console.log(response.data);
+        setPosts(response.data);
       } catch (error) {
         console.log("Error fetching posts", error);
       }
@@ -52,12 +56,12 @@ function Feed() {
           <div>
             <IoMdNotificationsOutline className="w-[40px] h-[25px]" />
           </div>
-          <div className="relative">
+          <div className="relative ">
             <button onClick={toggleDropdown} className="w-[40px] h-[25px]">
               <CgProfile className="w-[40px] h-[25px]" />
             </button>
             {isOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 shadow-lg rounded">
+              <div className="absolute right-0  mt-2 w-72 bg-white border border-gray-300 shadow-lg rounded">
                 <ul>
                   <li>
                     <button
@@ -76,47 +80,61 @@ function Feed() {
 
       {/* MAIN FEED DIV */}
 
-      <div className="grid justify-center  min-w-max ">
-        <div className="lg:w-[600px] ">
-          {posts.map((post) => {
-            const formattedDate = new Date(post.createdAt).toLocaleDateString(
-              "en-US",
-              {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-              }
-            );
+      <div className="flex">
+        <div className="grid justify-center w-full">
+          <div className="lg:w-[600px] ">
+            {posts
+              .slice()
+              .reverse()
+              .map((post) => {
+                const formattedDate = new Date(
+                  post.createdAt
+                ).toLocaleDateString("en-US", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                });
 
-            return (
-              <div key={post._id} className="border-b border-b-gray-300 mb-4">
-                <div className="flex">
-                  <img src="" alt="profilePic" className="mr-2" />
-                  <p>{post.userId.userName}</p>
-                </div>
-                {/* CONTENT DIV */}
-                <div>
-                  <p className="text-2xl mb-3">{post.titleValue}</p>
-                  <p className="text-gray-500 font-sans line-clamp-2 overflow-hidden mb-6">
-                    {post.storyValue}
-                  </p>
-                </div>
-                {/* ACTION DIV */}
-                <div className="flex justify-starts">
-                  <div className="mr-4 font-sans text-gray-600 text-[12px]">
-                    {formattedDate}
-                  </div>
-                  <div className="mr-4 font-sans text-gray-600 text-[12px]">
-                    Likes
-                  </div>
-                  <div className="mr-4 font-sans text-gray-600 text-[12px]">
-                    Comments
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+                return (
+                  // MAIN CONTENT DIV
+                  <>
+                    <div className="flex">
+                      <div
+                        key={post._id}
+                        className="border-b lg:w-full md:w-[600px] sm:w-[600px] w-[400px] border-b-gray-300 mb-4"
+                      >
+                        <div className="flex">
+                          <img src="" alt="profilePic" className="mr-2" />
+                          <p>{post.userId.userName}</p>
+                        </div>
+                        {/* CONTENT DIV */}
+                        <div>
+                          <p className="text-2xl mb-3">{post.titleValue}</p>
+                          <p className="text-gray-500 font-sans line-clamp-2 overflow-hidden mb-6">
+                            {post.storyValue}
+                          </p>
+                        </div>
+                        {/* ACTION DIV */}
+                        <div className="flex justify-starts">
+                          <div className="mr-4 font-sans text-gray-600 text-[12px]">
+                            {formattedDate}
+                          </div>
+                          <div className="mr-4 font-sans text-gray-600 text-[12px]">
+                            Likes
+                          </div>
+                          <div className="mr-4 font-sans text-gray-600 text-[12px]">
+                            Comments
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                );
+              })}
+          </div>
         </div>
+        {/* SUGGESTIONS BOX */}
+        {isLgScreen ? <div className="w-[600px]">SUGGESTIONS BOX</div> : ""}
       </div>
     </>
   );

@@ -62,13 +62,12 @@ const Login = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer {token}",
           },
         }
       );
       if (response.status === 201) {
         //setting userId in localStorage
-        const userId = response.data.userId;
+        const { userId, token } = response.data;
         localStorage.setItem("userId", response.data.userId);
         console.log("User logged in successfully", userId);
 

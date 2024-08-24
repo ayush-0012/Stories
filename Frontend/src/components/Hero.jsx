@@ -19,7 +19,7 @@ const Hero = () => {
             Your Stories and Experiences
           </h1>
           <p className=" lg:text-xl md:text-xl sm:text-lg text-lg py-8 lg:pl-6 md:pl-4 pl-2">
-            A space to read, write, and deepen your understanding.
+            A space to read, write and share about you and your life.
           </p>
           <button
             className="rounded-full h-9 border-2 text-white bg-black border-black w-[120px] lg:ml-6 md:ml-4 ml-2"
