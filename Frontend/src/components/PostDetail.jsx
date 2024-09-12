@@ -13,7 +13,9 @@ const PostDetail = () => {
   const { id } = useParams();
   const [postDetail, setPostDetail] = useState(null);
   const [loading, setLoading] = useState(true);
-  const isLgScreen = useMediaQuery({ query: "(min-width : 1024px)" });
+  const isLgScreen = useMediaQuery({
+    query: "(min-width: 1024px)",
+  });
 
   useEffect(() => {
     const fetchPostDetail = async () => {
@@ -47,27 +49,27 @@ const PostDetail = () => {
 
   return (
     <>
-      <div className="flex justify-evenly mt-5  ">
+      <div className="flex mt-5 w-full  ">
         {/* SIDE NAVIGATION */}
-        <aside className="ml-4 grid items-center pt-12 pr-10  ">
+        <aside className=" grid items-center pt-12 lg:px-5 lg:w-[400px] md:w-[100px] w-[100px] lg:mr-10  ">
           {isLgScreen ? (
             <>
-              <div className="ml-24">
-                <ul className="space-y-6 ">
-                  <li className="flex ">
-                    <MdHome className="w-9 h-6 cursor-pointer" />
+              <div className="lg:px-14 cursor-pointer lg:w-[300px] md:w-[200px] ">
+                <ul className="space-y-4 py-3 max-w-full">
+                  <li className="side_nav_lg">
+                    <MdHome className="w-10 h-7" />
                     <p>Home</p>
                   </li>
-                  <li className="flex ">
-                    <IoSearchSharp className="w-9 h-6 cursor-pointer" />
+                  <li className="side_nav_lg">
+                    <IoSearchSharp className="w-10 h-7" />
                     <p>Explore</p>
                   </li>
-                  <li className="flex ">
-                    <FiMessageSquare className="w-9 h-6 cursor-pointer" />
+                  <li className="side_nav_lg">
+                    <FiMessageSquare className="w-10 h-7" />
                     <p>Messages</p>
                   </li>
-                  <li className="flex">
-                    <IoIosNotifications className="w-9 h-6 cursor-pointer" />
+                  <li className="side_nav_lg">
+                    <IoIosNotifications className="w-10 h-7" />
                     <p>Notifications</p>
                   </li>
                 </ul>
@@ -75,19 +77,19 @@ const PostDetail = () => {
             </>
           ) : (
             <>
-              <div className="ml-4">
-                <ul className="space-y-6 ">
-                  <li>
-                    <MdHome className="w-9 h-6 cursor-pointer" />
+              <div className="ml-4   w-[60px] ">
+                <ul className="space-y-5 max-w-full max-h-full ">
+                  <li className="side_nav_nonlg">
+                    <MdHome className="w-10 h-7 " />
                   </li>
-                  <li>
-                    <IoSearchSharp className="w-9 h-6 cursor-pointer" />
+                  <li className="side_nav_nonlg">
+                    <IoSearchSharp className="w-10 h-7" />
                   </li>
-                  <li>
-                    <FiMessageSquare className="w-9 h-6 cursor-pointer" />
+                  <li className="side_nav_nonlg">
+                    <FiMessageSquare className="w-10 h-7" />
                   </li>
-                  <li>
-                    <IoIosNotifications className="w-9 h-6 cursor-pointer" />
+                  <li className="side_nav_nonlg">
+                    <IoIosNotifications className="w-10 h-7" />
                   </li>
                 </ul>
               </div>
@@ -96,7 +98,7 @@ const PostDetail = () => {
         </aside>
 
         {/* STORY DIV */}
-        <div className="w-full px-8 border-l border-r border-black mr-14">
+        <div className="lg:w-[700px] md:w-[600px] sm:w-[600px] w-[440px] px-8 border-l  md:border-r border-black mr-8 ">
           <div className="flex items-center">
             <IoIosArrowBack className="mr-6 text-xl" />
             <p className="font-sans font-bold text-2xl">Post</p>
@@ -106,13 +108,13 @@ const PostDetail = () => {
             <div className="mr-2">
               <FaUserCircle className="h-9 w-9 " />
             </div>
-            <div>{postDetail.userId.userName}</div>
+            <p className="font-sans font-bold">{postDetail.userId.userName}</p>
           </div>
 
           <div>{postDetail.storyValue}</div>
 
           {/* ACTION DIV */}
-          <div className="flex justify-starts mb-4 mt-2 border-b border-black">
+          <div className="flex justify-start w-full mb-4 mt-2 border-b border-black">
             <div className="mr-4 font-sans text-gray-600 text-[12px]">
               {formattedDate}
             </div>
@@ -133,7 +135,7 @@ const PostDetail = () => {
               placeholder="Post your reply"
               className="w-[500px] focus:outline-none "
             />
-            <button className="bg-green-600 text-white font-sans w-20 rounded-full font-bold cursor-pointer">
+            <button className="bg-green-600 text-white font-sans lg:w-20 md:w-20 w-32 rounded-full font-bold cursor-pointer">
               Reply
             </button>
           </div>
@@ -141,7 +143,14 @@ const PostDetail = () => {
           <div>comments</div>
         </div>
 
-        {isLgScreen ? <div className="w-[600px]">SUGGESTIONS BOX</div> : ""}
+        {/* SUGGESTION BOX
+        {isLgScreen ? (
+          <div className="lg:w-full md:w-[300px] hidden sm:block">
+            SUGGESTIONS BOX
+          </div>
+        ) : (
+          ""
+        )} */}
       </div>
     </>
   );
