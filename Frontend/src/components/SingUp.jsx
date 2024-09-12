@@ -135,11 +135,11 @@ const SignUp = () => {
           <img
             src={city}
             alt="city"
-            className="lg:h-[638px] lg:w-[560px] md:h-[708px] md:w-0 sm:w-0 sm:h-0 w-0 h-0"
+            className="lg:w-[560px] lg:h-[700px] md:w-0 sm:w-0 sm:h-0 w-0 h-0"
           />
         </div>
         <form className="signUp_form" onSubmit={onSubmit} method="post">
-          <h1 className="text-center py-4 text-3xl ">Join Stories</h1>
+          <h1 className="text-center pt-2 text-3xl ">Join Stories</h1>
           <div className="mt-4">
             <p className="pl-2">User Name</p>
             <input
@@ -150,7 +150,7 @@ const SignUp = () => {
               value={userName}
             />
             {errors.userNameErrors?.length > 0 && (
-              <div className=" text-red-500">
+              <div className=" text-red-500 ">
                 {errors.userNameErrors.join(", ")}
               </div>
             )}

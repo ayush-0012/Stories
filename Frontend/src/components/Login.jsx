@@ -106,7 +106,7 @@ const Login = () => {
           <img
             src={tajmahal}
             alt="tajmahal"
-            className="lg:h-[637px] lg:w-[560px] md:h-[711px] md:w-0 sm:w-0 sm:h-0 w-0 h-0"
+            className="lg:h-[700px] lg:w-[560px]  md:w-0 sm:w-0 sm:h-0 w-0 h-0"
           />
         </div>
 
@@ -117,11 +117,11 @@ const Login = () => {
             <input
               type="text"
               placeholder="example@gmail.com"
-              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[350px] border-solid border-2 p-3 rounded-full border-black my-2"
+              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] border-solid border-2 p-3 rounded-full border-black my-2"
               onChange={handleEmailChange}
             />
             {errors.emailErrors?.length > 0 && (
-              <div className=" text-red-500">
+              <div className=" text-red-600">
                 {errors.emailErrors.join(", ")}
               </div>
             )}
@@ -131,18 +131,18 @@ const Login = () => {
             <input
               type="password"
               placeholder="Password"
-              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[350px] border-solid border-2 p-3 rounded-full border-black my-2"
+              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] border-solid border-2 p-3 rounded-full border-black my-2"
               onChange={handlePasswordChange}
             />
             {errors.passwordErrors?.length > 0 && (
-              <div className=" text-red-500">
+              <div className=" text-red-600">
                 {errors.emailErrors.join(", ")}
               </div>
             )}
           </div>
 
           <button
-            className="rounded-full h-12 border-2 lg:mt-2 md:mt-5 sm:mt-5 text-white bg-black border-black lg:w-[400px] md:w-[450px] sm:w-[420px] w-[350px] mt-5 "
+            className="rounded-full h-12 border-2 lg:mt-2 md:mt-5 sm:mt-5 text-white bg-black border-black lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] mt-5 "
             type="submit"
           >
             Login
@@ -156,11 +156,15 @@ const Login = () => {
               Create one
             </button>
           </div>
-          <p className="lg:pl-9 lg:mt-12 md:pl-6 md:mt-5 sm:pl-7 sm:mt-6 px-4 font-sans">
-            Click “Login” to agree to Stories’s <a href="">Terms of Service </a>
-            and acknowledge that Stories’s <a href="">Privacy Policy</a> applies
-            to you.
-          </p>
+
+          <div className="text-center pl-4">
+            <p className="w-92 lg:pl-9 lg:mt-5 md:pl-6 md:mt-5 sm:pl-7 sm:mt-6 px-14 font-sans">
+              Click “Login” to agree to Stories’s{" "}
+              <a href="">Terms of Service </a>
+              and acknowledge that Stories’s <a href="">Privacy Policy</a>{" "}
+              applies to you.
+            </p>
+          </div>
         </form>
       </div>
       <Toaster />

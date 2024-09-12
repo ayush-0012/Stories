@@ -14,8 +14,13 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="flex justify-around align-items w-full bg-white border-b border-b-black py-4">
-        <h1 className="lg:text-4xl md:text-3xl text-2xl font-bold">Stories</h1>
+      <div className="flex justify-around align-items w-full bg-white border-b border-b-black py-2">
+        <h1
+          className="lg:text-4xl md:text-3xl text-2xl font-bold cursor-pointer"
+          onClick={() => navigate("/")}
+        >
+          Stories
+        </h1>
         <div>
           <button
             className="ml-3 lg:text-[18px] md:text-[16px] text-[15px]"

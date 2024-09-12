@@ -4,7 +4,8 @@
 
 
 body{
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: "IBM Plex Serif", serif;
+                                                
   
 }
 
@@ -18,9 +19,9 @@ a{
 }
 
 .signUp_form{
-  @apply flex flex-col justify-center items-center lg:h-[620px] lg:w-[500px] md:h-[610px] md:w-[580px] sm:h-[600px] sm:w-[500px] h-[630px] w-[400px] lg:my-0 lg:mx-[60px] md:mx-auto md:my-auto sm:my-auto sm:mx-auto mx-auto border-x-2 px-4 my-[6px]
+  @apply flex flex-col justify-center items-center lg:h-[620px] lg:w-[500px] md:h-[610px] md:w-[580px] sm:h-[600px] sm:w-[500px] h-[660px] w-[400px] lg:my-0 lg:mx-[60px] md:mx-auto md:my-auto sm:my-auto sm:mx-auto mx-auto  px-4 my-[6px]
 }
 
 .login_form{
-  @apply flex flex-col justify-center items-center lg:h-[540px] lg:w-[500px] md:h-[550px] md:w-[580px] sm:h-[500px] sm:w-[500px] h-[550px] w-[400px] lg:my-0 lg:mx-[60px] md:mx-auto md:my-auto sm:my-auto sm:mx-auto mx-auto my-[46px] rounded-lg border-2 border-solid border-gray-300 px-4
+  @apply flex flex-col justify-center items-center lg:h-[540px] lg:w-[500px] md:h-[550px] md:w-[580px] sm:h-[500px] sm:w-[500px] h-[550px] w-[400px] lg:my-0 lg:mx-[60px] md:mx-auto md:my-auto sm:my-auto sm:mx-auto mx-auto my-[46px]
 }
