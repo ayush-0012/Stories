@@ -15,6 +15,10 @@ const PostSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "user is required"],
     },
+    profilePic: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );
