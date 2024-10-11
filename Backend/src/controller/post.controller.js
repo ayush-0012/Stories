@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Post from "../model/post.model.js";
 import User from "../model/user.model.js";
+import Comment from "../model/comments.model.js";
 
 //creating a post and storing it in the db
 export const createPost = async (req, res) => {
@@ -43,11 +44,17 @@ export const fetchPosts = async (req, res) => {
 
 //function to fetch all the details of a particular post of a particular user
 export const fetchPostDetail = async (req, res) => {
-  const { id } = req.params;
-  console.log(id);
+  const { postId } = req.params;
+  console.log(postId);
 
   try {
-    const post = await Post.findById(id).populate("userId", "userName").lean();
+    const post = await Post.findById(postId)
+      .populate("userId", "userName")
+      .populate({
+        path: "comments",
+        populate: { path: "userId", select: "userName" },
+      })
+      .lean();
 
     console.log("fetched posts", post);
 
@@ -58,12 +65,53 @@ export const fetchPostDetail = async (req, res) => {
   }
 };
 
+//controller to add comments to a post
+export const addCommentsToPost = async (req, res) => {
+  const { postId } = req.params;
+  const { userId, comment } = req.body;
+
+  // console.log("req.params", req.params);
+  // console.log("postId", postId);
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    //creating a new comment
+    const comments = new Comment({
+      postId,
+      userId,
+      comment,
+      userName: user.userName,
+    });
+
+    await comments.save(); //saving the comment
+
+    const post = await Post.findByIdAndUpdate(
+      postId,
+      {
+        $push: { comments: comments._id },
+      },
+      { new: true }
+    );
+
+    console.log("postId", postId);
+    console.log("post after adding comment", post);
+
+    res
+      .status(201)
+      .json({ message: "comment added successfully", comment: comments });
+  } catch (error) {
+    console.log("an error occured", error);
+    res.status(500).json({ message: "server error" });
+  }
+};
+
 //controller to fetch all the posts created by a user
 export const fetchUserPosts = async (req, res) => {
   const { userName } = req.params;
-
-  // if (!mongoose.Types.ObjectId.isValid(userName)) {
-  //   res.status(400).json({ message: "Invalid userName" });
 
   try {
     const user = await User.findOne({ userName }).lean();
