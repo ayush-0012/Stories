@@ -60,13 +60,19 @@ export const fetchPostDetail = async (req, res) => {
 
 //controller to fetch all the posts created by a user
 export const fetchUserPosts = async (req, res) => {
-  const { userId } = req.params;
+  const { userName } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(userId)) {
-    return res.status(400).json({ message: "Invalid userId" });
-  }
+  // if (!mongoose.Types.ObjectId.isValid(userName)) {
+  //   res.status(400).json({ message: "Invalid userName" });
+
   try {
-    const posts = await Post.find({ userId })
+    const user = await User.findOne({ userName }).lean();
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const posts = await Post.find({ userId: user._id })
       .populate("userId", "userName")
       .lean();
 
