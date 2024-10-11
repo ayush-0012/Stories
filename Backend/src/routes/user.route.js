@@ -1,16 +1,11 @@
 import express from "express";
-import "dotenv/config";
-import {
-  authenticatingUser,
-  registerUser,
-} from "../controller/user.controller.js";
+import { fetchUser, updateProfile } from "../controller/user.controller.js";
 
 const router = express.Router();
 
-//singUp route
-router.post("/signup", registerUser);
+//fetching all users
+router.get("/:id", fetchUser);
 
-//login route
-router.post("/login", authenticatingUser);
+router.post("/update-profile", updateProfile);
 
-export const authRoutes = router;
+export const userRoutes = router;

@@ -2,12 +2,6 @@ import User from "../model/user.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import "dotenv/config";
-import bodyParser from "body-parser";
-import express from "express";
-
-const app = express();
-
-app.use(bodyParser.json());
 
 const JWT_SECRET = process.env.JWT_SECRET;
 console.log("jwt :", JWT_SECRET);
@@ -33,10 +27,12 @@ export const registerUser = async (req, res) => {
     const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
       expiresIn: "1h",
     });
+
     res.status(201).json({
       message: "user created successfully",
       token: token,
       userId: newUser._id,
+      userName: newUser.userName,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -66,10 +62,47 @@ export const authenticatingUser = async (req, res) => {
       expiresIn: "1h",
     });
     // console.log(JWT_SECRET);
-    return res
-      .status(200)
-      .json({ token, message: "User logged in successfully" });
+    return res.status(201).json({
+      message: "user logged in successfully",
+      token: token,
+      userId: user._id,
+      userName: user.userName,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+//fetching all registered users from db
+export const fetchUser = async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const user = await User.findById(userId).populate("_id");
+
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  const { userId, image } = req.body;
+  console.log(userId);
+  console.log(image);
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.profilePic = image;
+    await user.save();
+
+    return res.status(201).json({ message: "stored image in db successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "unable to store image" });
   }
 };

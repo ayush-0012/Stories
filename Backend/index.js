@@ -2,9 +2,10 @@ import express from "express";
 import { connectDB } from "./src/database/database.js";
 import dotenv from "dotenv";
 import cors from "cors";
-import { authRoutes } from "./src/routes/user.route.js";
-import { createPostRoute } from "./src/routes/createPost.route.js";
-import { fetchPost } from "./src/routes/fetchPosts.js";
+import { authRoutes } from "./src/routes/auth.route.js";
+import bodyParser from "body-parser";
+import { postRoutes } from "./src/routes/post.route.js";
+import { userRoutes } from "./src/routes/user.route.js";
 
 const corsOptions = {
   origin: "*",
@@ -27,10 +28,12 @@ app.get("/home", (req, res) => {
 //using middlewares
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", authRoutes);
-app.use("/posts", createPostRoute);
-app.use("/fetch", fetchPost);
+app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
 
 app.listen(4000, (err) => {
   console.log("server is running");

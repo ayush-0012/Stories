@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema(
   {
+    profilePic: {
+      type: String,
+    },
     userName: {
       type: String,
       required: [true, "UserName is required"],
