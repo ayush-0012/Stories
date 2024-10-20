@@ -12,10 +12,6 @@ import toast, { Toaster } from "react-hot-toast";
 function CreatePost() {
   const [titleValue, setTitleValue] = useState("");
   const [storyValue, setStoryValue] = useState("");
-  const [publishBtn, setPublishBtn] = useState(false);
-
-  const userName = useSelector((state) => state.createPost.userName);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const adjustTextareaHeight = (textarea) => {
@@ -33,20 +29,14 @@ function CreatePost() {
   const handleTitleChange = (e) => {
     adjustTextareaHeight(e.target);
     setTitleValue(e.target.value);
-
-    dispatch(setTitle(titleValue));
   };
 
   const handleStoryChange = (e) => {
     adjustTextareaHeight(e.target);
     setStoryValue(e.target.value);
-
-    dispatch(setStory(storyValue));
   };
 
   const handlePublish = async () => {
-    setPublishBtn(true);
-
     if (!titleValue) {
       toast.error("Title is Required");
     }
@@ -61,7 +51,6 @@ function CreatePost() {
       const response = await axios.post(
         "http://localhost:4000/posts/create-post",
         {
-          userName,
           titleValue,
           storyValue,
           userId,
@@ -120,7 +109,7 @@ function CreatePost() {
             placeholder="Title"
             value={titleValue}
             onChange={handleTitleChange}
-            className="text-6xl font-serif lg:w-[700px] md:w-[650px] sm:w-[550px] w-[450px] px-3 focus:outline-none resize-none overflow-hidden"
+            className="text-5xl font-serif lg:w-[700px] md:w-[650px] sm:w-[550px] w-[450px] px-3 focus:outline-none resize-none overflow-hidden"
             rows="1"
             wrap="soft"
           />
