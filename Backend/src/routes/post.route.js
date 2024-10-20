@@ -1,11 +1,11 @@
 import express from "express";
 import {
-  addCommentsToPost,
   createPost,
   fetchPostDetail,
   fetchPosts,
   fetchUserPosts,
 } from "../controller/post.controller.js";
+import { addCommentsToPost } from "../controller/comment.controller.js";
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.post("/create-post", createPost);
 router.get("/fetch-posts", fetchPosts);
 
 //fetching post details in feed
-router.get("/api/:postId", fetchPostDetail);
+router.get("/api/:userName/:postId", fetchPostDetail);
 
 //fetching comments of a post
 router.post("/api/:userName/:postId/comments", addCommentsToPost);
