@@ -2,7 +2,7 @@ import React from "react";
 import Login from "./components/Login";
 import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
-import SingUp from "./components/SingUp";
+import SingUp from "./components/SignUp";
 import Home from "./components/Home";
 import Feed from "./components/Feed";
 import CreatePost from "./components/CreatePost";
@@ -15,8 +15,8 @@ const App = () => {
     { path: "/login", element: <Login /> },
     { path: "/signup", element: <SingUp /> },
     { path: "/feed", element: <Feed /> },
-    { path: "/post/:id", element: <PostDetail /> },
-    { path: "/profile/:id", element: <Profile /> },
+    { path: "/post/:userName/:postId", element: <PostDetail /> },
+    { path: "/:userName", element: <Profile /> },
     { path: "/write", element: <CreatePost /> },
   ]);
 
