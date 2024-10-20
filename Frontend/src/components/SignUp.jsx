@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { checkEmail, checkPassword, checkUserName } from "../utils/validation";
 import axios from "axios";
 import city from "../assets/city.jpg";
 import Navbar from "./Navbar";
-import "../global.css";
+import { LuReplace } from "react-icons/lu";
 
 const SignUp = () => {
   const [userName, setUserName] = useState("");
@@ -89,17 +89,17 @@ const SignUp = () => {
         }
       );
 
+      console.log(response.data);
       if (response.status === 201) {
         //setting userId
         const userId = response.data.userId;
-        localStorage.setItem("userId", response.data.userId);
+        localStorage.setItem("userId", userId);
+        localStorage.setItem("userName", userName);
         console.log("User Created successfully", userId);
 
         //setting token
         localStorage.setItem("token", response.data.token);
-        navigate("/feed");
-        console.log("registered successfully", response.data);
-        return;
+        return navigate("/feed", { replace: true });
       } else {
         toast.error("There is something wrong");
         console.log("registration failed");

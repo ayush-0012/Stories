@@ -1,7 +1,4 @@
 import React from "react";
-import oldSchool from "../assets/oldschool.jfif";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
 
 const Hero = () => {

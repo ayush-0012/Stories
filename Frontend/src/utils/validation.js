@@ -1,11 +1,3 @@
-// async function userExists(userName) {
-//   const response = await fetch(
-//     `/signup?userName=${encodeURIComponent(userName)}`
-//   );
-//   const data = await response.json();
-//   return data.exists;
-// }
-
 export function checkUserName(userName) {
   const errors = [];
 
@@ -17,10 +9,6 @@ export function checkUserName(userName) {
     errors.push("User Name is too short");
   }
 
-  // validation if user already exists, then will throw an error
-  // if (await userExists(userName)) {
-  //   errors.push("User Name has already taken");
-  // }
   return { errors };
 }
 

@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import tajmahal from "../assets/tajmahal.jpg";
 import Navbar from "./Navbar";
 import { checkEmail } from "../utils/validation";
 import { checkPassword } from "../utils/validation";
 import toast, { Toaster } from "react-hot-toast";
-import "../global.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -68,14 +67,10 @@ const Login = () => {
       if (response.status === 201) {
         //setting userId in localStorage
         const { userId, token } = response.data;
-        localStorage.setItem("userId", response.data.userId);
-        console.log("User logged in successfully", userId);
 
-        //setting token in localStorage
-        localStorage.setItem("token", response.data.token);
-        navigate("/feed");
-        console.log("logged In successfully");
-        return;
+        localStorage.setItem("userId", userId);
+        localStorage.setItem("token", token);
+        return navigate("/feed", { replace: true });
       } else {
         console.log("login failed");
       }
