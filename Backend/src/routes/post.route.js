@@ -4,6 +4,7 @@ import {
   fetchPostDetail,
   fetchPosts,
   fetchUserPosts,
+  likePost,
 } from "../controller/post.controller.js";
 import { addCommentsToPost } from "../controller/comment.controller.js";
 
@@ -23,5 +24,8 @@ router.post("/api/:userName/:postId/comments", addCommentsToPost);
 
 //to fetch all the posts of a particular user
 router.get("/:userName", fetchUserPosts);
+
+//to like a post
+router.post("/api/likes/:postId", likePost);
 
 export const postRoutes = router;
