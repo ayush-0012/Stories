@@ -5,6 +5,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import axios from "axios";
+import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
@@ -201,17 +202,20 @@ function Feed() {
                           <p className="text-2xl font-bold mb-3">
                             {post.titleValue}
                           </p>
-                          <p className="text-gray-500 font-sans line-clamp-2 overflow-hidden mb-6">
+                          <p className="text-gray-500 font-semibold font-sans line-clamp-2 overflow-hidden mb-6">
                             {post.storyValue}
                           </p>
                         </div>
                         {/* ACTION DIV */}
-                        <div className="flex justify-starts mb-4 ml-3">
+                        <div className="flex justify-start items-center mb-4 ml-3">
                           <div className="mr-4 font-sans text-gray-600 text-[12px]">
                             {formattedDate}
                           </div>
-                          <div className="mr-4 font-sans text-gray-600 text-[12px]">
-                            Likes
+                          <div className="flex items-center mr-4 font-sans text-gray-600 text-[12px]">
+                            <button className="cursor-pointer">
+                              <FcLike className="w-6 h-6 " />
+                            </button>
+                            <div className=" text-sm ml-1">1</div>
                           </div>
                           <div className="mr-4 font-sans text-gray-600 text-[12px]">
                             Comments

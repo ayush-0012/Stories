@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import axios from "axios";
-import { setTitle, setStory } from "../features/createPost/slice";
 import { CgProfile } from "react-icons/cg";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
 
 function CreatePost() {
