@@ -9,6 +9,8 @@ import { useMediaQuery } from "react-responsive";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { FcLikePlaceholder } from "react-icons/fc";
+import { FcLike } from "react-icons/fc";
 
 const PostDetail = () => {
   const { postId, userName } = useParams();
@@ -17,6 +19,11 @@ const PostDetail = () => {
   const [Comments, setComments] = useState([]);
   const [commentsLoading, setCommentsLoading] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [togglePostLike, settogglePostLike] = useState(false);
+  const [toggleCommentLike, setToggleCommentLike] = useState(false);
+  const [likesOnPost, setLikesOnPost] = useState(0);
+  const [likesOncomments, setLikesOnComments] = useState(0);
+  const [noOfComments, setNoOfComments] = useState(0);
   const navigate = useNavigate();
   const isLgScreenForNav = useMediaQuery({
     query: "(min-width: 800px)",
@@ -94,6 +101,20 @@ const PostDetail = () => {
         console.log("couldn't post comment, error occured");
       }
     }
+  }
+
+  function handlePostLike() {
+    settogglePostLike(!togglePostLike);
+    setLikesOnPost((prevValue) =>
+      togglePostLike ? prevValue - 1 : prevValue + 1
+    );
+  }
+
+  function handleCommentLike() {
+    setToggleCommentLike(!toggleCommentLike);
+    setLikesOnComments((prevValue) =>
+      toggleCommentLike ? prevValue - 1 : prevValue + 1
+    );
   }
 
   if (loading)
@@ -186,7 +207,10 @@ const PostDetail = () => {
         {/* STORY DIV */}
         <div className="lg:w-[700px] md:w-[600px] sm:w-[600px] w-[430px] px-5 border-l  md:border-r border-black mr-8 ">
           <div className="flex items-center">
-            <IoIosArrowBack className="mr-6 text-xl" />
+            <IoIosArrowBack
+              className="mr-6 text-xl cursor-pointer"
+              onClick={() => navigate("/feed")}
+            />
             <p className="font-sans font-bold text-2xl">Post</p>
           </div>
           <div className="flex my-6 border-b border-black h-12 ">
@@ -197,12 +221,22 @@ const PostDetail = () => {
           </div>
           <div>{postDetail.storyValue}</div>
           {/* ACTION DIV */}
-          <div className="flex justify-start w-full mb-4 mt-2 border-b border-black">
+          <div className="flex justify-start items-center w-full mb-6 mt-8 pb-3 border-b border-black">
             <div className="mr-4 font-sans text-gray-600 text-[12px]">
               {formattedDate}
             </div>
-            <div className="mr-4 font-sans text-gray-600 text-[12px]">
-              Likes
+            <div className="flex items-center mr-4 font-sans text-gray-600 text-[12px]">
+              <button
+                className="cursor-pointer"
+                onClick={() => handlePostLike()}
+              >
+                {togglePostLike ? (
+                  <FcLike className="w-6 h-6 " />
+                ) : (
+                  <FcLikePlaceholder className="w-6 h-6 " />
+                )}
+              </button>
+              <div className=" text-sm ml-1">{likesOnPost}</div>
             </div>
             <div className="mr-4 font-sans text-gray-600 text-[12px] ">
               Comments
@@ -262,14 +296,24 @@ const PostDetail = () => {
                       </Link>
 
                       {/* ACTION DIV */}
-                      <div className="flex justify-starts my-3">
+                      <div className="flex justify-start items-center my-3">
                         <div className="mr-4 font-sans text-gray-600 text-[12px]">
                           {formattedDate}
                         </div>
-                        <div className="mr-4 font-sans text-gray-600 text-[12px]">
-                          Likes
+                        <div className="flex items-center mr-4 font-sans text-gray-600 text-[12px]">
+                          <button
+                            className="cursor-pointer"
+                            onClick={() => handleCommentLike()}
+                          >
+                            {toggleCommentLike ? (
+                              <FcLike className="w-6 h-6 " />
+                            ) : (
+                              <FcLikePlaceholder className="w-6 h-6 " />
+                            )}
+                          </button>
+                          <div className=" text-sm ml-1">{likesOncomments}</div>
                         </div>
-                        <div className="mr-4 font-sans text-gray-600 text-[12px]">
+                        <div className="mr-4 font-sans text-gray-600 text-[12px] cursor-pointer">
                           Comments
                         </div>
                       </div>
