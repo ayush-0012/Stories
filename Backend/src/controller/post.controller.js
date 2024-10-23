@@ -84,3 +84,37 @@ export const fetchUserPosts = async (req, res) => {
     res.status(500).json({ message: "server error" });
   }
 };
+
+export const likePost = async (req, res) => {
+  const { likesOnPost, userId } = req.body;
+  const { postId } = req.params;
+
+  console.log(likesOnPost);
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      res.status(400).json({ message: "user not found" });
+    }
+
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      res.status(400).json({ message: "post not found" });
+    }
+
+    const hasLiked = post.likesOnPost.includes(userId);
+
+    if (hasLiked) {
+      post.likesOnPost = post.likesOnPost.filter((id) => id !== userId);
+    } else {
+      post.likesOnPost.push(userId);
+    }
+    await post.save();
+    console.log(post);
+    res.status(200).json({ message: "added like to the post successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "unable to add like to the post " });
+  }
+};
