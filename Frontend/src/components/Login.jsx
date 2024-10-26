@@ -112,7 +112,7 @@ const Login = () => {
             <input
               type="text"
               placeholder="example@gmail.com"
-              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] border-solid border-2 p-3 rounded-full border-black my-2"
+              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] border-solid border-2 p-3 rounded-full text-black border-black my-2 focus:outline-none"
               onChange={handleEmailChange}
             />
             {errors.emailErrors?.length > 0 && (
@@ -126,7 +126,7 @@ const Login = () => {
             <input
               type="password"
               placeholder="Password"
-              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] border-solid border-2 p-3 rounded-full border-black my-2"
+              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] border-solid border-2 p-3 rounded-full text-black border-black my-2 focus:outline-none"
               onChange={handlePasswordChange}
             />
             {errors.passwordErrors?.length > 0 && (
@@ -137,7 +137,7 @@ const Login = () => {
           </div>
 
           <button
-            className="rounded-full h-12 border-2 lg:mt-2 md:mt-5 sm:mt-5 text-white bg-black border-black lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] mt-5 "
+            className="rounded-full h-12 border-2 lg:mt-2 md:mt-5 sm:mt-5 text-white bg-black border-gray-400 lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] mt-5 hover:bg-gray-900 active:bg-opacity-5"
             type="submit"
           >
             Login
