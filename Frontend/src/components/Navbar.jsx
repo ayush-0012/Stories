@@ -14,7 +14,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="flex justify-around align-items w-full bg-white border-b border-b-black py-2">
+      <div className="flex justify-around align-items w-full bg-black border-b border-b-gray-300 py-2">
         <h1
           className="lg:text-4xl md:text-3xl text-2xl font-bold cursor-pointer"
           onClick={() => navigate("/")}
@@ -29,7 +29,7 @@ const Navbar = () => {
             Start Writing
           </button>
           <button
-            className="rounded-full h-9 border-2 text-white bg-black border-black ml-6 lg:w-[90px] md:w-[80px] w-[70px]"
+            className="rounded-full h-9 border-2 text-black bg-white border-black ml-6 lg:w-[90px] md:w-[80px] w-[70px]"
             onClick={() => handleLoginRedirect()}
           >
             Sign in
