@@ -145,7 +145,7 @@ const SignUp = () => {
             <input
               type="text"
               placeholder="Enter your User Name"
-              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] border-solid border-2 p-3 rounded-full border-black my-1"
+              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] border-solid border-2 p-3 rounded-full text-black border-black my-1 focus:outline-none"
               onChange={handleUserNameChange}
               value={userName}
             />
@@ -160,7 +160,7 @@ const SignUp = () => {
             <input
               type="text"
               placeholder="example@gmail.com"
-              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] border-solid border-2 p-3 rounded-full border-black my-1"
+              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] border-solid border-2 p-3 rounded-full text-black border-black my-1 focus:outline-none"
               onChange={handleEmailChange}
               value={email}
             />
@@ -175,7 +175,7 @@ const SignUp = () => {
             <input
               type="password"
               placeholder="Password"
-              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] border-solid border-2 p-3 rounded-full border-black my-2"
+              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] border-solid border-2 p-3 rounded-full text-black border-black my-2 focus:outline-none"
               onChange={handlePasswordChange}
               value={password}
             />
@@ -186,7 +186,7 @@ const SignUp = () => {
             )}
           </div>
           <button
-            className="rounded-full h-[50px] border-2 mt-2 py-3 text-white bg-black border-black lg:w-[400px] md:w-[450px] sm:w-[425px] w-[320px] "
+            className="rounded-full h-[50px] border-2 mt-2 py-3 text-white bg-black border-gray-400 lg:w-[400px] md:w-[450px] sm:w-[425px] w-[320px] hover:bg-gray-900 active:bg-opacity-5"
             // onClick={() => registerUser()}
             type="submit"
           >
