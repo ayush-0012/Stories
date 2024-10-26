@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { checkEmail, checkPassword, checkUserName } from "../utils/validation";
 import axios from "axios";
 import city from "../assets/city.jpg";
@@ -101,7 +102,10 @@ const SignUp = () => {
         localStorage.setItem("token", response.data.token);
         return navigate("/feed", { replace: true });
       } else {
-        toast.error("There is something wrong");
+        toast.error("There is something wrong", {
+          position: "top-center",
+          theme: "dark",
+        });
         console.log("registration failed");
       }
     } catch (error) {
@@ -211,7 +215,7 @@ const SignUp = () => {
           </div>
         </form>
       </div>
-      <Toaster />
+      <ToastContainer />
     </>
   );
 };
