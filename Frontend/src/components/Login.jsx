@@ -5,7 +5,8 @@ import tajmahal from "../assets/tajmahal.jpg";
 import Navbar from "./Navbar";
 import { checkEmail } from "../utils/validation";
 import { checkPassword } from "../utils/validation";
-import toast, { Toaster } from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -70,18 +71,28 @@ const Login = () => {
 
         localStorage.setItem("userId", userId);
         localStorage.setItem("token", token);
+        toast.success("Loggged In succesfully", {
+          position: "top-center",
+          theme: "dark",
+        });
         return navigate("/feed", { replace: true });
       } else {
         console.log("login failed");
       }
     } catch (error) {
       if (error.message && error.response.status === 400) {
-        toast.error(error.response.data.message);
+        toast.error(error.response.data.message, {
+          position: "top-center",
+          theme: "dark",
+        });
         setErrors((prevErrors) => ({
           ...prevErrors,
         }));
       } else {
-        toast.error("Something went wrong, Please try again later");
+        toast.error("Something went wrong, Please try again later", {
+          position: "top-center",
+          theme: "dark",
+        });
         setErrors((prevErrors) => ({
           ...prevErrors,
         }));
@@ -162,7 +173,7 @@ const Login = () => {
           </div>
         </form>
       </div>
-      <Toaster />
+      <ToastContainer />
     </>
   );
 };
