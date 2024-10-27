@@ -7,7 +7,7 @@ body{
   /* font-family: "IBM Plex Serif", serif; */
   /* font-family: "Helvetica", serif; */
 background-color: rgb(0, 0, 0);
-color: white;
+color : white
                         
 }
   
@@ -36,9 +36,9 @@ a{
 
 
 .side_nav_lg{
-  @apply flex hover:bg-gray-100 rounded-full py-1 px-2
+  @apply flex hover:bg-gray-900 rounded-full py-1 px-2
 }
 
 .side_nav_nonlg{
-  @apply flex hover:bg-gray-100 rounded-full py-1 px-2 cursor-pointer 
+  @apply flex hover:bg-gray-900 rounded-full py-1 px-2 cursor-pointer 
 }
