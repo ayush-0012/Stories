@@ -68,7 +68,7 @@ function Feed() {
 
   if (loading)
     return (
-      <div className="flex items-center justify-center w-full h-[100vh] text-gray-900 dark:text-gray-100 dark:bg-gray-950">
+      <div className="flex items-center justify-center w-full h-[100vh] text-gray-300 dark:text-gray-100 dark:bg-gray-950">
         <div>
           <h1 className="text-xl md:text-7xl font-bold flex items-center">
             L
@@ -202,7 +202,7 @@ function Feed() {
                           <p className="text-2xl font-bold mb-3">
                             {post.titleValue}
                           </p>
-                          <p className="text-gray-500 font-semibold font-sans line-clamp-2 overflow-hidden mb-6">
+                          <p className="text-gray-300 font-semibold font-sans line-clamp-2 overflow-hidden mb-6">
                             {post.storyValue}
                           </p>
                         </div>
