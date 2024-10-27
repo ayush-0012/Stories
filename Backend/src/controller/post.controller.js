@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Post from "../model/post.model.js";
 import User from "../model/user.model.js";
 
@@ -85,36 +86,78 @@ export const fetchUserPosts = async (req, res) => {
   }
 };
 
+//controller to like and unlike a post
 export const likePost = async (req, res) => {
-  const { likesOnPost, userId } = req.body;
+  const { userId } = req.body;
   const { postId } = req.params;
-
-  console.log(likesOnPost);
 
   try {
     const user = await User.findById(userId);
 
     if (!user) {
-      res.status(400).json({ message: "user not found" });
+      res.status(404).json({ message: "user not found" });
     }
 
     const post = await Post.findById(postId);
 
     if (!post) {
-      res.status(400).json({ message: "post not found" });
+      res.status(404).json({ message: "post not found" });
     }
 
-    const hasLiked = post.likesOnPost.includes(userId);
+    const userIdObj = new mongoose.Types.ObjectId(userId);
 
+    // Check if user has liked using ObjectId comparison
+    const hasLiked = post.likesOnPost.some((id) => id.equals(userIdObj));
+
+    //removes the userId from the array if the user has liked the post again
     if (hasLiked) {
-      post.likesOnPost = post.likesOnPost.filter((id) => id !== userId);
+      post.likesOnPost = post.likesOnPost.filter((id) => !id.equals(userIdObj));
+      await post.save();
+      res.status(200).json({
+        message: "unliked the post successfully",
+        post: post,
+        likes: post.likesOnPost.length,
+        hasLiked: false,
+      });
+      console.log("unliked the post");
     } else {
-      post.likesOnPost.push(userId);
+      post.likesOnPost.push(userIdObj);
+      await post.save();
+
+      res.status(200).json({
+        message: "liked the post successfully",
+        post: post,
+        likes: post.likesOnPost.length,
+        hasLiked: true,
+      });
+      console.log("liked the post");
     }
-    await post.save();
-    console.log(post);
-    res.status(200).json({ message: "added like to the post successfully" });
+
+    // console.log(post.likesOnPost);
   } catch (error) {
-    res.status(500).json({ message: "unable to add like to the post " });
+    console.log("error liking a post", error);
+    res.status(500).json({
+      message: "unable to add like to the post ",
+      error: error.message,
+    });
+  }
+};
+
+//controller to fetch likes on a post
+export const fetchPostLikes = async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      res.status(400).json({ message: "unable to find the post" });
+    }
+
+    if (post.likesOnPost) {
+      return res.status(200).json({ likeCount: post.likesOnPost.length });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "unable to fetch likes" });
   }
 };
