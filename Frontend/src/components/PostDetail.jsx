@@ -8,7 +8,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { useMediaQuery } from "react-responsive";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { FcLikePlaceholder } from "react-icons/fc";
 import { FcLike } from "react-icons/fc";
 
@@ -16,14 +17,14 @@ const PostDetail = () => {
   const { postId, userName } = useParams();
   const [postDetail, setPostDetail] = useState(null);
   const [commentValue, setCommentValue] = useState("");
-  const [Comments, setComments] = useState([]);
+  const [comments, setComments] = useState([]);
   const [commentsLoading, setCommentsLoading] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [togglePostLike, settogglePostLike] = useState(false);
-  const [toggleCommentLike, setToggleCommentLike] = useState(false);
-  const [likesOnPost, setLikesOnPost] = useState(0);
-  const [likesOncomments, setLikesOnComments] = useState(0);
-  const [noOfComments, setNoOfComments] = useState(0);
+  const [postLike, setPostLike] = useState({
+    toggle: false,
+    count: 0,
+  });
+  const [commentLike, setCommentLike] = useState([]);
   const navigate = useNavigate();
   const isLgScreenForNav = useMediaQuery({
     query: "(min-width: 800px)",
@@ -42,6 +43,10 @@ const PostDetail = () => {
           `http://localhost:4000/posts/api/${userName}/${postId}`
         );
         setPostDetail(response.data);
+
+        const post = response.data;
+        const hasLiked = post.likesOnPost.includes(userId);
+        setPostLike({ toggle: hasLiked, count: post.likesOnPost.length });
       } catch (error) {
         console.log("error fetching post:", error);
       } finally {
@@ -52,31 +57,36 @@ const PostDetail = () => {
     fetchPostDetail();
   }, [postId]);
 
+  useEffect(() => {
+    async function fetchPostLikes() {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/posts/api/fetch/post/likes/${postId}`
+        );
+
+        console.log(response.data);
+        setPostLike((prevValue) => ({
+          ...prevValue,
+          count: response.data.likeCount,
+        }));
+
+        console.log(postLike.toggle);
+      } catch (error) {
+        console.log("error fetching like count", error);
+      }
+    }
+
+    fetchPostLikes();
+  }, []);
+
   //to fetch comments
   useEffect(() => {
     fetchComments();
   }, []);
 
-  async function fetchComments() {
-    try {
-      const response = await axios.get(
-        `http://localhost:4000/posts/api/${userName}/${postId}`
-      );
-
-      setComments(response.data.comments);
-      console.log("fetched comments successfully");
-      console.log(response.data.comments);
-    } catch (error) {
-      console.log("error fetching comments", error);
-    } finally {
-      setCommentsLoading(false);
-    }
-  }
-
   async function postComment() {
     if (!commentValue.trim()) {
       toast.error("Commet cannot be empty");
-      console.log("Comment cannot be empty");
       return;
     }
 
@@ -103,23 +113,84 @@ const PostDetail = () => {
     }
   }
 
-  function handlePostLike() {
-    settogglePostLike(!togglePostLike);
-    setLikesOnPost((prevValue) =>
-      togglePostLike ? prevValue - 1 : prevValue + 1
-    );
+  async function fetchComments() {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/posts/api/${userName}/${postId}`
+      );
+
+      setComments(response.data.comments);
+      console.log("fetched comments successfully");
+      console.log(response.data.comments);
+    } catch (error) {
+      console.log("error fetching comments", error);
+    } finally {
+      setCommentsLoading(false);
+    }
   }
 
-  function handleCommentLike() {
-    setToggleCommentLike(!toggleCommentLike);
-    setLikesOnComments((prevValue) =>
-      toggleCommentLike ? prevValue - 1 : prevValue + 1
-    );
+  async function handlePostLike() {
+    const newToggle = !postLike.toggle;
+    const newCount = postLike.toggle ? postLike.count - 1 : postLike.count + 1;
+
+    // Update the state
+    setPostLike({
+      toggle: newToggle,
+      count: newCount,
+    });
+
+    try {
+      const response = await axios.patch(
+        `http://localhost:4000/posts/api/post/likes/${postId}`,
+        {
+          userId,
+          postId,
+        }
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      toast.error(error.message.data.response);
+      console.log("error liking the post", error.response.data.message);
+    }
   }
 
+  // function handleCommentLike() {
+  //   setCommentLike((prevValue) => ({
+  //     toggle: !prevValue.toggle,
+  //     count: prevValue.toggle ? prevValue.count - 1 : prevValue.count + 1,
+  //   }));
+  // }
+
+  async function handleCommentLike(commentId) {
+    try {
+      const response = await axios.post(
+        `http://localhost:4000/comment/api/likes`,
+        { commentId, userId }
+      );
+
+      if (response.status === 200) {
+        setCommentLike((prev) => {
+          if (prev.includes(commentId)) {
+            return prev.filter((id) => id !== commentId);
+          } else {
+            return [...prev, commentId];
+          }
+        });
+        console.log(commentLike);
+      }
+    } catch (error) {
+      console.log("Error liking comment:", error);
+      toast.error("Failed to like comment", {
+        position: "top-center",
+        theme: "dark",
+      });
+      // notify();
+    }
+  }
   if (loading)
     return (
-      <div className="flex items-center justify-center w-full h-[100vh] text-gray-900 dark:text-gray-100 dark:bg-gray-950">
+      <div className="flex items-center justify-center w-full h-[100vh] text-gray-300 dark:text-gray-100 dark:bg-gray-950">
         <div>
           <h1 className="text-xl md:text-7xl font-bold flex items-center">
             L
@@ -213,16 +284,21 @@ const PostDetail = () => {
             />
             <p className="font-sans font-bold text-2xl">Post</p>
           </div>
-          <div className="flex my-6 border-b border-black h-12 ">
-            <div className="mr-2">
-              <FaUserCircle className="h-9 w-9 " />
+          <Link to={`/${postDetail.userId.userName}`} className="no-underline">
+            <div className="flex my-6 border-b border-black h-12 ">
+              <div className="mr-2">
+                <FaUserCircle className="h-9 w-9 " />
+              </div>
+              <p className="font-sans font-bold">
+                {postDetail.userId.userName}
+              </p>
             </div>
-            <p className="font-sans font-bold">{postDetail.userId.userName}</p>
-          </div>
+          </Link>
+
           <div>{postDetail.storyValue}</div>
           {/* ACTION DIV */}
           <div className="flex justify-start items-center w-full mb-6 mt-8 pb-3 border-b border-black">
-            <div className="mr-4 font-sans text-gray-600 text-[12px]">
+            <div className="mr-4 font-sans text-gray-400 text-[12px]">
               {formattedDate}
             </div>
             <div className="flex items-center mr-4 font-sans text-gray-600 text-[12px]">
@@ -230,15 +306,17 @@ const PostDetail = () => {
                 className="cursor-pointer"
                 onClick={() => handlePostLike()}
               >
-                {togglePostLike ? (
+                {postLike.toggle ? (
                   <FcLike className="w-6 h-6 " />
                 ) : (
                   <FcLikePlaceholder className="w-6 h-6 " />
                 )}
               </button>
-              <div className=" text-sm ml-1">{likesOnPost}</div>
+              <div className=" text-sm ml-1 text-gray-400">
+                {postLike.count}
+              </div>
             </div>
-            <div className="mr-4 font-sans text-gray-600 text-[12px] ">
+            <div className="mr-4 font-sans text-gray-400 text-[12px] ">
               Comments
             </div>
           </div>
@@ -249,7 +327,7 @@ const PostDetail = () => {
             <input
               type="text"
               placeholder="Post your reply"
-              className="w-[500px] focus:outline-none"
+              className="w-[500px] focus:outline-none bg-black"
               value={commentValue}
               onChange={(e) => setCommentValue(e.target.value)}
             />
@@ -263,8 +341,8 @@ const PostDetail = () => {
 
           <div>
             {commentsLoading ? (
-              <div className="mt-16 flex items-center justify-center">
-                <div class="w-10 h-10 border-8 border-dashed rounded-full animate-spin border-black"></div>
+              <div className="mt-16 flex items-center justify-center ">
+                <div class="w-8 h-8 border-8 border-dashed rounded-full animate-spin border-gray-300"></div>
               </div>
             ) : (
               ""
@@ -273,12 +351,15 @@ const PostDetail = () => {
 
           {/* COMMENTS DIV */}
           <div>
-            {Comments.slice()
+            {comments
+              .slice()
               .reverse()
               .map((comment) => {
+                const isLiked = commentLike.includes(comment._id);
+
                 return (
                   // MAIN CONTENT DIV
-                  <div className="flex cursor-pointer ">
+                  <div className="flex  " key={comment._id}>
                     <div className="border-b border-b-gray-400 lg:w-full md:w-[600px] sm:w-[600px] w-[400px]  mt-4 ">
                       <Link
                         to={`/${comment.userId.userName}`}
@@ -290,30 +371,32 @@ const PostDetail = () => {
                             {comment.userId.userName}
                           </p>
                         </div>
-                        <div>
-                          <p>{comment.commentValue}</p>
-                        </div>
                       </Link>
+                      <div>
+                        <p>{comment.commentValue}</p>
+                      </div>
 
                       {/* ACTION DIV */}
                       <div className="flex justify-start items-center my-3">
-                        <div className="mr-4 font-sans text-gray-600 text-[12px]">
+                        <div className="mr-4 font-sans text-gray-400 text-[12px]">
                           {formattedDate}
                         </div>
                         <div className="flex items-center mr-4 font-sans text-gray-600 text-[12px]">
                           <button
                             className="cursor-pointer"
-                            onClick={() => handleCommentLike()}
+                            onClick={() => handleCommentLike(comment._id)}
                           >
-                            {toggleCommentLike ? (
+                            {isLiked ? (
                               <FcLike className="w-6 h-6 " />
                             ) : (
                               <FcLikePlaceholder className="w-6 h-6 " />
                             )}
                           </button>
-                          <div className=" text-sm ml-1">{likesOncomments}</div>
+                          <div className=" text-sm ml-1 text-gray-400">
+                            {comment.likes?.length || 0}
+                          </div>
                         </div>
-                        <div className="mr-4 font-sans text-gray-600 text-[12px] cursor-pointer">
+                        <div className="mr-4 font-sans text-gray-400 text-[12px] cursor-pointer">
                           Comments
                         </div>
                       </div>
@@ -332,7 +415,7 @@ const PostDetail = () => {
           ""
         )}
       </div>
-      <Toaster />
+      <ToastContainer />
     </>
   );
 };
