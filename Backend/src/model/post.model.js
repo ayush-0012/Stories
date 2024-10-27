@@ -21,7 +21,8 @@ const PostSchema = new mongoose.Schema(
       ref: "User",
     },
     likesOnPost: {
-      type: [String],
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
       default: [],
     },
     comments: [
