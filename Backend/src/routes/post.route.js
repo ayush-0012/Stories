@@ -2,6 +2,7 @@ import express from "express";
 import {
   createPost,
   fetchPostDetail,
+  fetchPostLikes,
   fetchPosts,
   fetchUserPosts,
   likePost,
@@ -26,6 +27,8 @@ router.post("/api/:userName/:postId/comments", addCommentsToPost);
 router.get("/:userName", fetchUserPosts);
 
 //to like a post
-router.post("/api/likes/:postId", likePost);
+router.patch("/api/post/likes/:postId", likePost);
+
+router.get("/api/fetch/post/likes/:postId", fetchPostLikes);
 
 export const postRoutes = router;
