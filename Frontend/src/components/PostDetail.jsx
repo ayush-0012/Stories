@@ -24,7 +24,8 @@ const PostDetail = () => {
     toggle: false,
     count: 0,
   });
-  const [commentLike, setCommentLike] = useState([]);
+  const [commentsLike, setCommentsLikes] = useState({});
+
   const navigate = useNavigate();
   const isLgScreenForNav = useMediaQuery({
     query: "(min-width: 800px)",
@@ -84,9 +85,34 @@ const PostDetail = () => {
     fetchComments();
   }, []);
 
+  useEffect(() => {
+    // Assuming you have an array of comments with each comment having a unique `commentId`
+    comments.forEach((comment) => {
+      axios
+        .get(`http://localhost:4000/comments/api/comment/likes/${comment._id}`)
+        .then((response) => {
+          setCommentsLikes((prev) => ({
+            ...prev,
+            [comment._id]: {
+              toggle: response.data.hasLiked,
+              count: response.data.likesCount,
+            },
+          }));
+
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching comment likes:", error);
+        });
+    });
+  }, [comments]);
+
   async function postComment() {
     if (!commentValue.trim()) {
-      toast.error("Commet cannot be empty");
+      toast.error("Commet cannot be empty", {
+        position: "top-center",
+        theme: "dark",
+      });
       return;
     }
 
@@ -104,6 +130,7 @@ const PostDetail = () => {
         console.log("comment posted successfully");
         console.log(response.data);
         fetchComments();
+
         setCommentValue("");
       }
     } catch (error) {
@@ -150,44 +177,65 @@ const PostDetail = () => {
 
       console.log(response.data);
     } catch (error) {
-      toast.error(error.message.data.response);
+      toast.error(error.message.data.response, {
+        position: "top-center",
+        theme: "dark",
+      });
       console.log("error liking the post", error.response.data.message);
     }
   }
 
-  // function handleCommentLike() {
-  //   setCommentLike((prevValue) => ({
-  //     toggle: !prevValue.toggle,
-  //     count: prevValue.toggle ? prevValue.count - 1 : prevValue.count + 1,
-  //   }));
-  // }
-
   async function handleCommentLike(commentId) {
+    const hasLikedComment = commentsLike[commentId]?.toggle ?? false;
+    const initialCount = commentsLike[commentId]?.count ?? 0;
+
+    // Optimistically update the local state
+    setCommentsLikes((prev) => ({
+      ...prev,
+      [commentId]: {
+        toggle: !hasLikedComment,
+        count: hasLikedComment
+          ? Math.max(initialCount - 1, 0)
+          : initialCount + 1,
+      },
+    }));
+
     try {
-      const response = await axios.post(
-        `http://localhost:4000/comment/api/likes`,
-        { commentId, userId }
+      const response = await axios.patch(
+        "http://localhost:4000/comments/api/comment/likes",
+        {
+          userId,
+          commentId,
+        }
       );
 
-      if (response.status === 200) {
-        setCommentLike((prev) => {
-          if (prev.includes(commentId)) {
-            return prev.filter((id) => id !== commentId);
-          } else {
-            return [...prev, commentId];
-          }
-        });
-        console.log(commentLike);
-      }
+      console.log(response.data);
+      // Update the state with the response data from the backend
+      setCommentsLikes((prev) => ({
+        ...prev,
+        [commentId]: {
+          toggle: response.data.hasliked,
+          count: response.data.likes,
+        },
+      }));
     } catch (error) {
-      console.log("Error liking comment:", error);
-      toast.error("Failed to like comment", {
+      // Rollback state on error
+      setCommentsLikes((prev) => ({
+        ...prev,
+        [commentId]: {
+          toggle: hasLikedComment,
+          count: initialCount,
+        },
+      }));
+
+      toast.error(error.response?.data?.message || "Error liking the comment", {
         position: "top-center",
         theme: "dark",
       });
-      // notify();
+      console.error("Error liking the comment:", error.response?.data?.message);
     }
   }
+
   if (loading)
     return (
       <div className="flex items-center justify-center w-full h-[100vh] text-gray-300 dark:text-gray-100 dark:bg-gray-950">
@@ -355,8 +403,6 @@ const PostDetail = () => {
               .slice()
               .reverse()
               .map((comment) => {
-                const isLiked = commentLike.includes(comment._id);
-
                 return (
                   // MAIN CONTENT DIV
                   <div className="flex  " key={comment._id}>
@@ -383,17 +429,17 @@ const PostDetail = () => {
                         </div>
                         <div className="flex items-center mr-4 font-sans text-gray-600 text-[12px]">
                           <button
-                            className="cursor-pointer"
                             onClick={() => handleCommentLike(comment._id)}
+                            className="flex items-center gap-1 px-1 py-1 rounded"
                           >
-                            {isLiked ? (
+                            {commentsLike[comment._id]?.toggle ? (
                               <FcLike className="w-6 h-6 " />
                             ) : (
                               <FcLikePlaceholder className="w-6 h-6 " />
                             )}
                           </button>
-                          <div className=" text-sm ml-1 text-gray-400">
-                            {comment.likes?.length || 0}
+                          <div className=" text-sm text-gray-400">
+                            {commentsLike[comment._id]?.count || 0}
                           </div>
                         </div>
                         <div className="mr-4 font-sans text-gray-400 text-[12px] cursor-pointer">
