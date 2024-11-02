@@ -49,6 +49,9 @@ export const addCommentsToPost = async (req, res) => {
 export const likeComment = async (req, res) => {
   const { commentId, userId } = req.body;
 
+  console.log("commentId", commentId);
+  console.log("userId", userId);
+
   try {
     const user = await User.findById(userId);
     if (!user) {
@@ -92,5 +95,33 @@ export const likeComment = async (req, res) => {
     res
       .status(500)
       .json({ message: "error liking the comment", error: error.message });
+  }
+};
+
+export const fetchCommentLikes = async (req, res) => {
+  const { commentId } = req.params;
+  const { userId } = req.body; // userId sent in the request body
+
+  try {
+    // Find the comment by ID
+    const comment = await Comment.findById(commentId);
+
+    // Check if the comment exists
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    // Determine if the user has liked the comment and count the total likes
+    const hasLiked = comment.likesOnComment.some((id) => !id.equals(userId));
+    const likesCount = comment.likesOnComment.length;
+
+    // Respond with both the like status and the count
+    res.status(200).json({
+      hasLiked: hasLiked,
+      likesCount: likesCount,
+    });
+  } catch (error) {
+    console.error("Error fetching comment likes:", error);
+    res.status(500).json({ message: "Error fetching comment likes" });
   }
 };
