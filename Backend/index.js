@@ -35,7 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
-app.use("/comment", commentRoutes);
+app.use("/comments", commentRoutes);
 
 app.listen(4000, (err) => {
   console.log("server is running");

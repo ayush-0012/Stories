@@ -211,15 +211,15 @@ function Feed() {
                           <div className="mr-4 font-sans text-gray-600 text-[12px]">
                             {formattedDate}
                           </div>
-                          <div className="flex items-center mr-4 font-sans text-gray-600 text-[12px]">
+                          {/* <div className="flex items-center mr-4 font-sans text-gray-600 text-[12px]">
                             <button className="cursor-pointer">
                               <FcLike className="w-6 h-6 " />
                             </button>
                             <div className=" text-sm ml-1">1</div>
-                          </div>
-                          <div className="mr-4 font-sans text-gray-600 text-[12px]">
+                          </div> */}
+                          {/* <div className="mr-4 font-sans text-gray-600 text-[12px]">
                             Comments
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>
