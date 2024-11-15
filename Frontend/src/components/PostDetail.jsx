@@ -12,6 +12,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FcLikePlaceholder } from "react-icons/fc";
 import { FcLike } from "react-icons/fc";
+import MobileNav from "./Navbar/MobileNav";
+import Comments from "./Comments";
 
 const PostDetail = () => {
   const { postId, userName } = useParams();
@@ -65,13 +67,13 @@ const PostDetail = () => {
           `http://localhost:4000/posts/api/fetch/post/likes/${postId}`
         );
 
-        console.log(response.data);
+        // console.log(response.data);
         setPostLike((prevValue) => ({
           ...prevValue,
           count: response.data.likeCount,
         }));
 
-        console.log(postLike.toggle);
+        // console.log(postLike.toggle);
       } catch (error) {
         console.log("error fetching like count", error);
       }
@@ -86,7 +88,8 @@ const PostDetail = () => {
   }, []);
 
   useEffect(() => {
-    // Assuming you have an array of comments with each comment having a unique `commentId`
+    if (!Array.isArray(comments) || comments.length === 0) return;
+
     comments.forEach((comment) => {
       axios
         .get(`http://localhost:4000/comments/api/comment/likes/${comment._id}`)
@@ -98,8 +101,6 @@ const PostDetail = () => {
               count: response.data.likesCount,
             },
           }));
-
-          console.log(response.data);
         })
         .catch((error) => {
           console.error("Error fetching comment likes:", error);
@@ -129,6 +130,7 @@ const PostDetail = () => {
       if (response.status === 201) {
         console.log("comment posted successfully");
         console.log(response.data);
+        // setCommentValue((prevComments) => [response.data, ...prevComments]);
         fetchComments();
 
         setCommentValue("");
@@ -147,8 +149,9 @@ const PostDetail = () => {
       );
 
       setComments(response.data.comments);
+      // console.log(response.data.comments);
+      console.log(comments);
       console.log("fetched comments successfully");
-      console.log(response.data.comments);
     } catch (error) {
       console.log("error fetching comments", error);
     } finally {
@@ -174,8 +177,6 @@ const PostDetail = () => {
           postId,
         }
       );
-
-      console.log(response.data);
     } catch (error) {
       toast.error(error.message.data.response, {
         position: "top-center",
@@ -238,46 +239,49 @@ const PostDetail = () => {
 
   if (loading)
     return (
-      <div className="flex items-center justify-center w-full h-[100vh] text-gray-300 dark:text-gray-100 dark:bg-gray-950">
-        <div>
-          <h1 className="text-xl md:text-7xl font-bold flex items-center">
-            L
-            <svg
-              stroke="currentColor"
-              fill="currentColor"
-              stroke-width="0"
-              viewBox="0 0 24 24"
-              className="animate-spin"
-              height="1em"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM13.6695 15.9999H10.3295L8.95053 17.8969L9.5044 19.6031C10.2897 19.8607 11.1286 20 12 20C12.8714 20 13.7103 19.8607 14.4956 19.6031L15.0485 17.8969L13.6695 15.9999ZM5.29354 10.8719L4.00222 11.8095L4 12C4 13.7297 4.54894 15.3312 5.4821 16.6397L7.39254 16.6399L8.71453 14.8199L7.68654 11.6499L5.29354 10.8719ZM18.7055 10.8719L16.3125 11.6499L15.2845 14.8199L16.6065 16.6399L18.5179 16.6397C19.4511 15.3312 20 13.7297 20 12L19.997 11.81L18.7055 10.8719ZM12 9.536L9.656 11.238L10.552 14H13.447L14.343 11.238L12 9.536ZM14.2914 4.33299L12.9995 5.27293V7.78993L15.6935 9.74693L17.9325 9.01993L18.4867 7.3168C17.467 5.90685 15.9988 4.84254 14.2914 4.33299ZM9.70757 4.33329C8.00021 4.84307 6.53216 5.90762 5.51261 7.31778L6.06653 9.01993L8.30554 9.74693L10.9995 7.78993V5.27293L9.70757 4.33329Z"></path>
-            </svg>{" "}
-            ading . . .
-          </h1>
+      <div className="flex items-center justify-center min-h-screen">
+        <div class="banter-loader">
+          <div class="banter-loader__box"></div>
+          <div class="banter-loader__box"></div>
+          <div class="banter-loader__box"></div>
+          <div class="banter-loader__box"></div>
+          <div class="banter-loader__box"></div>
+          <div class="banter-loader__box"></div>
+          <div class="banter-loader__box"></div>
+          <div class="banter-loader__box"></div>
+          <div class="banter-loader__box"></div>
         </div>
       </div>
     );
 
   // if (!postDetail) return <h1>Error fetching post</h1>;
 
-  const formattedDate = new Date(postDetail.createdAt).toLocaleDateString(
-    "en-US",
-    {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    }
-  );
+  const formatTimeAgo = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+
+    if (diffInSeconds < 60) return "just now";
+    if (diffInSeconds < 3600)
+      return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+    if (diffInSeconds < 86400)
+      return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    if (diffInSeconds < 2592000)
+      return `${Math.floor(diffInSeconds / 86400)} days ago`;
+    if (diffInSeconds < 31536000)
+      return `${Math.floor(diffInSeconds / 2592000)} months ago`;
+    return `${Math.floor(diffInSeconds / 31536000)} years ago`;
+  };
 
   return (
     <>
       <div className="flex justify-center mt-5 w-full  ">
         {/* SIDE NAVIGATION */}
-        <aside className="grid  pr-8  pt-12 lg:px-5 ml-3 lg:w-[220px] md:w-[200px] w-[100px]  ">
-          {isLgScreenForNav ? (
-            <>
+
+        {isLgScreenForNav ? (
+          <>
+            <aside className="grid pr-8 pt-12 lg:px-5 lg:w-[220px] md:w-[200px] w-[100px]">
               <div className="mr-6 cursor-pointer lg:w-[180px] md:w-[200px] ">
                 <ul className="space-y-4 py-3 max-w-full">
                   <li className="side_nav_lg" onClick={() => navigate("/feed")}>
@@ -298,33 +302,14 @@ const PostDetail = () => {
                   </li>
                 </ul>
               </div>
-            </>
-          ) : (
-            <>
-              <div className="ml-4   w-[60px] ">
-                <ul className="space-y-5 max-w-full max-h-full">
-                  <li
-                    className="side_nav_nonlg"
-                    onClick={() => navigate("/feed")}
-                  >
-                    <MdHome className="w-10 h-7 " />
-                  </li>
-                  <li className="side_nav_nonlg">
-                    <IoSearchSharp className="w-10 h-7" />
-                  </li>
-                  <li className="side_nav_nonlg">
-                    <FiMessageSquare className="w-10 h-7" />
-                  </li>
-                  <li className="side_nav_nonlg">
-                    <IoIosNotifications className="w-10 h-7" />
-                  </li>
-                </ul>
-              </div>
-            </>
-          )}
-        </aside>
+            </aside>
+          </>
+        ) : (
+          <MobileNav />
+        )}
+
         {/* STORY DIV */}
-        <div className="lg:w-[700px] md:w-[600px] sm:w-[600px] w-[430px] px-5 border-l  md:border-r border-black mr-8 ">
+        <div className="lg:w-full md:w-[600px] sm:w-[600px] w-full px-5 ">
           <div className="flex items-center">
             <IoIosArrowBack
               className="mr-6 text-xl cursor-pointer"
@@ -347,7 +332,7 @@ const PostDetail = () => {
           {/* ACTION DIV */}
           <div className="flex justify-start items-center w-full mb-6 mt-8 pb-3 border-b border-black">
             <div className="mr-4 font-sans text-gray-400 text-[12px]">
-              {formattedDate}
+              {formatTimeAgo(postDetail?.createdAt)}
             </div>
             <div className="flex items-center mr-4 font-sans text-gray-600 text-[12px]">
               <button
@@ -375,7 +360,7 @@ const PostDetail = () => {
             <input
               type="text"
               placeholder="Post your reply"
-              className="w-[500px] focus:outline-none bg-black"
+              className="w-[500px] focus:outline-none bg-transparent"
               value={commentValue}
               onChange={(e) => setCommentValue(e.target.value)}
             />
@@ -387,80 +372,25 @@ const PostDetail = () => {
             </button>
           </div>
 
+          {/* COMMENTS DIV */}
           <div>
             {commentsLoading ? (
               <div className="mt-16 flex items-center justify-center ">
-                <div class="w-8 h-8 border-8 border-dashed rounded-full animate-spin border-gray-300"></div>
+                <div className="w-8 h-8 border-8 border-dashed rounded-full animate-spin border-gray-300"></div>
               </div>
             ) : (
-              ""
+              <Comments
+                comments={comments}
+                commentsLike={commentsLike}
+                handleCommentLike={handleCommentLike}
+                commentsLoading={commentsLoading}
+              />
             )}
-          </div>
-
-          {/* COMMENTS DIV */}
-          <div>
-            {comments
-              .slice()
-              .reverse()
-              .map((comment) => {
-                return (
-                  // MAIN CONTENT DIV
-                  <div className="flex  " key={comment._id}>
-                    <div className="border-b border-b-gray-400 lg:w-full md:w-[600px] sm:w-[600px] w-[400px]  mt-4 ">
-                      <Link
-                        to={`/${comment.userId.userName}`}
-                        className="no-underline"
-                      >
-                        <div className="flex mb-3">
-                          <FaUserCircle className="mr-2 mt-2 w-8 h-8" />
-                          <p className="text-base font-sans font-bold mt-2">
-                            {comment.userId.userName}
-                          </p>
-                        </div>
-                      </Link>
-                      <div>
-                        <p>{comment.commentValue}</p>
-                      </div>
-
-                      {/* ACTION DIV */}
-                      <div className="flex justify-start items-center my-3">
-                        <div className="mr-4 font-sans text-gray-400 text-[12px]">
-                          {formattedDate}
-                        </div>
-                        <div className="flex items-center mr-4 font-sans text-gray-600 text-[12px]">
-                          <button
-                            onClick={() => handleCommentLike(comment._id)}
-                            className="flex items-center gap-1 px-1 py-1 rounded"
-                          >
-                            {commentsLike[comment._id]?.toggle ? (
-                              <FcLike className="w-6 h-6 " />
-                            ) : (
-                              <FcLikePlaceholder className="w-6 h-6 " />
-                            )}
-                          </button>
-                          <div className=" text-sm text-gray-400">
-                            {commentsLike[comment._id]?.count || 0}
-                          </div>
-                        </div>
-                        <div className="mr-4 font-sans text-gray-400 text-[12px] cursor-pointer">
-                          Comments
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
           </div>
         </div>
         {/* SUGGESTION BOX */}
-        {isLgScreen ? (
-          <div className="lg:w-[400px] md:w-[300px] hidden sm:block">
-            SUGGESTIONS BOX
-          </div>
-        ) : (
-          ""
-        )}
       </div>
+
       <ToastContainer />
     </>
   );
