@@ -8,7 +8,7 @@ import MobileNav from "./MobileNav";
 
 const CommonNav = () => {
   const isLgScreenForNav = useMediaQuery({
-    query: "(min-width: 800px)",
+    query: "(min-width: 750px)",
   });
   return (
     <>

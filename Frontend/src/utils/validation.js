@@ -34,7 +34,7 @@ export function checkPassword(password) {
   }
 
   if (password.length < 6) {
-    errors.push("Atleast 6 characters are required");
+    errors.push("Atleast 6 characters");
   }
 
   return { errors };

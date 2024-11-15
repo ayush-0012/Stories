@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import tajmahal from "../assets/tajmahal.jpg";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/Navbar";
 import { checkEmail } from "../utils/validation";
 import { checkPassword } from "../utils/validation";
 import { ToastContainer, toast } from "react-toastify";

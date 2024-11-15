@@ -5,8 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { checkEmail, checkPassword, checkUserName } from "../utils/validation";
 import axios from "axios";
 import city from "../assets/city.jpg";
-import Navbar from "./Navbar";
-import { LuReplace } from "react-icons/lu";
+import Navbar from "./Navbar/Navbar";
 
 const SignUp = () => {
   const [userName, setUserName] = useState("");
