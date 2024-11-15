@@ -20,7 +20,7 @@ router.get("/fetch-posts", fetchPosts);
 //fetching post details in feed
 router.get("/api/:userName/:postId", fetchPostDetail);
 
-//fetching comments of a post
+//adding comments to a post
 router.post("/api/:userName/:postId/comments", addCommentsToPost);
 
 //to fetch all the posts of a particular user
