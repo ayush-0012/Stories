@@ -106,7 +106,7 @@ function CreatePost() {
             placeholder="Title"
             value={titleValue}
             onChange={handleTitleChange}
-            className="text-5xl font-serif lg:w-[700px] md:w-[650px] sm:w-[550px] w-[450px] px-3 focus:outline-none resize-none overflow-hidden"
+            className="text-5xl font-serif lg:w-[700px] md:w-[650px] sm:w-[550px] w-[450px] px-3 focus:outline-none resize-none overflow-hidden bg-black"
             rows="1"
             wrap="soft"
           />
@@ -116,7 +116,7 @@ function CreatePost() {
             id="story-textarea"
             type="text"
             placeholder="Tell your story..."
-            className="text-2xl font-serif lg:w-[700px] md:w-[650px] sm:w-[550px] w-[450px] px-3 focus:outline-none resize-none overflow-hidden"
+            className="text-2xl font-serif lg:w-[700px] md:w-[650px] sm:w-[550px] w-[450px] px-3 focus:outline-none resize-none overflow-hidden bg-black"
             value={storyValue}
             onChange={handleStoryChange}
             rows="3"
