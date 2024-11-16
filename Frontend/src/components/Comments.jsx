@@ -69,7 +69,7 @@ const Comments = ({
           return (
             <div
               key={comment._id}
-              className=" rounded-lg shadow p-4 border-b border-b-gray-300"
+              className="rounded-md shadow p-4 border-b border-b-gray-300"
             >
               <div className="flex items-center gap-2 mb-2 ">
                 <span className="font-medium">

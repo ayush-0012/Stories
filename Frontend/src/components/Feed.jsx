@@ -3,8 +3,7 @@ import { LuPenSquare } from "react-icons/lu";
 import { FaUserCircle } from "react-icons/fa";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import CommonNav from "./Navbar/CommonNav";
+import axiosInstance from "../utils/axiosInstance";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
@@ -24,9 +23,7 @@ function Feed() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:4000/posts/fetch-posts"
-        );
+        const response = await axiosInstance.get("/posts/fetch-posts");
 
         console.log(response.data);
         setPosts(response.data);
@@ -49,9 +46,7 @@ function Feed() {
 
     const fetchUser = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4000/users/${userId}`
-        );
+        const response = await axiosInstance.get(`/users/${userId}`);
 
         setUser(response.data);
       } catch (error) {
@@ -165,7 +160,7 @@ function Feed() {
       </nav>
 
       <div className="flex">
-        <CommonNav />
+        {/* <CommonNav /> */}
         {/* MAIN FEED DIV */}
         <div className="grid justify-center w-full">
           <div className="w-full px-auto">
@@ -183,10 +178,10 @@ function Feed() {
                     className="no-underline"
                   >
                     <div
-                      className="flex cursor-pointer border-x border-x-gray-400"
+                      className="flex cursor-pointer"
                       // onClick={() => navigate("/post")}
                     >
-                      <div className="border-b border-b-gray-500  w-full  px-6 mt-4 ">
+                      <div className="border-b border-b-gray-500 rounded-md  w-full  px-6 mt-4 ">
                         <Link
                           to={`/${post.userId.userName}`}
                           className="no-underline"

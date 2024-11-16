@@ -106,17 +106,17 @@ function CreatePost() {
             placeholder="Title"
             value={titleValue}
             onChange={handleTitleChange}
-            className="text-5xl font-serif lg:w-[700px] md:w-[650px] sm:w-[550px] w-[450px] px-3 focus:outline-none resize-none overflow-hidden bg-black"
+            className="text-5xl font-serif lg:w-[700px] md:w-[650px] sm:w-[550px] w-[450px] px-3 focus:outline-none resize-none overflow-hidden bg-transparent"
             rows="1"
             wrap="soft"
           />
         </div>
-        <div className="mt-4">
+        <div className="mt-10">
           <textarea
             id="story-textarea"
             type="text"
             placeholder="Tell your story..."
-            className="text-2xl font-serif lg:w-[700px] md:w-[650px] sm:w-[550px] w-[450px] px-3 focus:outline-none resize-none overflow-hidden bg-black"
+            className="text-2xl font-serif lg:w-[700px] md:w-[650px] sm:w-[550px] w-[450px] px-3 focus:outline-none resize-none overflow-hidden bg-transparent"
             value={storyValue}
             onChange={handleStoryChange}
             rows="3"

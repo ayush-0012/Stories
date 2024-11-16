@@ -8,13 +8,13 @@ import MobileNav from "./MobileNav";
 
 const CommonNav = () => {
   const isLgScreenForNav = useMediaQuery({
-    query: "(min-width: 750px)",
+    query: "(min-width: 850px)",
   });
   return (
     <>
       {isLgScreenForNav ? (
         <>
-          <aside className="grid pr-8 pt-12 lg:px-5 lg:w-[220px] md:w-[200px] w-[100px]">
+          <aside className="grid pr-8 pt-12 lg:px-5 lg:w-[230px] md:w-[200px] w-[100px] ">
             <div className="mr-6 cursor-pointer lg:w-[180px] md:w-[200px] ">
               <ul className="space-y-4 py-3 max-w-full">
                 <li className="side_nav_lg" onClick={() => navigate("/feed")}>

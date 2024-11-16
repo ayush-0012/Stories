@@ -6,6 +6,7 @@ import { checkEmail, checkPassword, checkUserName } from "../utils/validation";
 import axios from "axios";
 import city from "../assets/city.jpg";
 import Navbar from "./Navbar/Navbar";
+import axiosInstance from "../utils/axiosInstance";
 
 const SignUp = () => {
   const [userName, setUserName] = useState("");
@@ -74,8 +75,8 @@ const SignUp = () => {
   //registering a user and navigating the user to feed
   async function registerUser() {
     try {
-      const response = await axios.post(
-        "http://localhost:4000/auth/signup",
+      const response = await axiosInstance.post(
+        "/auth/signup",
         {
           userName,
           email,
@@ -114,7 +115,10 @@ const SignUp = () => {
           ...prevErrors,
         }));
       } else {
-        toast.error("Something went wrong, Please try again later");
+        toast.error("Something went wrong, Please try again later", {
+          theme: "dark",
+          position: "top-center",
+        });
         setErrors((prevErrors) => ({
           ...prevErrors,
           userNameErrors: ["Something went wrong, Please try again later"],

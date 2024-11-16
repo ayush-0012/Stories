@@ -7,6 +7,7 @@ import { checkEmail } from "../utils/validation";
 import { checkPassword } from "../utils/validation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axiosInstance from "../utils/axiosInstance";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -53,8 +54,8 @@ const Login = () => {
 
   async function authenticateUser() {
     try {
-      const response = await axios.post(
-        "http://localhost:4000/auth/login",
+      const response = await axiosInstance.post(
+        "/auth/login",
         {
           email,
           password,
@@ -70,7 +71,7 @@ const Login = () => {
         const { userId, token } = response.data;
 
         localStorage.setItem("userId", userId);
-        localStorage.setItem("token", token);
+        // localStorage.setItem("token", token);
         toast.success("Loggged In succesfully", {
           position: "top-center",
           theme: "dark",

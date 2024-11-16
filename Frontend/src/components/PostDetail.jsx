@@ -14,6 +14,7 @@ import { FcLikePlaceholder } from "react-icons/fc";
 import { FcLike } from "react-icons/fc";
 import MobileNav from "./Navbar/MobileNav";
 import Comments from "./Comments";
+import CommonNav from "./Navbar/CommonNav";
 
 const PostDetail = () => {
   const { postId, userName } = useParams();
@@ -130,10 +131,12 @@ const PostDetail = () => {
       if (response.status === 201) {
         console.log("comment posted successfully");
         console.log(response.data);
-        // setCommentValue((prevComments) => [response.data, ...prevComments]);
         fetchComments();
-
         setCommentValue("");
+        toast.success("Comment posted successfully", {
+          theme: "dark",
+          position: "top-center",
+        });
       }
     } catch (error) {
       if (error.response.status === 500) {
@@ -276,40 +279,10 @@ const PostDetail = () => {
 
   return (
     <>
-      <div className="flex justify-center mt-5 w-full  ">
-        {/* SIDE NAVIGATION */}
-
-        {isLgScreenForNav ? (
-          <>
-            <aside className="grid pr-8 pt-12 lg:px-5 lg:w-[220px] md:w-[200px] w-[100px]">
-              <div className="mr-6 cursor-pointer lg:w-[180px] md:w-[200px] ">
-                <ul className="space-y-4 py-3 max-w-full">
-                  <li className="side_nav_lg" onClick={() => navigate("/feed")}>
-                    <MdHome className="w-10 h-7" />
-                    <p>Home</p>
-                  </li>
-                  <li className="side_nav_lg">
-                    <IoSearchSharp className="w-10 h-7" />
-                    <p>Explore</p>
-                  </li>
-                  <li className="side_nav_lg">
-                    <FiMessageSquare className="w-10 h-7" />
-                    <p>Messages</p>
-                  </li>
-                  <li className="side_nav_lg">
-                    <IoIosNotifications className="w-10 h-7" />
-                    <p>Notifications</p>
-                  </li>
-                </ul>
-              </div>
-            </aside>
-          </>
-        ) : (
-          <MobileNav />
-        )}
-
+      <div className="flex justify-center mt-5">
+        <CommonNav />
         {/* STORY DIV */}
-        <div className="lg:w-full md:w-[600px] sm:w-[600px] w-full px-5 ">
+        <div className="lg:w-full md:w-[750px] sm:w-[650px] w-full px-5 ">
           <div className="flex items-center">
             <IoIosArrowBack
               className="mr-6 text-xl cursor-pointer"
@@ -349,9 +322,9 @@ const PostDetail = () => {
                 {postLike.count}
               </div>
             </div>
-            <div className="mr-4 font-sans text-gray-400 text-[12px] ">
+            {/* <div className="mr-4 font-sans text-gray-400 text-[12px] ">
               Comments
-            </div>
+            </div> */}
           </div>
           <div className="flex mb-4 ">
             <div className="mr-4">
