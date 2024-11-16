@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
-import { MdHome } from "react-icons/md";
-import { IoSearchSharp } from "react-icons/io5";
-import { FiMessageSquare } from "react-icons/fi";
-import { IoIosNotifications } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 import { useMediaQuery } from "react-responsive";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FcLikePlaceholder } from "react-icons/fc";
 import { FcLike } from "react-icons/fc";
-import MobileNav from "./Navbar/MobileNav";
 import Comments from "./Comments";
 import CommonNav from "./Navbar/CommonNav";
 import axiosInstance from "../utils/axiosInstance";
