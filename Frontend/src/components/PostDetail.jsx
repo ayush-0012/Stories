@@ -15,6 +15,7 @@ import { FcLike } from "react-icons/fc";
 import MobileNav from "./Navbar/MobileNav";
 import Comments from "./Comments";
 import CommonNav from "./Navbar/CommonNav";
+import axiosInstance from "../utils/axiosInstance";
 
 const PostDetail = () => {
   const { postId, userName } = useParams();
@@ -43,8 +44,8 @@ const PostDetail = () => {
   useEffect(() => {
     const fetchPostDetail = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4000/posts/api/${userName}/${postId}`
+        const response = await axiosInstance.get(
+          `/posts/api/${userName}/${postId}`
         );
         setPostDetail(response.data);
 
@@ -64,8 +65,8 @@ const PostDetail = () => {
   useEffect(() => {
     async function fetchPostLikes() {
       try {
-        const response = await axios.get(
-          `http://localhost:4000/posts/api/fetch/post/likes/${postId}`
+        const response = await axiosInstance.get(
+          `/posts/api/fetch/post/likes/${postId}`
         );
 
         // console.log(response.data);
@@ -92,8 +93,8 @@ const PostDetail = () => {
     if (!Array.isArray(comments) || comments.length === 0) return;
 
     comments.forEach((comment) => {
-      axios
-        .get(`http://localhost:4000/comments/api/comment/likes/${comment._id}`)
+      axiosInstance
+        .get(`/comments/api/comment/likes/${comment._id}`)
         .then((response) => {
           setCommentsLikes((prev) => ({
             ...prev,
@@ -119,8 +120,8 @@ const PostDetail = () => {
     }
 
     try {
-      const response = await axios.post(
-        `http://localhost:4000/posts/api/${userName}/${postId}/comments`,
+      const response = await axiosInstance.post(
+        `/posts/api/${userName}/${postId}/comments`,
         {
           commentValue,
           postId,
@@ -147,8 +148,8 @@ const PostDetail = () => {
 
   async function fetchComments() {
     try {
-      const response = await axios.get(
-        `http://localhost:4000/posts/api/${userName}/${postId}`
+      const response = await axiosInstance.get(
+        `/posts/api/${userName}/${postId}`
       );
 
       setComments(response.data.comments);
@@ -173,8 +174,8 @@ const PostDetail = () => {
     });
 
     try {
-      const response = await axios.patch(
-        `http://localhost:4000/posts/api/post/likes/${postId}`,
+      const response = await axiosInstance.patch(
+        `/posts/api/post/likes/${postId}`,
         {
           userId,
           postId,
@@ -205,8 +206,8 @@ const PostDetail = () => {
     }));
 
     try {
-      const response = await axios.patch(
-        "http://localhost:4000/comments/api/comment/likes",
+      const response = await axiosInstance.patch(
+        "/comments/api/comment/likes",
         {
           userId,
           commentId,
