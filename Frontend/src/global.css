@@ -13,7 +13,7 @@ body {
     rgba(0, 212, 255, 1) 100%
   ); */
   /* background-image: repeating-linear-gradient(0deg, rgb(17, 17, 17) 0px, rgb(17, 17, 17) 1px,transparent 1px, transparent 51px),repeating-linear-gradient(90deg, rgb(17, 17, 17) 0px, rgb(17, 17, 17) 1px,transparent 1px, transparent 51px),linear-gradient(90deg, hsl(49,0%,3%),hsl(49,0%,3%)); */
-  color: white;
+  color: black;
   /* padding-bottom: 60px; */
 
 }
