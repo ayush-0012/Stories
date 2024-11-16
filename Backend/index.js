@@ -12,7 +12,7 @@ const corsOptions = {
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE", "HEAD", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
+  // credentials: true,
 };
 
 dotenv.config({
