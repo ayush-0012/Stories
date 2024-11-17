@@ -12,6 +12,7 @@ import axiosInstance from "../utils/axiosInstance";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
     emailErrors: [],
     passwordErrors: [],
@@ -53,6 +54,7 @@ const Login = () => {
   };
 
   async function authenticateUser() {
+    setLoading(true);
     try {
       const response = await axiosInstance.post(
         "/auth/login",
@@ -66,11 +68,13 @@ const Login = () => {
           },
         }
       );
+
       if (response.status === 201) {
         //setting userId in localStorage
         const { userId, token } = response.data;
 
         localStorage.setItem("userId", userId);
+
         // localStorage.setItem("token", token);
         toast.success("Loggged In succesfully", {
           position: "top-center",
@@ -99,6 +103,8 @@ const Login = () => {
         }));
       }
       console.error(`Error logging in  the user : ${error}`);
+    } finally {
+      setLoading(false);
     }
   }
   const handleSignupRedirect = () => {
@@ -147,12 +153,40 @@ const Login = () => {
               </div>
             )}
           </div>
-
           <button
-            className="rounded-full h-12 border-2 lg:mt-2 md:mt-5 sm:mt-5 text-white bg-black border-gray-400 lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] mt-5 hover:bg-gray-900 active:bg-opacity-5"
+            className={`rounded-full h-12 border-2 lg:mt-2 md:mt-5 sm:mt-5 text-white bg-black border-gray-400 lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] mt-5 hover:bg-gray-900 active:bg-opacity-5 flex items-center justify-center ${
+              loading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
             type="submit"
+            disabled={loading}
           >
-            Login
+            {loading ? (
+              <>
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
+                </svg>
+                Logging in...
+              </>
+            ) : (
+              "Login"
+            )}
           </button>
           <div className="flex py-4 pl-2  justify-center">
             <p>No Account?</p>

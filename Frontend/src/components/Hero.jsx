@@ -19,7 +19,7 @@ const Hero = () => {
             A peaceful space to read, write and share about you and your life.
           </p>
           <button
-            className="rounded-full h-9 border-2 text-black bg-white border-black w-[120px] lg:ml-6 md:ml-4 ml-2"
+            className="rounded-full h-9 border-2 text-black bg-white border-black w-[120px] lg:ml-6 md:ml-4 ml-2 hover:bg-black hover:text-white hover:border-white "
             onClick={() => handleSignupRedirect()}
           >
             Get Started

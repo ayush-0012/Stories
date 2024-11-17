@@ -23,13 +23,13 @@ const Navbar = () => {
         </h1>
         <div>
           <button
-            className="ml-3 lg:text-[18px] md:text-[16px] text-[15px]"
+            className="ml-3 lg:text-[18px] md:text-[16px] text-[15px] border-2 border-white rounded-full w-[120px] h-8 hover:bg-white hover:text-black hover:border-black"
             onClick={() => handleSignupRedirect()}
           >
             Start Writing
           </button>
           <button
-            className="rounded-full h-9 border-2 text-black bg-white border-black ml-6 lg:w-[90px] md:w-[80px] w-[70px]"
+            className="rounded-full h-9 border-2 text-black bg-white border-black ml-6 lg:w-[90px] md:w-[80px] w-[70px] hover:bg-black hover:text-white hover:border-white"
             onClick={() => handleLoginRedirect()}
           >
             Sign in
