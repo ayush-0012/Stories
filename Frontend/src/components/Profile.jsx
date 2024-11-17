@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "@uploadcare/react-uploader/core.css";
 import { FaUserCircle } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 import CommonNav from "./Navbar/CommonNav";
 import formatDate from "../utils/formatDate";
@@ -53,43 +53,43 @@ const Profile = () => {
   return (
     <>
       {/* PROFILE DIV */}
-      <div className="flex justify-center w-full mt-10 border-b border-b-gray-400 pb-10">
-        <div className="flex">
-          {/* PFP DIV */}
-          <div>
-            <div className="mr-32">
-              <FaUserCircle className="mr-2 mt-2 w-20 h-20" />
-            </div>
-            <div>
-              <label className="ml-1 cursor-pointer text-xs text-blue-500 py-2 rounded-md">
-                uplaod photo
-                <input type="file" name="upload photo" className="hidden" />
-              </label>
-            </div>
+      {/* <div className="flex justify-around w-full mt-10 border-b border-b-gray-400 pb-10 px-2"> */}
+      <div className="flex justify-around w-full mt-10 border-b border-b-gray-400 pb-10 px-8 mb-5">
+        {/* PFP DIV */}
+        <div className="w-[150px]">
+          <div className="mr-32">
+            <FaUserCircle className="mr-2 mt-2 w-20 h-20" />
           </div>
-          {/* PROFILE STATS DIV */}
-          <div className="flex flex-wrap items-center justify-around w-full">
-            <div className="text-center">
-              <p>0</p>
-              <p>followers</p>
-            </div>
-            <div className="text-center">
-              <p>0</p>
-              <p>following</p>
-            </div>
-            <div className="w-full text-center mt-4">
-              <button className="bg-gray-700 w-full rounded-xl h-8 cursor-pointer">
-                Edit
-              </button>
-            </div>
+          <div>
+            <label className="ml-1 cursor-pointer text-xs text-blue-500 py-2 rounded-md">
+              uplaod photo
+              <input type="file" name="upload photo" className="hidden" />
+            </label>
+          </div>
+        </div>
+        {/* PROFILE STATS DIV */}
+        <div className="flex flex-wrap items-center justify-around w-[500px]">
+          <div className="text-center">
+            <p>0</p>
+            <p>followers</p>
+          </div>
+          <div className="text-center">
+            <p>0</p>
+            <p>following</p>
+          </div>
+          <div className="w-full text-center mt-4">
+            <button className="bg-gray-700 w-full rounded-xl h-8 cursor-pointer">
+              Edit
+            </button>
           </div>
         </div>
       </div>
+      {/* </div> */}
 
       {/* POST DIV */}
       <div className="flex w-full">
         <CommonNav />
-        <div className="w-full px-5">
+        <div className="w-full">
           {userPosts
             .slice()
             .reverse()
@@ -100,10 +100,10 @@ const Profile = () => {
                 // MAIN CONTENT DIV
 
                 <div
-                  className="flex cursor-pointer"
+                  className="flex cursor-pointer px-2 mb-5"
                   // onClick={() => navigate("/post")}
                 >
-                  <div className="border-b border-b-gray-400 rounded-md lg:w-full md:w-[600px] sm:w-[600px] w-full px-10 mt-4 ">
+                  <div className="border-b border-b-gray-400 rounded-md w-full px-5 ">
                     <div className="flex mb-3">
                       <FaUserCircle className="mr-2 mt-2 w-8 h-8" />
                       <p className="text-base font-sans font-bold mt-2">
@@ -112,17 +112,24 @@ const Profile = () => {
                     </div>
 
                     {/* CONTENT DIV */}
-                    <div className="ml-3">
-                      <p className="text-2xl font-bold mb-3">
-                        {post.titleValue}
-                      </p>
-                      <p className="text-gray-500 font-sans line-clamp-2 overflow-hidden mb-6">
-                        {post.storyValue}
-                      </p>
-                    </div>
+                    <Link
+                      key={post._id}
+                      to={`/post/${post.userId.userName}/${post._id}`}
+                      className="no-underline"
+                    >
+                      <div className="ml-3">
+                        <p className="text-2xl font-bold mb-3">
+                          {post.titleValue}
+                        </p>
+                        <p className="text-gray-300 font-sans line-clamp-2 overflow-hidden mb-6">
+                          {post.storyValue}
+                        </p>
+                      </div>
+                    </Link>
+
                     {/* ACTION DIV */}
                     <div className="flex justify-starts mb-4 ml-3">
-                      <div className="mr-4 font-sans text-gray-600 text-[12px]">
+                      <div className="mr-4 font-sans text-gray-400 text-[12px]">
                         {timeAgo}
                       </div>
                       {/* <div className="mr-4 font-sans text-gray-600 text-[12px]">

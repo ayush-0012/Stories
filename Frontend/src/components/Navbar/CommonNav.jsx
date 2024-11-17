@@ -5,8 +5,11 @@ import { IoSearchSharp } from "react-icons/io5";
 import { MdHome } from "react-icons/md";
 import { useMediaQuery } from "react-responsive";
 import MobileNav from "./MobileNav";
+import { useNavigate } from "react-router-dom";
 
 const CommonNav = () => {
+  const navigate = useNavigate();
+
   const isLgScreenForNav = useMediaQuery({
     query: "(min-width: 850px)",
   });
