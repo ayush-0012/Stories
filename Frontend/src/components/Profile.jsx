@@ -54,7 +54,7 @@ const Profile = () => {
     <>
       {/* PROFILE DIV */}
       {/* <div className="flex justify-around w-full mt-10 border-b border-b-gray-400 pb-10 px-2"> */}
-      <div className="flex justify-around w-full mt-10 border-b border-b-gray-400 pb-10 px-8 mb-5">
+      <div className="flex justify-around w-full mt-10  pb-10 px-8 mb-5">
         {/* PFP DIV */}
         <div className="w-[150px]">
           <div className="mr-32">
@@ -102,7 +102,7 @@ const Profile = () => {
                   className="flex cursor-pointer px-2 mb-5"
                   // onClick={() => navigate("/post")}
                 >
-                  <div className="border-b border-b-gray-400 rounded-md w-full px-5 ">
+                  <div className="rounded-lg border border-gray-800 bg-[#12121a] p-4 text-gray-100 shadow-sm transition-all hover:bg-[#16161f] w-full px-5 ">
                     <div className="flex mb-3">
                       <FaUserCircle className="mr-2 mt-2 w-8 h-8" />
                       <p className="text-base font-sans font-bold mt-2">
