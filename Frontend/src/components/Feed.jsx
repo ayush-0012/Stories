@@ -264,7 +264,7 @@ function Feed() {
                     className="no-underline"
                   >
                     <div
-                      className="flex cursor-pointer"
+                      className="flex cursor-pointer mt-2"
                       // onClick={() => navigate("/post")}
                     >
                       <div className="w-full rounded-lg border border-gray-800 bg-[#12121a] p-4 text-gray-100 shadow-sm transition-all hover:bg-[#16161f]">
