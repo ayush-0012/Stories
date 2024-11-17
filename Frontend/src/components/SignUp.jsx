@@ -237,7 +237,7 @@ const SignUp = () => {
                   Signing in...
                 </>
               ) : (
-                "Login"
+                "Sign in"
               )}
             </button>
           </div>
