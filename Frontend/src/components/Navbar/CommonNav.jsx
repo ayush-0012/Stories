@@ -24,7 +24,7 @@ const CommonNav = () => {
       href="/feed"
       className={`flex items-center gap-3 rounded-lg px-3 py-2 text-gray-400 transition-all hover:text-white no-underline ${className}`}
     >
-      <Icon className="h-4 w-4" />
+      <Icon className="h-5 w-5" />
       <span className="hidden md:inline-block">{label}</span>
     </a>
   );
@@ -36,10 +36,8 @@ const CommonNav = () => {
     <>
       {isLgScreenForNav ? (
         <>
-          <aside
-            className={`fixed inset-y-0 left-0 z-50 w-64 transform overflow-y-auto bg-[#0a0a0f] p-4 transition-transform duration-200 ease-in-out md:static md:translate-x-0 `}
-          >
-            <nav className="flex flex-col gap-2 ">
+          <aside className="fixed top-0 left-0 z-50 w-64 h-screen overflow-y-auto bg-[#0a0a0f] p-4 md:sticky md:top-0 transform transition-transform duration-200 ease-in-out md:translate-x-0 ">
+            <nav className="flex flex-col gap-2 sticky top-0">
               <NavItem icon={Home} label="Home" />
               <NavItem icon={Search} label="Explore" />
               <NavItem icon={MessageCircle} label="Messages" />

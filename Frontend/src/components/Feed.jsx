@@ -231,8 +231,9 @@ function Feed() {
         </div>
       </header>
 
-      <div className="flex">
+      <div className="flex min-h-screen bg-black">
         {/* <MobileNav /> */}
+
         <CommonNav />
         {/* <aside
           className={`fixed inset-y-0 left-0 z-50 w-64 transform overflow-y-auto bg-[#0a0a0f] p-4 transition-transform duration-200 ease-in-out md:static md:translate-x-0 ${
@@ -247,7 +248,7 @@ function Feed() {
           </nav>
         </aside> */}
         {/* MAIN FEED DIV */}
-        <div className="w-full mx-2 mb-16">
+        <div className="w-full mx-2 mb-16 overflow-y-auto relative">
           <div className="w-full px-auto">
             {posts
               .slice()
@@ -266,7 +267,7 @@ function Feed() {
                       className="flex cursor-pointer"
                       // onClick={() => navigate("/post")}
                     >
-                      <div className="border-b border-b-gray-500 rounded-md  w-full  px-6 mt-4 ">
+                      <div className="w-full rounded-lg border border-gray-800 bg-[#12121a] p-4 text-gray-100 shadow-sm transition-all hover:bg-[#16161f]">
                         <Link
                           to={`/${post.userId.userName}`}
                           className="no-underline"
