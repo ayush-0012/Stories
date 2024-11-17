@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "@uploadcare/react-uploader/core.css";
 import { FaUserCircle } from "react-icons/fa";
 import { useParams } from "react-router-dom";
-import MobileNav from "./Navbar/MobileNav";
 import axiosInstance from "../utils/axiosInstance";
+import CommonNav from "./Navbar/CommonNav";
+import formatDate from "../utils/formatDate";
 
 const Profile = () => {
   const [userPosts, setUserPosts] = useState([]);
@@ -53,7 +53,7 @@ const Profile = () => {
   return (
     <>
       {/* PROFILE DIV */}
-      <div className="flex justify-center mt-10 border-b border-b-gray-400 pb-10 ">
+      <div className="flex justify-center w-full mt-10 border-b border-b-gray-400 pb-10">
         <div className="flex">
           {/* PFP DIV */}
           <div>
@@ -68,40 +68,42 @@ const Profile = () => {
             </div>
           </div>
           {/* PROFILE STATS DIV */}
-          <div className="flex flex-wrap justify-between items-center ">
-            <div>followers</div>
-            <div>following</div>
+          <div className="flex flex-wrap items-center justify-around w-full">
+            <div className="text-center">
+              <p>0</p>
+              <p>followers</p>
+            </div>
+            <div className="text-center">
+              <p>0</p>
+              <p>following</p>
+            </div>
             <div className="w-full text-center mt-4">
-              <button className="">follow</button>
+              <button className="bg-gray-700 w-full rounded-xl h-8 cursor-pointer">
+                Edit
+              </button>
             </div>
           </div>
         </div>
       </div>
 
       {/* POST DIV */}
-      <div className="grid justify-center w-full">
-        <div className="lg:w-[600px]">
+      <div className="flex w-full">
+        <CommonNav />
+        <div className="w-full px-5">
           {userPosts
             .slice()
             .reverse()
             .map((post) => {
-              const formattedDate = new Date(post.createdAt).toLocaleDateString(
-                "en-US",
-                {
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                }
-              );
+              const timeAgo = formatDate(post.createdAt);
 
               return (
                 // MAIN CONTENT DIV
 
                 <div
-                  className="flex cursor-pointer  lg:border-x border-x-gray-400"
+                  className="flex cursor-pointer"
                   // onClick={() => navigate("/post")}
                 >
-                  <div className="border-b border-b-gray-400 lg:w-full md:w-[600px] sm:w-[600px] w-full px-10 mt-4 ">
+                  <div className="border-b border-b-gray-400 rounded-md lg:w-full md:w-[600px] sm:w-[600px] w-full px-10 mt-4 ">
                     <div className="flex mb-3">
                       <FaUserCircle className="mr-2 mt-2 w-8 h-8" />
                       <p className="text-base font-sans font-bold mt-2">
@@ -121,7 +123,7 @@ const Profile = () => {
                     {/* ACTION DIV */}
                     <div className="flex justify-starts mb-4 ml-3">
                       <div className="mr-4 font-sans text-gray-600 text-[12px]">
-                        {formattedDate}
+                        {timeAgo}
                       </div>
                       {/* <div className="mr-4 font-sans text-gray-600 text-[12px]">
                         Likes

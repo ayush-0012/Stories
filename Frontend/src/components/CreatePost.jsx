@@ -105,7 +105,7 @@ function CreatePost() {
       {/* TEXT SECTION */}
       <div className="flex">
         <CommonNav />
-        <div className="h-full w-full lg:px-10 md:px-10 ">
+        <div className="h-full w-full lg:px-10 md:px-10">
           <div className="mt-[80px]">
             <textarea
               id="title-textarea"

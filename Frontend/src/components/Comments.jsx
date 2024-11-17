@@ -1,5 +1,6 @@
 import React from "react";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
+import formatDate from "../utils/formatDate";
 
 const Comments = ({
   comments = [],
@@ -7,26 +8,6 @@ const Comments = ({
   handleCommentLike,
   commentsLoading,
 }) => {
-  // Helper function to format date
-  const formatDate = (dateString) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInSeconds = Math.floor((now - date) / 1000);
-
-    if (diffInSeconds < 60) return "just now";
-    if (diffInSeconds < 3600)
-      return `${Math.floor(diffInSeconds / 60)} minutes ago`;
-    if (diffInSeconds < 86400)
-      return `${Math.floor(diffInSeconds / 3600)} hours ago`;
-    if (diffInSeconds < 2592000)
-      return `${Math.floor(diffInSeconds / 86400)} days ago`;
-    if (diffInSeconds < 31536000)
-      return `${Math.floor(diffInSeconds / 2592000)} months ago`;
-    return `${Math.floor(diffInSeconds / 31536000)} years ago`;
-  };
-
-  // Ensure comments is an array even if undefined is passed
   const safeComments = Array.isArray(comments) ? comments : [];
 
   // Early return for loading state
