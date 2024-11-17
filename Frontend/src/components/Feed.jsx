@@ -14,6 +14,7 @@ import {
   Settings,
   User2,
   Menu,
+  SquarePen,
 } from "lucide-react";
 
 // const NavItem = ({ className, icon: Icon, label }) => (
@@ -182,9 +183,16 @@ function Feed() {
             </a>
           </div>
           <div className="flex items-center gap-2">
+            <Button
+              className="text-gray-400 hover:text-white"
+              onClick={() => navigate("/write")}
+            >
+              <SquarePen className="h-5 w-5" />
+              <span className="sr-only">write</span>
+            </Button>
             <Button className="text-gray-400 hover:text-white">
               <Bell className="h-5 w-5" />
-              <span className="sr-only">Settings</span>
+              <span className="sr-only">Notifications</span>
             </Button>
             <Button
               className="text-gray-400 hover:text-white"

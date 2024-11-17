@@ -53,7 +53,7 @@ const Profile = () => {
   return (
     <>
       {/* PROFILE DIV */}
-      {/* <div className="flex justify-around w-full mt-10 border-b border-b-gray-400 pb-10 px-2"> */}
+
       <div className="flex justify-around w-full mt-10  pb-10 px-8 mb-5">
         {/* PFP DIV */}
         <div className="w-[150px]">
@@ -83,7 +83,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      {/* </div> */}
 
       {/* POST DIV */}
       <div className="flex w-full">
