@@ -4,6 +4,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
+import CommonNav from "./Navbar/CommonNav";
+import MobileNav from "./Navbar/MobileNav";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
@@ -160,9 +162,10 @@ function Feed() {
       </nav>
 
       <div className="flex">
-        {/* <CommonNav /> */}
+        {/* <MobileNav /> */}
+        <CommonNav />
         {/* MAIN FEED DIV */}
-        <div className="grid justify-center w-full">
+        <div className="w-full mx-2 mb-16">
           <div className="w-full px-auto">
             {posts
               .slice()

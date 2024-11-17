@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance.js";
 import { CgProfile } from "react-icons/cg";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import CommonNav from "./Navbar/CommonNav.jsx";
+import { FaUserCircle } from "react-icons/fa";
 
 function CreatePost() {
   const [titleValue, setTitleValue] = useState("");
@@ -45,8 +47,8 @@ function CreatePost() {
     const userId = localStorage.getItem("userId");
     console.log(userId);
     try {
-      const response = await axios.post(
-        "http://localhost:4000/posts/create-post",
+      const response = await axiosInstance.post(
+        "/posts/create-post",
         {
           titleValue,
           storyValue,
@@ -74,12 +76,15 @@ function CreatePost() {
 
   return (
     <>
-      <nav className="flex justify-between max-w-full h-[50px] items-center lg:px-[100px] md:px-[50px] sm:px-[30px] px-[20px] border-b border-bottom-2">
-        <h1 className="lg:text-4xl md:text-4xl sm:text-3xl text-3xl font-bold  ">
-          Stories
-        </h1>
-        <div className="flex justify-evenly w-[200px] h-[40px] items-center cursor-pointer ">
-          <div className="flex  mr-2">
+      <nav className="flex justify-around w-full h-[80px] items-center border-b border-bottom-2">
+        <div>
+          <h1 className="lg:text-4xl md:text-4xl sm:text-3xl text-3xl font-bold ">
+            Stories
+          </h1>
+        </div>
+
+        <div className="flex justify-around items-center w-60 cursor-pointer ">
+          <div className="flex  mr">
             <button
               className="bg-green-600 text-white rounded-full h-9 w-[70px]"
               type="submit"
@@ -89,41 +94,45 @@ function CreatePost() {
             </button>
           </div>
           <div>
-            <IoMdNotificationsOutline className="icons" />
+            <IoMdNotificationsOutline className="w-7 h-7 text-gray-300" />
           </div>
           <div>
-            <CgProfile className="icons" />
+            <FaUserCircle className="w-7 h-7 text-gray-300" />
           </div>
         </div>
       </nav>
 
       {/* TEXT SECTION */}
-      <div className="h-full w-full grid justify-center">
-        <div className="mt-[80px]">
-          <textarea
-            id="title-textarea"
-            type="text"
-            placeholder="Title"
-            value={titleValue}
-            onChange={handleTitleChange}
-            className="text-5xl font-serif lg:w-[700px] md:w-[650px] sm:w-[550px] w-[450px] px-3 focus:outline-none resize-none overflow-hidden bg-transparent"
-            rows="1"
-            wrap="soft"
-          />
-        </div>
-        <div className="mt-10">
-          <textarea
-            id="story-textarea"
-            type="text"
-            placeholder="Tell your story..."
-            className="text-2xl font-serif lg:w-[700px] md:w-[650px] sm:w-[550px] w-[450px] px-3 focus:outline-none resize-none overflow-hidden bg-transparent"
-            value={storyValue}
-            onChange={handleStoryChange}
-            rows="3"
-            wrap="soft"
-          />
+      <div className="flex">
+        <CommonNav />
+        <div className="h-full w-full lg:px-10 md:px-10 ">
+          <div className="mt-[80px]">
+            <textarea
+              id="title-textarea"
+              type="text"
+              placeholder="Title"
+              value={titleValue}
+              onChange={handleTitleChange}
+              className="text-5xl font-serif w-full px-3 focus:outline-none resize-none overflow-hidden bg-transparent"
+              rows="1"
+              wrap="soft"
+            />
+          </div>
+          <div className="mt-10">
+            <textarea
+              id="story-textarea"
+              type="text"
+              placeholder="Tell your story..."
+              className="text-2xl font-serif lg:w-[700px] md:w-[650px] sm:w-[550px] w-full px-3 focus:outline-none resize-none overflow-hidden bg-transparent"
+              value={storyValue}
+              onChange={handleStoryChange}
+              rows="3"
+              wrap="soft"
+            />
+          </div>
         </div>
       </div>
+
       <Toaster />
     </>
   );

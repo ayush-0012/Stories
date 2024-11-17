@@ -277,7 +277,7 @@ const PostDetail = () => {
       <div className="flex justify-center mt-5">
         <CommonNav />
         {/* STORY DIV */}
-        <div className="lg:w-full md:w-[750px] sm:w-[650px] w-full px-5 ">
+        <div className="lg:w-full md:w-[750px] sm:w-[650px] w-full px-5 mb-16 ">
           <div className="flex items-center">
             <IoIosArrowBack
               className="mr-6 text-xl cursor-pointer"

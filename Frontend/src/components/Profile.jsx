@@ -4,6 +4,7 @@ import "@uploadcare/react-uploader/core.css";
 import { FaUserCircle } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import MobileNav from "./Navbar/MobileNav";
+import axiosInstance from "../utils/axiosInstance";
 
 const Profile = () => {
   const [userPosts, setUserPosts] = useState([]);
@@ -18,9 +19,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserPosts = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4000/posts/${userName}`
-        );
+        const response = await axiosInstance.get(`/posts/${userName}`);
 
         console.log(response.data);
         setUserPosts(response.data);
