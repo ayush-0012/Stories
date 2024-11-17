@@ -5,14 +5,42 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 import CommonNav from "./Navbar/CommonNav";
-import MobileNav from "./Navbar/MobileNav";
 import formatDate from "../utils/formatDate";
+import {
+  Bell,
+  Home,
+  MessageCircle,
+  Search,
+  Settings,
+  User2,
+  Menu,
+} from "lucide-react";
+
+// const NavItem = ({ className, icon: Icon, label }) => (
+//   <a
+//     href="#"
+//     className={`flex items-center gap-3 rounded-lg px-3 py-2 text-gray-400 transition-all hover:text-white no-underline ${className}`}
+//   >
+//     <Icon className="h-4 w-4" />
+//     <span className="hidden md:inline-block">{label}</span>
+//   </a>
+// );
+
+const Button = ({ children, className, ...props }) => (
+  <button
+    className={`rounded-md px-4 py-2 font-medium transition-colors ${className}`}
+    {...props}
+  >
+    {children}
+  </button>
+);
 
 function Feed() {
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const userId = localStorage.getItem("userId");
 
   // const isLgScreen = useMediaQuery({ query: "(min-width : 900px)" });
@@ -88,28 +116,10 @@ function Feed() {
     navigate("/write");
   };
 
-  // const formatDate = (dateString) => {
-  //   if (!dateString) return "";
-  //   const date = new Date(dateString);
-  //   const now = new Date();
-  //   const diffInSeconds = Math.floor((now - date) / 1000);
-
-  //   if (diffInSeconds < 60) return "just now";
-  //   if (diffInSeconds < 3600)
-  //     return `${Math.floor(diffInSeconds / 60)} minutes ago`;
-  //   if (diffInSeconds < 86400)
-  //     return `${Math.floor(diffInSeconds / 3600)} hours ago`;
-  //   if (diffInSeconds < 2592000)
-  //     return `${Math.floor(diffInSeconds / 86400)} days ago`;
-  //   if (diffInSeconds < 31536000)
-  //     return `${Math.floor(diffInSeconds / 2592000)} months ago`;
-  //   return `${Math.floor(diffInSeconds / 31536000)} years ago`;
-  // };
-
   return (
     <>
       {/* FEED NAVBAR */}
-      <nav className="flex justify-between w-full h-[50px]  items-center px-4  border-b border-bottom-2">
+      {/* <nav className="flex justify-between w-full h-[50px]  items-center px-4  border-b border-bottom-2">
         <h1 className="lg:text-4xl md:text-3xl text-2xl font-bold">Stories</h1>
         <div className="flex lg:justify-evenly justify-evenly w-[200px] h-[30px] items-center cursor-pointer">
           <div className="flex" onClick={() => handleWriteRedirect()}>
@@ -160,11 +170,82 @@ function Feed() {
             )}
           </div>
         </div>
-      </nav>
+      </nav> */}
+      <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-[#0a0a0f]/95 backdrop-blur">
+        <div className="container mx-auto flex h-14 items-center justify-between px-4">
+          <div className="flex items-center gap-4 md:gap-6">
+            <a
+              href="#"
+              className="flex items-center gap-2 font-semibold text-white text-2xl no-underline"
+            >
+              Stories
+            </a>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button className="text-gray-400 hover:text-white">
+              <Bell className="h-5 w-5" />
+              <span className="sr-only">Settings</span>
+            </Button>
+            <Button
+              className="text-gray-400 hover:text-white"
+              onClick={toggleDropdown}
+            >
+              <User2 className="h-5 w-5" />
+              {isOpen && (
+                <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-black border-2  ring-opacity-5 focus:outline-none">
+                  <div
+                    className="py-1"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="options-menu"
+                  >
+                    <Link
+                      to={`/${user.userName}`}
+                      className="no-underline block px-4 py-2 text-sm text-white hover:bg-gray-800"
+                      role="menuitem"
+                    >
+                      Profile
+                    </Link>
+                    <a
+                      href="/settings"
+                      className="no-underline block px-4 py-2 text-sm text-white hover:bg-gray-800 border-t border-gray-100"
+                      role="menuitem"
+                    >
+                      Account Settings
+                    </a>
+
+                    <div className="border-t border-gray-100"></div>
+                    <a
+                      onClick={() => handleLogout()}
+                      className="no-underline block px-4 py-2 text-sm text-white hover:bg-gray-800"
+                      role="menuitem"
+                    >
+                      Logout
+                    </a>
+                  </div>
+                </div>
+              )}
+              <span className="sr-only">Profile</span>
+            </Button>
+          </div>
+        </div>
+      </header>
 
       <div className="flex">
         {/* <MobileNav /> */}
         <CommonNav />
+        {/* <aside
+          className={`fixed inset-y-0 left-0 z-50 w-64 transform overflow-y-auto bg-[#0a0a0f] p-4 transition-transform duration-200 ease-in-out md:static md:translate-x-0 ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <nav className="flex flex-col gap-2">
+            <NavItem icon={Home} label="Home" />
+            <NavItem icon={Search} label="Explore" />
+            <NavItem icon={MessageCircle} label="Messages" />
+            <NavItem icon={Bell} label="Notifications" />
+          </nav>
+        </aside> */}
         {/* MAIN FEED DIV */}
         <div className="w-full mx-2 mb-16">
           <div className="w-full px-auto">

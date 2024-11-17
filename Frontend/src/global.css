@@ -3,13 +3,32 @@
 @tailwind utilities;
 
 body {
-  background-color: black;
-
+  /* background-color: black; */
+  background: linear-gradient(to bottom right, #0a0a0f, #12121a, #1a1a24);
+  min-height: 100vh;
   color: white;
 }
 
 a {
   text-decoration: underline;
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2a35;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a45;
 }
 
 .orange_gradient {

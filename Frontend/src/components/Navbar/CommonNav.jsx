@@ -6,9 +6,28 @@ import { MdHome } from "react-icons/md";
 import { useMediaQuery } from "react-responsive";
 import MobileNav from "./MobileNav";
 import { useNavigate } from "react-router-dom";
+import {
+  Bell,
+  Home,
+  MessageCircle,
+  Search,
+  Settings,
+  User2,
+  Menu,
+} from "lucide-react";
 
 const CommonNav = () => {
   const navigate = useNavigate();
+
+  const NavItem = ({ className, icon: Icon, label }) => (
+    <a
+      href="/feed"
+      className={`flex items-center gap-3 rounded-lg px-3 py-2 text-gray-400 transition-all hover:text-white no-underline ${className}`}
+    >
+      <Icon className="h-4 w-4" />
+      <span className="hidden md:inline-block">{label}</span>
+    </a>
+  );
 
   const isLgScreenForNav = useMediaQuery({
     query: "(min-width: 850px)",
@@ -17,27 +36,15 @@ const CommonNav = () => {
     <>
       {isLgScreenForNav ? (
         <>
-          <aside className="grid pr-8 pt-12 lg:px-5 lg:w-[230px] md:w-[200px] w-[100px] ">
-            <div className="mr-6 cursor-pointer lg:w-[180px] md:w-[200px] ">
-              <ul className="space-y-4 py-3 max-w-full">
-                <li className="side_nav_lg" onClick={() => navigate("/feed")}>
-                  <MdHome className="w-10 h-7" />
-                  <p>Home</p>
-                </li>
-                <li className="side_nav_lg">
-                  <IoSearchSharp className="w-10 h-7" />
-                  <p>Explore</p>
-                </li>
-                <li className="side_nav_lg">
-                  <FiMessageSquare className="w-10 h-7" />
-                  <p>Messages</p>
-                </li>
-                <li className="side_nav_lg">
-                  <IoIosNotifications className="w-10 h-7" />
-                  <p>Notifications</p>
-                </li>
-              </ul>
-            </div>
+          <aside
+            className={`fixed inset-y-0 left-0 z-50 w-64 transform overflow-y-auto bg-[#0a0a0f] p-4 transition-transform duration-200 ease-in-out md:static md:translate-x-0 `}
+          >
+            <nav className="flex flex-col gap-2 ">
+              <NavItem icon={Home} label="Home" />
+              <NavItem icon={Search} label="Explore" />
+              <NavItem icon={MessageCircle} label="Messages" />
+              <NavItem icon={Bell} label="Notifications" />
+            </nav>
           </aside>
         </>
       ) : (
