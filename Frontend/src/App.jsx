@@ -16,10 +16,10 @@ const ProtectedRoute = () => {
   if (!userId) {
     return <Navigate to="/signup" replace />;
   }
-  return <Outlet />; // This will render the child routes
+  return <Outlet />; //renders child routes
 };
 
-// Public Route wrapper component - redirects to feed if already logged in
+//public route wrapper component
 const PublicRoute = () => {
   const userId = localStorage.getItem("userId");
 

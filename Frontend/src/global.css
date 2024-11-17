@@ -3,25 +3,22 @@
 @tailwind utilities;
 
 body {
-  /* font-family: "IBM Plex Serif", serif; */
-  /* font-family: "Helvetica", serif; */
   background-color: black;
-  /* background: radial-gradient(
-    circle,
-    rgba(0, 12, 36, 1) 0%,
-    rgba(0, 0, 0, 1) 100%,
-    rgba(0, 212, 255, 1) 100%
-  ); */
-  /* background-image: repeating-linear-gradient(0deg, rgb(17, 17, 17) 0px, rgb(17, 17, 17) 1px,transparent 1px, transparent 51px),repeating-linear-gradient(90deg, rgb(17, 17, 17) 0px, rgb(17, 17, 17) 1px,transparent 1px, transparent 51px),linear-gradient(90deg, hsl(49,0%,3%),hsl(49,0%,3%)); */
-  color: white;
-  /* padding-bottom: 60px; */
 
+  color: white;
 }
 
 a {
   text-decoration: underline;
 }
 
+.orange_gradient {
+  @apply bg-gradient-to-r from-amber-600 via-gray-600 to-gray-500 bg-clip-text text-transparent;
+}
+
+.blue_gradient {
+  @apply bg-gradient-to-r from-amber-500 to-cyan-400 bg-clip-text text-transparent;
+}
 .icons {
   @apply w-[40px] h-[25px];
 }
