@@ -76,36 +76,41 @@ function CreatePost() {
 
   return (
     <>
-      <nav className="flex justify-around w-full h-[80px] items-center border-b border-bottom-2">
-        <div>
-          <h1 className="lg:text-4xl md:text-4xl sm:text-3xl text-3xl font-bold ">
-            Stories
-          </h1>
-        </div>
-
-        <div className="flex justify-around items-center w-60 cursor-pointer ">
-          <div className="flex  mr">
-            <button
-              className="bg-green-600 text-white rounded-full h-9 w-[70px]"
-              type="submit"
-              onClick={() => handlePublish()}
+      <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-[#0a0a0f]/95 backdrop-blur">
+        <nav className="container mx-auto flex h-14 items-center justify-between px-4">
+          <div>
+            <a
+              href="/"
+              className="flex items-center gap-2 font-semibold text-white text-2xl no-underline"
             >
-              Publish
-            </button>
+              Stories
+            </a>
           </div>
-          <div>
-            <IoMdNotificationsOutline className="w-7 h-7 text-gray-300" />
+
+          <div className="flex justify-evenly items-center w-60 cursor-pointer ">
+            <div className="flex  mr">
+              <button
+                className="bg-green-600 text-white rounded-full h-9 w-[70px]"
+                type="submit"
+                onClick={() => handlePublish()}
+              >
+                Publish
+              </button>
+            </div>
+            <div>
+              <IoMdNotificationsOutline className="w-7 h-7 text-gray-300" />
+            </div>
+            <div>
+              <FaUserCircle className="w-7 h-7 text-gray-300" />
+            </div>
           </div>
-          <div>
-            <FaUserCircle className="w-7 h-7 text-gray-300" />
-          </div>
-        </div>
-      </nav>
+        </nav>
+      </header>
 
       {/* TEXT SECTION */}
       <div className="flex">
         <CommonNav />
-        <div className="h-full w-full lg:px-10 md:px-10">
+        <div className="h-full w-full lg:px-10 md:px-10 px-5">
           <div className="mt-[80px]">
             <textarea
               id="title-textarea"

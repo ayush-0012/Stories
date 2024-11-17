@@ -176,7 +176,7 @@ function Feed() {
         <div className="container mx-auto flex h-14 items-center justify-between px-4">
           <div className="flex items-center gap-4 md:gap-6">
             <a
-              href="#"
+              href="/"
               className="flex items-center gap-2 font-semibold text-white text-2xl no-underline"
             >
               Stories
