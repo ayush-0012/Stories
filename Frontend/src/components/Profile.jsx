@@ -62,7 +62,6 @@ const Profile = () => {
           </div>
           <div>
             <label className="ml-1 cursor-pointer text-xs text-blue-500 py-2 rounded-md">
-              uplaod photo
               <input type="file" name="upload photo" className="hidden" />
             </label>
           </div>

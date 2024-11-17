@@ -81,7 +81,7 @@ function Feed() {
     localStorage.removeItem("userId");
     localStorage.removeItem("token");
     localStorage.removeItem("userName");
-    navigate("/");
+    window.location.href = "/";
   }
 
   const handleWriteRedirect = () => {
