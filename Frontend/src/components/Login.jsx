@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import tajmahal from "../assets/tajmahal.jpg";
 import Navbar from "./Navbar/Navbar";
 import { checkEmail } from "../utils/validation";
@@ -8,6 +7,8 @@ import { checkPassword } from "../utils/validation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "../utils/axiosInstance";
+import { motion } from "framer-motion";
+import { Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,6 +18,7 @@ const Login = () => {
     emailErrors: [],
     passwordErrors: [],
   });
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   async function onSubmit(e) {
@@ -113,100 +115,181 @@ const Login = () => {
 
   return (
     <>
-      <Navbar />
-      <div className="flex justify-between items-center lg:h-full md:h-[642px] sm:h-[630px]">
-        <div className="lg:w-[720px] md:w-0">
-          <img
-            src={tajmahal}
-            alt="tajmahal"
-            className="lg:h-[700px] lg:w-[560px]  md:w-0 sm:w-0 sm:h-0 w-0 h-0"
-          />
+      <div className="min-h-screen bg-[#0a0a0f] text-gray-100">
+        <Navbar />
+        <div className="container mx-auto min-h-screen flex">
+          {/* Left Side - Cool Image */}
+          <motion.div
+            className="hidden lg:block w-1/2 relative overflow-hidden"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0f] via-transparent to-transparent z-10" />
+            <img
+              src="https://images.unsplash.com/photo-1534224039826-c7a0eda0e6b3?auto=format&fit=crop&w=1200&q=80"
+              alt="Vibrant aurora borealis over a mountain lake"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </motion.div>
+
+          {/* Right Side - Login Form */}
+          <motion.div
+            className="w-full lg:w-1/2 flex items-center justify-center p-8"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="w-full max-w-md space-y-8">
+              <div className="text-center">
+                <h2 className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
+                  Welcome Back
+                </h2>
+                <p className="mt-2 text-gray-400">
+                  Sign in to continue your journey
+                </p>
+              </div>
+
+              <form className="mt-8 space-y-6" onSubmit={onSubmit}>
+                <div className="space-y-4">
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-300"
+                    >
+                      Email address
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      className="mt-1 block w-full px-4 py-3 rounded-lg bg-[#12121a] border border-gray-800 text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors"
+                      placeholder="example@gmail.com"
+                      value={email}
+                      onChange={handleEmailChange}
+                    />
+                    {errors.emailErrors?.length > 0 && (
+                      <div className="text-red-500 text-sm mt-1">
+                        {errors.emailErrors.join(", ")}
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="password"
+                      className="block text-sm font-medium text-gray-300"
+                    >
+                      Password
+                    </label>
+                    <div className="mt-1 relative">
+                      <input
+                        id="password"
+                        name="password"
+                        type={showPassword ? "text" : "password"}
+                        required
+                        className="block w-full px-4 py-3 rounded-lg bg-[#12121a] border border-gray-800 text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors"
+                        placeholder="Enter your password"
+                        value={password}
+                        onChange={handlePasswordChange}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                      >
+                        {showPassword ? (
+                          <EyeOff size={20} />
+                        ) : (
+                          <Eye size={20} />
+                        )}
+                      </button>
+                    </div>
+                    {errors.passwordErrors?.length > 0 && (
+                      <div className="text-red-500 text-sm mt-1">
+                        {errors.passwordErrors.join(", ")}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className={`w-full px-4 py-3 text-white rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 hover:opacity-90 transition-opacity font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 flex items-center justify-center ${
+                    loading ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {loading ? (
+                    <>
+                      <svg
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      Logging in...
+                    </>
+                  ) : (
+                    "Login"
+                  )}
+                </button>
+
+                <div className="text-center text-sm">
+                  <p className="text-gray-400">
+                    No Account?{" "}
+                    <button
+                      onClick={handleSignupRedirect}
+                      className="text-orange-500 hover:text-orange-400"
+                    >
+                      Create one
+                    </button>
+                  </p>
+                </div>
+
+                <div className="text-center text-xs text-gray-400">
+                  <p>
+                    By clicking "Login" you agree to our{" "}
+                    <a
+                      href="/terms"
+                      className="text-orange-500 hover:text-orange-400"
+                    >
+                      Terms of Service
+                    </a>{" "}
+                    and acknowledge our{" "}
+                    <a
+                      href="/privacy"
+                      className="text-orange-500 hover:text-orange-400"
+                    >
+                      Privacy Policy
+                    </a>{" "}
+                    applies to you.
+                  </p>
+                </div>
+              </form>
+            </div>
+          </motion.div>
         </div>
 
-        <form className="login_form" onSubmit={onSubmit}>
-          <h1 className="text-center py-2  text-3xl">Welcome Back</h1>
-          <div className="mt-4">
-            <p className="pl-2">Email</p>
-            <input
-              type="text"
-              placeholder="example@gmail.com"
-              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] border-solid border-2 p-3 rounded-full text-black border-black my-2 focus:outline-none"
-              onChange={handleEmailChange}
-            />
-            {errors.emailErrors?.length > 0 && (
-              <div className=" text-red-600">
-                {errors.emailErrors.join(", ")}
-              </div>
-            )}
-          </div>
-          <div className="mt-4">
-            <p className="pl-2">Password</p>
-            <input
-              type="password"
-              placeholder="Password"
-              className="lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] border-solid border-2 p-3 rounded-full text-black border-black my-2 focus:outline-none"
-              onChange={handlePasswordChange}
-            />
-            {errors.passwordErrors?.length > 0 && (
-              <div className=" text-red-600">
-                {errors.emailErrors.join(", ")}
-              </div>
-            )}
-          </div>
-          <button
-            className={`rounded-full h-12 border-2 lg:mt-2 md:mt-5 sm:mt-5 text-white bg-black border-gray-400 lg:w-[400px] md:w-[450px] sm:w-[420px] w-[320px] mt-5 hover:bg-gray-900 active:bg-opacity-5 flex items-center justify-center ${
-              loading ? "opacity-70 cursor-not-allowed" : ""
-            }`}
-            type="submit"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <svg
-                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  />
-                </svg>
-                Logging in...
-              </>
-            ) : (
-              "Login"
-            )}
-          </button>
-          <div className="flex py-4 pl-2  justify-center">
-            <p>No Account?</p>
-            <button
-              className="text-blue-600 ml-2 "
-              onClick={() => handleSignupRedirect()}
-            >
-              Create one
-            </button>
-          </div>
-
-          <div className="text-center pl-4">
-            <p className="w-92 lg:pl-9 lg:mt-5 md:pl-6 md:mt-5 sm:pl-7 sm:mt-6 px-14 font-sans">
-              Click “Login” to agree to Stories’s{" "}
-              <a href="">Terms of Service </a>
-              and acknowledge that Stories’s <a href="">Privacy Policy</a>{" "}
-              applies to you.
-            </p>
-          </div>
-        </form>
+        {/* Background Gradient */}
+        <div className="fixed inset-0 -z-10 bg-[#0a0a0f]">
+          <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/10 via-transparent to-amber-500/10 animate-gradient" />
+        </div>
       </div>
       <ToastContainer />
     </>
