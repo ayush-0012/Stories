@@ -1,31 +1,27 @@
 import { Home, MessageCircle, Search } from "lucide-react";
 import React from "react";
-import { FiMessageSquare } from "react-icons/fi";
-import { IoSearchSharp } from "react-icons/io5";
-import { MdHome } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
+const NavItem = ({ icon: Icon, label, to, active }) => (
+  <Link
+    to={to}
+    className={`flex items-center gap-3 rounded-lg px-3 py-2 text-gray-400 transition-all hover:text-white no-underline ${
+      active ? "bg-[#16161f] text-white" : ""
+    }`}
+  >
+    <Icon className="h-4 w-4" />
+    <span className="hidden md:inline-block">{label}</span>
+  </Link>
+);
 const MobileNav = () => {
   return (
     <>
-      <nav className="fixed bottom-0 z-50 bg-black border-t border-t-white w-full h-12 mx-auto mt-10">
-        <ul className="flex flex-row justify-around items-center py-2 h-full">
-          <li>
-            <NavLink to="/feed">
-              <Home />
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="">
-              <Search />
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="">
-              <MessageCircle />
-            </NavLink>
-          </li>
-        </ul>
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0a0a0f] border-t border-gray-800">
+        <div className="flex justify-around p-4">
+          <NavItem icon={Home} to="/feed" active />
+          <NavItem icon={Search} to="/explore" />
+          <NavItem icon={MessageCircle} to="/messages" />
+        </div>
       </nav>
     </>
   );

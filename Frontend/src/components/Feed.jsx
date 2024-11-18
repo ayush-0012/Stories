@@ -13,6 +13,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import MobileNav from "./Navbar/MobileNav";
 
 const NavItem = ({ icon: Icon, label, to, active }) => (
   <Link
@@ -178,18 +179,11 @@ function Feed() {
 
         <div className="container mx-auto flex">
           {/* Sidebar */}
-          <aside className="hidden md:block w-64 fixed h-[calc(100vh-3.5rem)] border-r border-gray-800">
-            <nav className="p-4 space-y-2">
-              <NavItem icon={Home} label="Home" to="/feed" active />
-              <NavItem icon={Search} label="Explore" to="/explore" />
-              <NavItem icon={MessageCircle} label="Messages" to="/messages" />
-              <NavItem icon={Bell} label="Notifications" to="/notifications" />
-            </nav>
-          </aside>
+          <CommonNav />
 
           {/* Main Content */}
           <main className="flex-1 md:ml-64">
-            <div className="max-w-3xl mx-auto p-4 space-y-4">
+            <div className="max-w-6xl mx-auto p-4 space-y-4">
               {posts
                 .slice()
                 .reverse()
@@ -235,16 +229,6 @@ function Feed() {
             </div>
           </main>
         </div>
-
-        {/* Mobile Navigation */}
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0a0a0f] border-t border-gray-800">
-          <div className="flex justify-around p-4">
-            <NavItem icon={Home} to="/feed" active />
-            <NavItem icon={Search} to="/explore" />
-            <NavItem icon={MessageCircle} to="/messages" />
-            <NavItem icon={Bell} to="/notifications" />
-          </div>
-        </nav>
       </div>
 
       {/* {isSmScreen ? <MobileNav user={user} /> : ""} */}

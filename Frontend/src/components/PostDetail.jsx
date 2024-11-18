@@ -254,89 +254,96 @@ const PostDetail = () => {
   return (
     <>
       <div className="min-h-screen bg-[#0a0a0f] text-gray-100">
-        <div className="container mx-auto flex">
+        <div className="flex">
           <CommonNav />
 
-          <main className="flex-1 max-w-3xl mx-auto p-4">
+          <main className="flex-1 max-w-6xl mx-auto p-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="space-y-6"
             >
               {/* Header */}
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={() => navigate("/feed")}
-                  className="p-2 hover:bg-gray-800 rounded-full transition-colors"
-                >
-                  <ArrowLeft className="w-6 h-6" />
-                </button>
-                <h1 className="text-2xl font-bold">Post</h1>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => navigate("/feed")}
+                    className="p-2 hover:bg-gray-800 rounded-full transition-colors"
+                  >
+                    <ArrowLeft className="w-6 h-6" />
+                  </button>
+                  <h1 className="text-2xl font-bold">Post</h1>
+                </div>
               </div>
 
               {/* Post Content */}
-              <div className="rounded-lg bg-[#12121a] p-6 space-y-4">
-                {/* Author Info and Post Content */}
-                <div className="flex items-start gap-3">
+              <div className="rounded-lg bg-[#12121a] p-6 space-y-4 w-full">
+                <div className="flex items-start gap-4">
                   <Link
                     to={`/${postDetail?.userId?.userName}`}
                     className="no-underline"
                   >
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center flex-shrink-0">
-                      <span className="text-lg font-bold text-white">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center flex-shrink-0">
+                      <span className="text-xl font-bold text-white">
                         {postDetail?.userId?.userName?.[0]?.toUpperCase()}
                       </span>
                     </div>
                   </Link>
                   <div className="flex-1">
-                    <Link
-                      to={`/${postDetail?.userId?.userName}`}
-                      className="no-underline"
-                    >
-                      <h2 className="text-lg font-semibold text-white">
-                        {postDetail?.userId?.userName}
-                      </h2>
-                    </Link>
-                    <p className="text-gray-200 mt-2 whitespace-pre-wrap">
+                    <div className="flex justify-between items-start">
+                      <Link
+                        to={`/${postDetail?.userId?.userName}`}
+                        className="no-underline"
+                      >
+                        <h2 className="text-xl font-semibold text-white hover:underline">
+                          {postDetail?.userId?.userName}
+                        </h2>
+                      </Link>
+                      <span className="text-sm text-gray-400">
+                        {formatDate(postDetail?.createdAt)}
+                      </span>
+                    </div>
+                    <p className="text-gray-200 mt-2 text-lg whitespace-pre-wrap">
                       {postDetail?.storyValue}
                     </p>
-                    <div className="flex items-center gap-4 mt-4">
+                    <div className="flex items-center gap-10 mt-4">
                       <button
                         onClick={handlePostLike}
-                        className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                        className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors"
                       >
                         <Heart
-                          className={`w-5 h-5 ${
+                          className={`w-6 h-6 ${
                             postLike.toggle ? "fill-red-500 stroke-red-500" : ""
                           }`}
                         />
-                        <span>{postLike.count}</span>
+                        <span className="text-lg">{postLike.count}</span>
                       </button>
-                      <span className="text-sm text-gray-500">
-                        {formatDate(postDetail?.createdAt)}
-                      </span>
+                      <div className="flex items-center gap-1 text-gray-400">
+                        <MessageCircle className="w-5 h-5" />
+                        <span className="text-md">{comments.length}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Comment Form */}
-              <div className="rounded-lg bg-[#12121a] p-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center flex-shrink-0">
-                    <User2 className="w-4 h-4 text-white" />
+              <div className="rounded-lg bg-[#12121a] p-4 w-full">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center flex-shrink-0">
+                    <User2 className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
                     <textarea
                       value={commentValue}
                       onChange={(e) => setCommentValue(e.target.value)}
                       placeholder="Post your reply"
-                      className="w-full bg-[#16161f] border border-gray-800 rounded-lg p-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 resize-none"
+                      className="w-full bg-[#16161f] border border-gray-700 rounded-lg p-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 resize-none"
                       rows="2"
                     />
                     <button
                       onClick={postComment}
-                      className="mt-2 px-4 py-1.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
+                      className="mt-2 px-6 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
                     >
                       Reply
                     </button>
@@ -347,70 +354,73 @@ const PostDetail = () => {
               {/* Comments */}
               {commentsLoading ? (
                 <div className="flex justify-center p-4">
-                  <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
                 </div>
               ) : (
-                <div className="space-y-4">
-                  {comments.map((comment) => (
-                    <motion.div
-                      key={comment._id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="rounded-lg bg-[#12121a] p-4"
-                    >
-                      <div className="flex items-start gap-3">
-                        <Link
-                          to={`/${comment.userId.userName}`}
-                          className="no-underline"
-                        >
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center flex-shrink-0">
-                            <span className="text-sm font-bold text-white">
-                              {comment.userId.userName[0].toUpperCase()}
-                            </span>
-                          </div>
-                        </Link>
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between">
-                            <Link
-                              to={`/${comment.userId.userName}`}
-                              className="font-semibold text-white hover:underline no-underline"
-                            >
-                              {comment.userId.userName}
-                            </Link>
-                            <span className="text-xs text-gray-500">
-                              {formatDate(comment.createdAt)}
-                            </span>
-                          </div>
-                          <p className="mt-1 text-sm text-gray-300">
-                            {comment.commentValue}
-                          </p>
-                          <div className="mt-2 flex items-center gap-2">
-                            <button
-                              onClick={() => handleCommentLike(comment._id)}
-                              className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors"
-                            >
-                              <Heart
-                                className={`w-4 h-4 ${
-                                  commentsLike[comment._id]?.toggle
-                                    ? "fill-red-500 stroke-red-500"
-                                    : ""
-                                }`}
-                              />
-                              <span className="text-xs">
-                                {commentsLike[comment._id]?.count || 0}
+                <div className="space-y-4 w-full">
+                  {comments
+                    .slice()
+                    .reverse()
+                    .map((comment) => (
+                      <motion.div
+                        key={comment._id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="rounded-lg bg-[#12121a] p-4"
+                      >
+                        <div className="flex items-start gap-4">
+                          <Link
+                            to={`/${comment.userId.userName}`}
+                            className="no-underline"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center flex-shrink-0">
+                              <span className="text-lg font-bold text-white">
+                                {comment.userId.userName[0].toUpperCase()}
                               </span>
-                            </button>
+                            </div>
+                          </Link>
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between">
+                              <Link
+                                to={`/${comment.userId.userName}`}
+                                className="font-semibold text-white hover:underline no-underline"
+                              >
+                                {comment.userId.userName}
+                              </Link>
+                              <span className="text-sm text-gray-400">
+                                {formatDate(comment.createdAt)}
+                              </span>
+                            </div>
+                            <p className="mt-1 text-gray-200">
+                              {comment.commentValue}
+                            </p>
+                            <div className="mt-2 flex items-center gap-2">
+                              <button
+                                onClick={() => handleCommentLike(comment._id)}
+                                className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors"
+                              >
+                                <Heart
+                                  className={`w-5 h-5 ${
+                                    commentsLike[comment._id]?.toggle
+                                      ? "fill-red-500 stroke-red-500"
+                                      : ""
+                                  }`}
+                                />
+                                <span className="text-sm">
+                                  {commentsLike[comment._id]?.count || 0}
+                                </span>
+                              </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  ))}
+                      </motion.div>
+                    ))}
                 </div>
               )}
             </motion.div>
           </main>
         </div>
-        <ToastContainer />
+        <ToastContainer theme="dark" position="top-center" />
       </div>
     </>
   );

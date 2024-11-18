@@ -30,18 +30,18 @@ const CommonNav = () => {
   );
 
   const isLgScreenForNav = useMediaQuery({
-    query: "(min-width: 850px)",
+    query: "(min-width: 768px)",
   });
   return (
     <>
       {isLgScreenForNav ? (
         <>
-          <aside className="fixed top-0 left-0 z-50 w-64 h-screen overflow-y-auto bg-[#0a0a0f] p-4 md:sticky md:top-0 transform transition-transform duration-200 ease-in-out md:translate-x-0 ">
-            <nav className="flex flex-col gap-2 sticky top-0">
-              <NavItem icon={Home} label="Home" />
-              <NavItem icon={Search} label="Explore" />
-              <NavItem icon={MessageCircle} label="Messages" />
-              <NavItem icon={Bell} label="Notifications" />
+          <aside className="hidden md:block w-64 fixed h-[calc(100vh-3.5rem)] border-r border-gray-800">
+            <nav className="p-4 space-y-2">
+              <NavItem icon={Home} label="Home" to="/feed" active />
+              <NavItem icon={Search} label="Explore" to="/explore" />
+              <NavItem icon={MessageCircle} label="Messages" to="/messages" />
+              <NavItem icon={Bell} label="Notifications" to="/notifications" />
             </nav>
           </aside>
         </>
