@@ -41,7 +41,7 @@ const CommonNav = () => {
               <NavItem icon={Home} label="Home" to="/feed" active />
               <NavItem icon={Search} label="Explore" to="/explore" />
               <NavItem icon={MessageCircle} label="Messages" to="/messages" />
-              {/* <NavItem icon={Bell} label="Notifications" to="/notifications" /> */}
+              <NavItem icon={Bell} label="Notifications" to="/notifications" />
             </nav>
           </aside>
         </>

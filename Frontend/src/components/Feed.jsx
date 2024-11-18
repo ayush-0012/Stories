@@ -132,9 +132,9 @@ function Feed() {
                 <SquarePen className="h-5 w-5" />
                 <span className="hidden sm:inline">Write</span>
               </Button>
-              <Button className="text-gray-400 hover:text-white">
+              {/* <Button className="text-gray-400 hover:text-white">
                 <Bell className="h-5 w-5" />
-              </Button>
+              </Button> */}
               <div className="relative">
                 <Button
                   onClick={() => setIsOpen(!isOpen)}
@@ -182,7 +182,7 @@ function Feed() {
           <CommonNav />
 
           {/* Main Content */}
-          <main className="flex-1 w-full md:ml-64 mb-16">
+          <main className="flex-1 mb-16">
             <div className="max-w-6xl mx-auto p-4 space-y-4">
               {posts
                 .slice()
