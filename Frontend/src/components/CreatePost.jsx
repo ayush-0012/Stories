@@ -84,7 +84,9 @@ function CreatePost() {
               >
                 Publish
               </button>
-
+              <button className="text-gray-300 hover:text-white">
+                <Bell />
+              </button>
               <button className="text-gray-300 hover:text-white">
                 <User2 />
               </button>
@@ -96,7 +98,7 @@ function CreatePost() {
       {/* Main Layout */}
       <div className="flex">
         {/* Sidebar */}
-        <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-64 flex-shrink-0 overflow-y-auto border-r border-gray-800 bg-[#0a0a0f] px-4 py-6 md:block">
+        <aside className="sticky top-14 hidden w-64 flex-shrink-0 overflow-y-auto border-r border-gray-800 bg-[#0a0a0f] px-4 py-6 md:block">
           <CommonNav />
         </aside>
 
