@@ -1,35 +1,116 @@
 import React from "react";
+import { motion } from "framer-motion";
+import { PenLine, BookOpen, Share2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const Hero = () => {
+function Hero() {
   const navigate = useNavigate();
-
-  const handleSignupRedirect = () => {
-    navigate("/signup");
-  };
   return (
-    <>
-      <div className="w-full h-full flex  ">
-        {/* MID SECTION */}
-        <div className="lg:w-full md:w-full md:h-[600px] lg:py-[170px] lg:px-[100px] md:py-[170px] md:px-[40px] sm:py-[160px] sm:px-[50px] py-[200px] px-[40px]">
-          <h1 className="lg:text-7xl md:text-6xl sm:text-5xl text-4xl font-bold text-white orange_gradient">
-            Share your Stories and Experiences
-          </h1>
-          <p className="text-gray-300 lg:text-3xl md:text-xl sm:text-xl text-xl py-4 lg:pl-6 md:pl-4 pl-2 ">
-            A peaceful space to read, write and share about you and your life.
-          </p>
-          <button
-            className="rounded-full h-9 border-2 text-black bg-white border-black w-[120px] lg:ml-6 md:ml-4 ml-2 hover:bg-black hover:text-white hover:border-white "
-            onClick={() => handleSignupRedirect()}
+    <div className="min-h-screen bg-[#0a0a0f] text-gray-100">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full border-b border-gray-800 bg-[#0a0a0f]/95 backdrop-blur z-50">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <a
+            href="/"
+            className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent"
           >
-            Get Started
-          </button>
+            Stories
+          </a>
+          <div className="flex gap-4">
+            <button
+              className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+              onClick={() => navigate("/signup")}
+            >
+              Start Writing
+            </button>
+            <button
+              className="px-4 py-2 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 hover:opacity-90 transition-opacity"
+              onClick={() => navigate("/login")}
+            >
+              Sign in
+            </button>
+          </div>
         </div>
+      </nav>
 
-        {/* RIGHT SECTION IMAGE */}
+      {/* Hero Section */}
+      <main className="container mx-auto px-4 pt-32 pb-20">
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          <motion.h1
+            className="text-4xl md:text-6xl lg:text-7xl font-bold"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-gray-400 bg-clip-text text-transparent">
+              Share your Stories
+            </span>{" "}
+            <span className="bg-gradient-to-r from-gray-400 to-gray-500 bg-clip-text text-transparent">
+              and Experiences
+            </span>
+          </motion.h1>
+
+          <motion.p
+            className="text-xl md:text-2xl text-gray-400"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            A peaceful space to read, write and share about you and your life.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            <button
+              className="px-8 py-4 text-lg font-medium rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 hover:opacity-90 transition-opacity"
+              onClick={() => navigate("/signup")}
+            >
+              Get Started
+            </button>
+          </motion.div>
+
+          {/* Features */}
+          <motion.div
+            className="grid md:grid-cols-3 gap-8 mt-20"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <div className="p-6 rounded-xl bg-[#12121a] border border-gray-800 hover:border-gray-700 transition-colors">
+              <PenLine className="w-12 h-12 mb-4 text-orange-500" />
+              <h3 className="text-xl font-semibold mb-2">Write Stories</h3>
+              <p className="text-gray-400">
+                Express yourself through writing in a distraction-free
+                environment.
+              </p>
+            </div>
+            <div className="p-6 rounded-xl bg-[#12121a] border border-gray-800 hover:border-gray-700 transition-colors">
+              <BookOpen className="w-12 h-12 mb-4 text-amber-500" />
+              <h3 className="text-xl font-semibold mb-2">Read Stories</h3>
+              <p className="text-gray-400">
+                Discover inspiring stories from people around the world.
+              </p>
+            </div>
+            <div className="p-6 rounded-xl bg-[#12121a] border border-gray-800 hover:border-gray-700 transition-colors">
+              <Share2 className="w-12 h-12 mb-4 text-amber-600" />
+              <h3 className="text-xl font-semibold mb-2">Share Stories</h3>
+              <p className="text-gray-400">
+                Connect with others by sharing your unique perspectives.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </main>
+
+      {/* Background Gradient */}
+      <div className="fixed inset-0 -z-10 bg-[#0a0a0f]">
+        <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/10 via-transparent to-amber-500/10 animate-gradient" />
       </div>
-    </>
+    </div>
   );
-};
+}
 
 export default Hero;
