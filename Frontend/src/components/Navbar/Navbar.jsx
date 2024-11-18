@@ -4,38 +4,32 @@ import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
 
-  const handleSignupRedirect = () => {
-    navigate("/signup");
-  };
-
-  const handleLoginRedirect = () => {
-    navigate("/login");
-  };
-
   return (
     <>
-      <div className="flex justify-around align-items w-full bg-black border-b border-b-gray-300 py-2">
-        <h1
-          className="lg:text-4xl md:text-3xl text-2xl font-bold cursor-pointer"
-          onClick={() => navigate("/")}
-        >
-          Stories
-        </h1>
-        <div>
-          <button
-            className="ml-3 lg:text-[18px] md:text-[16px] text-[15px] border-2 border-white rounded-full w-[120px] h-8 hover:bg-white hover:text-black hover:border-black"
-            onClick={() => handleSignupRedirect()}
+      <nav className="fixed top-0 w-full border-b border-gray-800 bg-[#0a0a0f]/95 backdrop-blur z-50">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <a
+            href="/"
+            className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent"
           >
-            Start Writing
-          </button>
-          <button
-            className="rounded-full h-9 border-2 text-black bg-white border-black ml-6 lg:w-[90px] md:w-[80px] w-[70px] hover:bg-black hover:text-white hover:border-white"
-            onClick={() => handleLoginRedirect()}
-          >
-            Sign in
-          </button>
+            Stories
+          </a>
+          <div className="flex gap-4">
+            <button
+              className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+              onClick={() => navigate("/signup")}
+            >
+              Start Writing
+            </button>
+            <button
+              className="px-4 py-2 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 hover:opacity-90 transition-opacity"
+              onClick={() => navigate("/login")}
+            >
+              Sign in
+            </button>
+          </div>
         </div>
-      </div>
+      </nav>
     </>
   );
 };

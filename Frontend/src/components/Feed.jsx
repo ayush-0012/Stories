@@ -41,7 +41,6 @@ function Feed() {
   const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const userId = localStorage.getItem("userId");
 
   // const isLgScreen = useMediaQuery({ query: "(min-width : 900px)" });

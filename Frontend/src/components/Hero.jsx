@@ -2,36 +2,14 @@ import React from "react";
 import { motion } from "framer-motion";
 import { PenLine, BookOpen, Share2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar/Navbar";
 
 function Hero() {
   const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-gray-100">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full border-b border-gray-800 bg-[#0a0a0f]/95 backdrop-blur z-50">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <a
-            href="/"
-            className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent"
-          >
-            Stories
-          </a>
-          <div className="flex gap-4">
-            <button
-              className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
-              onClick={() => navigate("/signup")}
-            >
-              Start Writing
-            </button>
-            <button
-              className="px-4 py-2 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 hover:opacity-90 transition-opacity"
-              onClick={() => navigate("/login")}
-            >
-              Sign in
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
       <main className="container mx-auto px-4 pt-32 pb-20">
