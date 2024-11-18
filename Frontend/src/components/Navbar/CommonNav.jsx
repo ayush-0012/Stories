@@ -36,7 +36,7 @@ const CommonNav = () => {
     <>
       {isLgScreenForNav ? (
         <>
-          <aside className="hidden md:block w-64 fixed h-[calc(100vh-3.5rem)] border-r border-gray-800">
+          <aside className="sticky top-0 hidden h-screen w-64 flex-shrink-0 border-r border-gray-800 bg-[#0a0a0f] md:block">
             <nav className="p-4 space-y-2">
               <NavItem icon={Home} label="Home" to="/feed" active />
               <NavItem icon={Search} label="Explore" to="/explore" />

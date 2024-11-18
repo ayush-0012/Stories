@@ -177,7 +177,7 @@ function Feed() {
           </div>
         </header>
 
-        <div className="container mx-auto flex">
+        <div className="container flex">
           {/* Sidebar */}
           <CommonNav />
 

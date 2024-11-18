@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../utils/axiosInstance.js";
-import { CgProfile } from "react-icons/cg";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import "react-quill/dist/quill.snow.css";
-import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import { Bell, User, User2 } from "lucide-react";
+import axios from "axios";
+import { toast, Toaster } from "react-hot-toast";
 import CommonNav from "./Navbar/CommonNav.jsx";
-import { FaUserCircle } from "react-icons/fa";
 
 function CreatePost() {
-  const [titleValue, setTitleValue] = useState("");
-  const [storyValue, setStoryValue] = useState("");
-  const navigate = useNavigate();
+  const [title, setTitle] = useState("");
+  const [story, setStory] = useState("");
 
   const adjustTextareaHeight = (textarea) => {
-    textarea.style.height = "auto";
-    textarea.style.height = textarea.scrollHeight + "px";
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
   };
 
   useEffect(() => {
@@ -23,123 +20,112 @@ function CreatePost() {
     const storyTextarea = document.getElementById("story-textarea");
     adjustTextareaHeight(titleTextarea);
     adjustTextareaHeight(storyTextarea);
-  }, [titleValue, storyValue]);
+  }, [title, story]);
 
   const handleTitleChange = (e) => {
+    setTitle(e.target.value);
     adjustTextareaHeight(e.target);
-    setTitleValue(e.target.value);
   };
 
   const handleStoryChange = (e) => {
+    setStory(e.target.value);
     adjustTextareaHeight(e.target);
-    setStoryValue(e.target.value);
   };
 
   const handlePublish = async () => {
-    if (!titleValue) {
-      toast.error("Title is Required");
+    if (!title.trim()) {
+      toast.error("Title is required");
+      return;
     }
 
-    if (!storyValue) {
-      toast.error("Story is Required");
+    if (!story.trim()) {
+      toast.error("Story is required");
+      return;
     }
 
     const userId = localStorage.getItem("userId");
-    console.log(userId);
     try {
-      const response = await axiosInstance.post(
-        "/posts/create-post",
-        {
-          titleValue,
-          storyValue,
-          userId,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post("/posts/create-post", {
+        titleValue: title,
+        storyValue: story,
+        userId,
+      });
 
       if (response.status === 200) {
-        navigate("/feed");
-        console.log("post created succesfully");
-      } else {
-        console.log("unable to create post");
+        toast.success("Post created successfully");
+        // Navigate to feed (you might want to use react-router's useNavigate hook here)
       }
     } catch (error) {
-      if (error?.response?.status === 400) {
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
         toast.error(error.response.data.message);
+      } else {
+        toast.error("Failed to create post");
       }
     }
   };
 
   return (
-    <>
-      <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-[#0a0a0f]/95 backdrop-blur">
-        <nav className="container mx-auto flex h-14 items-center justify-between px-4">
-          <div>
+    <div className="min-h-screen bg-[#0a0a0f] text-gray-100">
+      {/* Header */}
+      <header className="sticky top-0 left-0 right-0 z-50 border-b border-gray-800 bg-[#0a0a0f]/95 backdrop-blur">
+        <div className="container mx-auto px-4">
+          <nav className="flex h-14 items-center justify-between">
             <a
               href="/"
-              className="flex items-center gap-2 font-semibold text-white text-2xl no-underline"
+              className="text-2xl font-semibold text-white no-underline"
             >
               Stories
             </a>
-          </div>
 
-          <div className="flex justify-evenly items-center w-60 cursor-pointer ">
-            <div className="flex  mr">
+            <div className="flex items-center space-x-4">
               <button
-                className="bg-green-600 text-white rounded-full h-9 w-[70px]"
-                type="submit"
-                onClick={() => handlePublish()}
+                onClick={handlePublish}
+                className="rounded-full bg-green-600 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
               >
                 Publish
               </button>
+
+              <button className="text-gray-300 hover:text-white">
+                <User2 />
+              </button>
             </div>
-            <div>
-              <IoMdNotificationsOutline className="w-7 h-7 text-gray-300" />
-            </div>
-            <div>
-              <FaUserCircle className="w-7 h-7 text-gray-300" />
-            </div>
-          </div>
-        </nav>
+          </nav>
+        </div>
       </header>
 
-      {/* TEXT SECTION */}
+      {/* Main Layout */}
       <div className="flex">
-        <CommonNav />
-        <div className="h-full w-full lg:px-10 md:px-10 px-5">
-          <div className="mt-[80px]">
+        {/* Sidebar */}
+        <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-64 flex-shrink-0 overflow-y-auto border-r border-gray-800 bg-[#0a0a0f] px-4 py-6 md:block">
+          <CommonNav />
+        </aside>
+
+        {/* Main Content */}
+        <main className="flex-grow px-4 py-10 md:px-8">
+          <div className="max-w-3xl mx-auto">
             <textarea
               id="title-textarea"
-              type="text"
               placeholder="Title"
-              value={titleValue}
+              value={title}
               onChange={handleTitleChange}
-              className="lg:text-5xl text-4xl font-serif  px-3 focus:outline-none resize-none overflow-hidden bg-transparent"
-              rows="1"
-              wrap="soft"
+              className="w-full resize-none bg-transparent text-3xl font-serif text-gray-100 placeholder-gray-500 focus:outline-none sm:text-4xl md:text-5xl"
+              rows={1}
             />
+            <div className="mt-8">
+              <textarea
+                id="story-textarea"
+                placeholder="Tell your story..."
+                value={story}
+                onChange={handleStoryChange}
+                className="w-full resize-none bg-transparent text-lg font-serif text-gray-100 placeholder-gray-500 focus:outline-none sm:text-xl md:text-2xl"
+                rows={3}
+              />
+            </div>
           </div>
-          <div className="mt-10">
-            <textarea
-              id="story-textarea"
-              type="text"
-              placeholder="Tell your story..."
-              className="lg:text-2xl text-xl font-serif lg:w-[700px] md:w-[650px] sm:w-[550px] w-full px-3 focus:outline-none resize-none overflow-hidden bg-transparent"
-              value={storyValue}
-              onChange={handleStoryChange}
-              rows="3"
-              wrap="soft"
-            />
-          </div>
-        </div>
+        </main>
       </div>
-
-      <Toaster />
-    </>
+      <Toaster position="top-center" />
+    </div>
   );
 }
 
