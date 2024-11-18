@@ -3,6 +3,7 @@ import { Bell, User, User2 } from "lucide-react";
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
 import CommonNav from "./Navbar/CommonNav.jsx";
+import axiosInstance from "../utils/axiosInstance.js";
 
 function CreatePost() {
   const [title, setTitle] = useState("");
@@ -45,7 +46,7 @@ function CreatePost() {
 
     const userId = localStorage.getItem("userId");
     try {
-      const response = await axios.post("/posts/create-post", {
+      const response = await axiosInstance.post("/posts/create-post", {
         titleValue: title,
         storyValue: story,
         userId,
@@ -53,7 +54,6 @@ function CreatePost() {
 
       if (response.status === 200) {
         toast.success("Post created successfully");
-        // Navigate to feed (you might want to use react-router's useNavigate hook here)
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 400) {
