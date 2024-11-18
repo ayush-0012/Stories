@@ -1,31 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { LuPenSquare } from "react-icons/lu";
 import { FaUserCircle } from "react-icons/fa";
-import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 import CommonNav from "./Navbar/CommonNav";
 import formatDate from "../utils/formatDate";
 import {
   Bell,
-  Home,
-  MessageCircle,
-  Search,
-  Settings,
   User2,
-  Menu,
   SquarePen,
+  Home,
+  Search,
+  MessageCircle,
 } from "lucide-react";
+import { motion } from "framer-motion";
 
-// const NavItem = ({ className, icon: Icon, label }) => (
-//   <a
-//     href="#"
-//     className={`flex items-center gap-3 rounded-lg px-3 py-2 text-gray-400 transition-all hover:text-white no-underline ${className}`}
-//   >
-//     <Icon className="h-4 w-4" />
-//     <span className="hidden md:inline-block">{label}</span>
-//   </a>
-// );
+const NavItem = ({ icon: Icon, label, to, active }) => (
+  <Link
+    to={to}
+    className={`flex items-center gap-3 rounded-lg px-3 py-2 text-gray-400 transition-all hover:text-white no-underline ${
+      active ? "bg-[#16161f] text-white" : ""
+    }`}
+  >
+    <Icon className="h-4 w-4" />
+    <span className="hidden md:inline-block">{label}</span>
+  </Link>
+);
 
 const Button = ({ children, className, ...props }) => (
   <button
@@ -88,22 +87,16 @@ function Feed() {
     fetchUser();
   }, [userId]);
 
-  if (loading)
+  if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div class="banter-loader">
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
+      <div className="flex items-center justify-center min-h-screen bg-[#0a0a0f]">
+        <div className="relative w-24 h-24">
+          <div className="absolute inset-0 border-t-4 border-orange-500 rounded-full animate-spin"></div>
+          <div className="absolute inset-4 border-t-4 border-amber-500 rounded-full animate-spin"></div>
         </div>
       </div>
     );
+  }
 
   function handleLogout() {
     localStorage.removeItem("userId");
@@ -118,206 +111,140 @@ function Feed() {
 
   return (
     <>
-      {/* FEED NAVBAR */}
-      {/* <nav className="flex justify-between w-full h-[50px]  items-center px-4  border-b border-bottom-2">
-        <h1 className="lg:text-4xl md:text-3xl text-2xl font-bold">Stories</h1>
-        <div className="flex lg:justify-evenly justify-evenly w-[200px] h-[30px] items-center cursor-pointer">
-          <div className="flex" onClick={() => handleWriteRedirect()}>
-            <LuPenSquare className="w-7 h-6 text-gray-300" />
-            <p className="font-sans text-gray-300">Write</p>
-          </div>
-          <div>
-            <IoMdNotificationsOutline className="w-7 h-7 text-gray-300" />
-          </div>
-
-          <div className="relative">
-            <button onClick={toggleDropdown} className="w-6 h-6">
-              <FaUserCircle className="w-7 h-7 text-gray-300" />
-            </button>
-            {isOpen && (
-              <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-black border-2  ring-opacity-5 focus:outline-none">
-                <div
-                  className="py-1"
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="options-menu"
+      <div className="min-h-screen bg-[#0a0a0f] text-gray-100">
+        {/* Header */}
+        <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-[#0a0a0f]/95 backdrop-blur">
+          <div className="container mx-auto flex h-14 items-center justify-between px-4">
+            <div className="flex items-center gap-4 md:gap-6">
+              <Link
+                to="/"
+                className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent no-underline"
+              >
+                Stories
+              </Link>
+            </div>
+            <div className="flex items-center gap-4">
+              <Button
+                onClick={() => navigate("/write")}
+                className="text-gray-400 hover:text-white flex items-center gap-2"
+              >
+                <SquarePen className="h-5 w-5" />
+                <span className="hidden sm:inline">Write</span>
+              </Button>
+              <Button className="text-gray-400 hover:text-white">
+                <Bell className="h-5 w-5" />
+              </Button>
+              <div className="relative">
+                <Button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="text-gray-400 hover:text-white"
                 >
-                  <Link
-                    to={`/${user.userName}`}
-                    className="no-underline block px-4 py-2 text-sm text-white hover:bg-gray-800"
-                    role="menuitem"
-                  >
-                    Profile
-                  </Link>
-                  <a
-                    href="/settings"
-                    className="no-underline block px-4 py-2 text-sm text-white hover:bg-gray-800 border-t border-gray-100"
-                    role="menuitem"
-                  >
-                    Account Settings
-                  </a>
+                  <User2 className="h-5 w-5" />
+                </Button>
 
-                  <div className="border-t border-gray-100"></div>
-                  <a
-                    onClick={() => handleLogout()}
-                    className="no-underline block px-4 py-2 text-sm text-white hover:bg-gray-800"
-                    role="menuitem"
+                {isOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute right-0 mt-2 w-56 rounded-lg border border-gray-800 bg-[#12121a] shadow-lg"
                   >
-                    Logout
-                  </a>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </nav> */}
-      <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-[#0a0a0f]/95 backdrop-blur">
-        <div className="container mx-auto flex h-14 items-center justify-between px-4">
-          <div className="flex items-center gap-4 md:gap-6">
-            <a
-              href="/"
-              className="flex items-center gap-2 font-semibold text-white text-2xl no-underline"
-            >
-              Stories
-            </a>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              className="text-gray-400 hover:text-white"
-              onClick={() => navigate("/write")}
-            >
-              <SquarePen className="h-5 w-5" />
-              <span className="sr-only">write</span>
-            </Button>
-            <Button className="text-gray-400 hover:text-white">
-              <Bell className="h-5 w-5" />
-              <span className="sr-only">Notifications</span>
-            </Button>
-            <Button
-              className="text-gray-400 hover:text-white"
-              onClick={toggleDropdown}
-            >
-              <User2 className="h-5 w-5" />
-              {isOpen && (
-                <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-black border-2  ring-opacity-5 focus:outline-none">
-                  <div
-                    className="py-1"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="options-menu"
-                  >
+                    {user && (
+                      <Link
+                        to={`/${user.userName}`}
+                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-[#16161f] no-underline"
+                      >
+                        Profile
+                      </Link>
+                    )}
                     <Link
-                      to={`/${user.userName}`}
-                      className="no-underline block px-4 py-2 text-sm text-white hover:bg-gray-800"
-                      role="menuitem"
+                      to="/settings"
+                      className="block px-4 py-2 text-sm text-gray-300 hover:bg-[#16161f] no-underline"
                     >
-                      Profile
+                      Settings
                     </Link>
-                    <a
-                      href="/settings"
-                      className="no-underline block px-4 py-2 text-sm text-white hover:bg-gray-800 border-t border-gray-100"
-                      role="menuitem"
-                    >
-                      Account Settings
-                    </a>
-
-                    <div className="border-t border-gray-100"></div>
-                    <a
-                      onClick={() => handleLogout()}
-                      className="no-underline block px-4 py-2 text-sm text-white hover:bg-gray-800"
-                      role="menuitem"
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-[#16161f] border-t border-gray-800"
                     >
                       Logout
-                    </a>
-                  </div>
-                </div>
-              )}
-              <span className="sr-only">Profile</span>
-            </Button>
+                    </button>
+                  </motion.div>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <div className="flex min-h-screen bg-black">
-        {/* <MobileNav /> */}
+        <div className="container mx-auto flex">
+          {/* Sidebar */}
+          <aside className="hidden md:block w-64 fixed h-[calc(100vh-3.5rem)] border-r border-gray-800">
+            <nav className="p-4 space-y-2">
+              <NavItem icon={Home} label="Home" to="/feed" active />
+              <NavItem icon={Search} label="Explore" to="/explore" />
+              <NavItem icon={MessageCircle} label="Messages" to="/messages" />
+              <NavItem icon={Bell} label="Notifications" to="/notifications" />
+            </nav>
+          </aside>
 
-        <CommonNav />
-        {/* <aside
-          className={`fixed inset-y-0 left-0 z-50 w-64 transform overflow-y-auto bg-[#0a0a0f] p-4 transition-transform duration-200 ease-in-out md:static md:translate-x-0 ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          <nav className="flex flex-col gap-2">
-            <NavItem icon={Home} label="Home" />
-            <NavItem icon={Search} label="Explore" />
-            <NavItem icon={MessageCircle} label="Messages" />
-            <NavItem icon={Bell} label="Notifications" />
-          </nav>
-        </aside> */}
-        {/* MAIN FEED DIV */}
-        <div className="w-full mx-2 mb-16 overflow-y-auto relative">
-          <div className="w-full px-auto">
-            {posts
-              .slice()
-              .reverse()
-              .map((post) => {
-                const timeAgo = formatDate(post.createdAt);
-                return (
-                  // MAIN CONTENT DIV
-
-                  <Link
+          {/* Main Content */}
+          <main className="flex-1 md:ml-64">
+            <div className="max-w-3xl mx-auto p-4 space-y-4">
+              {posts
+                .slice()
+                .reverse()
+                .map((post) => (
+                  <motion.article
                     key={post._id}
-                    to={`/post/${post.userId.userName}/${post._id}`}
-                    className="no-underline"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="rounded-lg border border-gray-800 bg-[#12121a] p-6 hover:bg-[#16161f] transition-colors"
                   >
-                    <div
-                      className="flex cursor-pointer mt-2"
-                      // onClick={() => navigate("/post")}
+                    <Link
+                      to={`/${post.userId.userName}`}
+                      className="no-underline"
                     >
-                      <div className="w-full rounded-lg border border-gray-800 bg-[#12121a] p-4 text-gray-100 shadow-sm transition-all hover:bg-[#16161f]">
-                        <Link
-                          to={`/${post.userId.userName}`}
-                          className="no-underline"
-                        >
-                          <div className="flex mb-3">
-                            <FaUserCircle className="mr-2 mt-2 w-8 h-8" />
-                            <p className="text-base font-sans font-bold mt-2">
-                              {post.userId.userName}
-                            </p>
-                          </div>
-                        </Link>
-
-                        {/* CONTENT DIV */}
-                        <div className="ml-3">
-                          <p className="text-2xl font-bold mb-3">
-                            {post.titleValue}
-                          </p>
-                          <p className="text-gray-300 font-semibold font-sans line-clamp-2 overflow-hidden mb-6">
-                            {post.storyValue}
-                          </p>
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center text-white font-bold">
+                          {post.userId.userName[0].toUpperCase()}
                         </div>
-                        {/* ACTION DIV */}
-                        <div className="flex justify-start items-center mb-4 ml-3">
-                          <div className="mr-4 font-sans text-gray-400 text-[12px]">
-                            {timeAgo}
-                          </div>
-                          {/* <div className="flex items-center mr-4 font-sans text-gray-600 text-[12px]">
-                            <button className="cursor-pointer">
-                              <FcLike className="w-6 h-6 " />
-                            </button>
-                            <div className=" text-sm ml-1">1</div>
-                          </div> */}
-                          {/* <div className="mr-4 font-sans text-gray-600 text-[12px]">
-                            Comments
-                          </div> */}
+                        <div>
+                          <h3 className="text-white font-medium">
+                            {post.userId.userName}
+                          </h3>
+                          <p className="text-sm text-gray-400">
+                            {formatDate(post.createdAt)}
+                          </p>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                );
-              })}
-          </div>
+                    </Link>
+
+                    <Link
+                      to={`/post/${post.userId.userName}/${post._id}`}
+                      className="no-underline"
+                    >
+                      <h2 className="text-xl font-bold text-white mb-2">
+                        {post.titleValue}
+                      </h2>
+                      <p className="text-gray-400 line-clamp-3">
+                        {post.storyValue}
+                      </p>
+                    </Link>
+                  </motion.article>
+                ))}
+            </div>
+          </main>
         </div>
+
+        {/* Mobile Navigation */}
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0a0a0f] border-t border-gray-800">
+          <div className="flex justify-around p-4">
+            <NavItem icon={Home} to="/feed" active />
+            <NavItem icon={Search} to="/explore" />
+            <NavItem icon={MessageCircle} to="/messages" />
+            <NavItem icon={Bell} to="/notifications" />
+          </div>
+        </nav>
       </div>
 
       {/* {isSmScreen ? <MobileNav user={user} /> : ""} */}

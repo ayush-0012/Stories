@@ -33,22 +33,16 @@ const Profile = () => {
     fetchUserPosts();
   }, []);
 
-  if (loading)
+  if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div class="banter-loader">
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
+      <div className="flex items-center justify-center min-h-screen bg-[#0a0a0f]">
+        <div className="relative w-24 h-24">
+          <div className="absolute inset-0 border-t-4 border-orange-500 rounded-full animate-spin"></div>
+          <div className="absolute inset-4 border-t-4 border-amber-500 rounded-full animate-spin"></div>
         </div>
       </div>
     );
+  }
 
   return (
     <>

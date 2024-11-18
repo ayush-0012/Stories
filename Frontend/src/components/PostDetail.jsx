@@ -10,6 +10,9 @@ import { FcLike } from "react-icons/fc";
 import Comments from "./Comments";
 import CommonNav from "./Navbar/CommonNav";
 import axiosInstance from "../utils/axiosInstance";
+import formatDate from "../utils/formatDate";
+import { motion } from "framer-motion";
+import { ArrowLeft, Heart, MessageCircle, User2 } from "lucide-react";
 
 const PostDetail = () => {
   const { postId, userName } = useParams();
@@ -235,131 +238,180 @@ const PostDetail = () => {
     }
   }
 
-  if (loading)
+  if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div class="banter-loader">
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
-          <div class="banter-loader__box"></div>
+      <div className="flex items-center justify-center min-h-screen bg-[#0a0a0f]">
+        <div className="relative w-24 h-24">
+          <div className="absolute inset-0 border-t-4 border-orange-500 rounded-full animate-spin"></div>
+          <div className="absolute inset-4 border-t-4 border-amber-500 rounded-full animate-spin"></div>
         </div>
       </div>
     );
+  }
 
   // if (!postDetail) return <h1>Error fetching post</h1>;
 
-  const formatTimeAgo = (dateString) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInSeconds = Math.floor((now - date) / 1000);
-
-    if (diffInSeconds < 60) return "just now";
-    if (diffInSeconds < 3600)
-      return `${Math.floor(diffInSeconds / 60)} minutes ago`;
-    if (diffInSeconds < 86400)
-      return `${Math.floor(diffInSeconds / 3600)} hours ago`;
-    if (diffInSeconds < 2592000)
-      return `${Math.floor(diffInSeconds / 86400)} days ago`;
-    if (diffInSeconds < 31536000)
-      return `${Math.floor(diffInSeconds / 2592000)} months ago`;
-    return `${Math.floor(diffInSeconds / 31536000)} years ago`;
-  };
-
   return (
     <>
-      <div className="flex justify-center mt-5">
-        <CommonNav />
-        {/* STORY DIV */}
-        <div className="lg:w-full md:w-[750px] sm:w-[650px] w-full px-5 mb-16 ">
-          <div className="flex items-center">
-            <IoIosArrowBack
-              className="mr-6 text-xl cursor-pointer"
-              onClick={() => navigate("/feed")}
-            />
-            <p className="font-sans font-bold text-2xl">Post</p>
-          </div>
-          <Link to={`/${postDetail.userId.userName}`} className="no-underline">
-            <div className="flex my-6 border-b border-black h-12 ">
-              <div className="mr-2">
-                <FaUserCircle className="h-9 w-9 " />
-              </div>
-              <p className="font-sans font-bold">
-                {postDetail.userId.userName}
-              </p>
-            </div>
-          </Link>
+      <div className="min-h-screen bg-[#0a0a0f] text-gray-100">
+        <div className="container mx-auto flex">
+          <CommonNav />
 
-          <div>{postDetail.storyValue}</div>
-          {/* ACTION DIV */}
-          <div className="flex justify-start items-center w-full mb-6 mt-8 pb-3 border-b border-black">
-            <div className="mr-4 font-sans text-gray-400 text-[12px]">
-              {formatTimeAgo(postDetail?.createdAt)}
-            </div>
-            <div className="flex items-center mr-4 font-sans text-gray-600 text-[12px]">
-              <button
-                className="cursor-pointer"
-                onClick={() => handlePostLike()}
-              >
-                {postLike.toggle ? (
-                  <FcLike className="w-6 h-6 " />
-                ) : (
-                  <FcLikePlaceholder className="w-6 h-6 " />
-                )}
-              </button>
-              <div className=" text-sm ml-1 text-gray-400">
-                {postLike.count}
-              </div>
-            </div>
-            {/* <div className="mr-4 font-sans text-gray-400 text-[12px] ">
-              Comments
-            </div> */}
-          </div>
-          <div className="flex mb-4 ">
-            <div className="mr-4">
-              <FaUserCircle className="h-9 w-9" />
-            </div>
-            <input
-              type="text"
-              placeholder="Post your reply"
-              className="w-[500px] focus:outline-none bg-transparent"
-              value={commentValue}
-              onChange={(e) => setCommentValue(e.target.value)}
-            />
-            <button
-              className="bg-green-600 text-white font-sans lg:w-20 md:w-20 w-32 rounded-full font-bold cursor-pointer hover:bg-green-500 active:opacity-5 "
-              onClick={() => postComment()}
+          <main className="flex-1 max-w-3xl mx-auto p-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
             >
-              Reply
-            </button>
-          </div>
-
-          {/* COMMENTS DIV */}
-          <div>
-            {commentsLoading ? (
-              <div className="mt-16 flex items-center justify-center ">
-                <div className="w-8 h-8 border-8 border-dashed rounded-full animate-spin border-gray-300"></div>
+              {/* Header */}
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => navigate("/feed")}
+                  className="p-2 hover:bg-gray-800 rounded-full transition-colors"
+                >
+                  <ArrowLeft className="w-6 h-6" />
+                </button>
+                <h1 className="text-2xl font-bold">Post</h1>
               </div>
-            ) : (
-              <Comments
-                comments={comments}
-                commentsLike={commentsLike}
-                handleCommentLike={handleCommentLike}
-                commentsLoading={commentsLoading}
-              />
-            )}
-          </div>
-        </div>
-        {/* SUGGESTION BOX */}
-      </div>
 
-      <ToastContainer />
+              {/* Post Content */}
+              <div className="rounded-lg bg-[#12121a] p-6 space-y-4">
+                {/* Author Info and Post Content */}
+                <div className="flex items-start gap-3">
+                  <Link
+                    to={`/${postDetail?.userId?.userName}`}
+                    className="no-underline"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center flex-shrink-0">
+                      <span className="text-lg font-bold text-white">
+                        {postDetail?.userId?.userName?.[0]?.toUpperCase()}
+                      </span>
+                    </div>
+                  </Link>
+                  <div className="flex-1">
+                    <Link
+                      to={`/${postDetail?.userId?.userName}`}
+                      className="no-underline"
+                    >
+                      <h2 className="text-lg font-semibold text-white">
+                        {postDetail?.userId?.userName}
+                      </h2>
+                    </Link>
+                    <p className="text-gray-200 mt-2 whitespace-pre-wrap">
+                      {postDetail?.storyValue}
+                    </p>
+                    <div className="flex items-center gap-4 mt-4">
+                      <button
+                        onClick={handlePostLike}
+                        className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                      >
+                        <Heart
+                          className={`w-5 h-5 ${
+                            postLike.toggle ? "fill-red-500 stroke-red-500" : ""
+                          }`}
+                        />
+                        <span>{postLike.count}</span>
+                      </button>
+                      <span className="text-sm text-gray-500">
+                        {formatDate(postDetail?.createdAt)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Comment Form */}
+              <div className="rounded-lg bg-[#12121a] p-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center flex-shrink-0">
+                    <User2 className="w-4 h-4 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <textarea
+                      value={commentValue}
+                      onChange={(e) => setCommentValue(e.target.value)}
+                      placeholder="Post your reply"
+                      className="w-full bg-[#16161f] border border-gray-800 rounded-lg p-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 resize-none"
+                      rows="2"
+                    />
+                    <button
+                      onClick={postComment}
+                      className="mt-2 px-4 py-1.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
+                    >
+                      Reply
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Comments */}
+              {commentsLoading ? (
+                <div className="flex justify-center p-4">
+                  <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {comments.map((comment) => (
+                    <motion.div
+                      key={comment._id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="rounded-lg bg-[#12121a] p-4"
+                    >
+                      <div className="flex items-start gap-3">
+                        <Link
+                          to={`/${comment.userId.userName}`}
+                          className="no-underline"
+                        >
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center flex-shrink-0">
+                            <span className="text-sm font-bold text-white">
+                              {comment.userId.userName[0].toUpperCase()}
+                            </span>
+                          </div>
+                        </Link>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <Link
+                              to={`/${comment.userId.userName}`}
+                              className="font-semibold text-white hover:underline no-underline"
+                            >
+                              {comment.userId.userName}
+                            </Link>
+                            <span className="text-xs text-gray-500">
+                              {formatDate(comment.createdAt)}
+                            </span>
+                          </div>
+                          <p className="mt-1 text-sm text-gray-300">
+                            {comment.commentValue}
+                          </p>
+                          <div className="mt-2 flex items-center gap-2">
+                            <button
+                              onClick={() => handleCommentLike(comment._id)}
+                              className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors"
+                            >
+                              <Heart
+                                className={`w-4 h-4 ${
+                                  commentsLike[comment._id]?.toggle
+                                    ? "fill-red-500 stroke-red-500"
+                                    : ""
+                                }`}
+                              />
+                              <span className="text-xs">
+                                {commentsLike[comment._id]?.count || 0}
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          </main>
+        </div>
+        <ToastContainer />
+      </div>
     </>
   );
 };
