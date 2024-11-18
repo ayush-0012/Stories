@@ -118,7 +118,7 @@ function CreatePost() {
               placeholder="Title"
               value={titleValue}
               onChange={handleTitleChange}
-              className="lg:text-5xl text-4xl font-serif w-full px-3 focus:outline-none resize-none overflow-hidden bg-transparent"
+              className="lg:text-5xl text-4xl font-serif  px-3 focus:outline-none resize-none overflow-hidden bg-transparent"
               rows="1"
               wrap="soft"
             />

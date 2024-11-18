@@ -183,7 +183,7 @@ function Feed() {
 
           {/* Main Content */}
           <main className="flex-1 md:ml-64">
-            <div className="max-w-6xl mx-auto p-4 space-y-4">
+            <div className="max-w-6xl mx-auto p-4 space-y-4 mb-16">
               {posts
                 .slice()
                 .reverse()
