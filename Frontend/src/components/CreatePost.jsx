@@ -54,6 +54,7 @@ function CreatePost() {
 
       if (response.status === 200) {
         toast.success("Post created successfully");
+        window.location.href = "/feed";
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 400) {
