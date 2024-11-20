@@ -113,7 +113,7 @@ const Profile = () => {
                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-yellow-500 text-lg font-bold text-white">
                           {getInitials(post.userId.userName)}
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="lg:flex md:flex grid items-center gap-2">
                           <span className="font-medium text-gray-100">
                             {post.userId.userName}
                           </span>
