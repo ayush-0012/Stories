@@ -289,7 +289,7 @@ const PostDetail = () => {
                     </div>
                   </Link>
                   <div className="flex-1">
-                    <div className="lg:flex md:flex grid gap-2 justify-between items-start">
+                    <div className="flex items-center gap-2">
                       <Link
                         to={`/${postDetail?.userId?.userName}`}
                         className="no-underline"
@@ -298,7 +298,7 @@ const PostDetail = () => {
                           {postDetail?.userId?.userName}
                         </h2>
                       </Link>
-                      <span className="text-sm text-gray-400">
+                      <span className="text-sm text-gray-400 mt-1">
                         {formatDate(postDetail?.createdAt)}
                       </span>
                     </div>
@@ -379,7 +379,7 @@ const PostDetail = () => {
                             </div>
                           </Link>
                           <div className="flex-1">
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
                               <Link
                                 to={`/${comment.userId.userName}`}
                                 className="font-semibold text-white hover:underline no-underline"

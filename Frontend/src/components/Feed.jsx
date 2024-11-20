@@ -202,7 +202,7 @@ function Feed() {
                         <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center text-white font-bold">
                           {post.userId.userName[0].toUpperCase()}
                         </div>
-                        <div>
+                        <div className="flex items-center gap-2">
                           <h3 className="text-white font-medium">
                             {post.userId.userName}
                           </h3>

@@ -1,4 +1,4 @@
-import { Home, MessageCircle, Search } from "lucide-react";
+import { Bell, Home, MessageCircle, Search } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -19,8 +19,9 @@ const MobileNav = () => {
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0a0a0f] border-t border-gray-800">
         <div className="flex justify-around p-4">
           <NavItem icon={Home} to="/feed" active />
-          <NavItem icon={Search} to="/explore" />
-          <NavItem icon={MessageCircle} to="/messages" />
+          <NavItem icon={Search} to="/" />
+          <NavItem icon={MessageCircle} to="/" />
+          <NavItem icon={Bell} to="/" />
         </div>
       </nav>
     </>
