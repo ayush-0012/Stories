@@ -85,12 +85,12 @@ function CreatePost() {
               >
                 Publish
               </button>
-              <button className="text-gray-300 hover:text-white">
+              {/* <button className="text-gray-300 hover:text-white">
                 <Bell />
               </button>
               <button className="text-gray-300 hover:text-white">
                 <User2 />
-              </button>
+              </button> */}
             </div>
           </nav>
         </div>
