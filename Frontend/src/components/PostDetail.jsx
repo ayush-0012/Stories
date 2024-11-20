@@ -19,7 +19,7 @@ const PostDetail = () => {
   const [postDetail, setPostDetail] = useState(null);
   const [commentValue, setCommentValue] = useState("");
   const [comments, setComments] = useState([]);
-  const [commentsLoading, setCommentsLoading] = useState(true);
+  const [commentsLoading, setCommentsLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [postLike, setPostLike] = useState({
     toggle: false,
@@ -144,13 +144,12 @@ const PostDetail = () => {
   }
 
   async function fetchComments() {
+    setCommentsLoading(true);
     try {
       const response = await axiosInstance.get(
         `/posts/api/${userName}/${postId}`
       );
-
       setComments(response.data.comments);
-      // console.log(response.data.comments);
       console.log(comments);
       console.log("fetched comments successfully");
     } catch (error) {
@@ -290,7 +289,7 @@ const PostDetail = () => {
                     </div>
                   </Link>
                   <div className="flex-1">
-                    <div className="flex justify-between items-start">
+                    <div className="lg:flex md:flex grid gap-2 justify-between items-start">
                       <Link
                         to={`/${postDetail?.userId?.userName}`}
                         className="no-underline"
@@ -303,7 +302,7 @@ const PostDetail = () => {
                         {formatDate(postDetail?.createdAt)}
                       </span>
                     </div>
-                    <p className="text-gray-200 mt-2 text-lg whitespace-pre-wrap">
+                    <p className="text-gray-200 mt-2 text-lg whitespace-pre-wrap pt-3">
                       {postDetail?.storyValue}
                     </p>
                     <div className="flex items-center gap-10 mt-4">
@@ -320,7 +319,7 @@ const PostDetail = () => {
                       </button>
                       <div className="flex items-center gap-1 text-gray-400">
                         <MessageCircle className="w-5 h-5" />
-                        <span className="text-md">{comments.length}</span>
+                        <span className="text-md">{comments?.length}</span>
                       </div>
                     </div>
                   </div>
@@ -358,7 +357,7 @@ const PostDetail = () => {
                 </div>
               ) : (
                 <div className="space-y-4 w-full">
-                  {comments
+                  {(comments || [])
                     .slice()
                     .reverse()
                     .map((comment) => (
