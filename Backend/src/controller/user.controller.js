@@ -22,7 +22,7 @@ export const registerUser = async (req, res) => {
 
     await newUser.save();
     console.log(existingUser);
-    console.log(newUser, newUser._id);
+    console.log("new user registered", newUser, newUser._id);
 
     const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
       expiresIn: "1h",
